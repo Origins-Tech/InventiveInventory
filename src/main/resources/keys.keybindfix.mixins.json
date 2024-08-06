@@ -1,0 +1,13 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "net.origins.inventive_inventory.keys.keybindfix.mixins",
+    "compatibilityLevel": "JAVA_21",
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "client": [
+        "MixinIKeyBindingAccessor",
+        "MixinKeyBinding"
+    ]
+}

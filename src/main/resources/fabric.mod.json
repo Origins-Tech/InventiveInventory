@@ -1,0 +1,43 @@
+{
+    "schemaVersion": 1,
+    "id": "inventive_inventory",
+    "version": "${version}",
+    "name": "Inventive Inventory",
+    "description": "Experience seamless inventory management in Minecraft with the Inventor’s Companion Mod, your one-stop solution for sorting, auto-refilling, and slot-locking.",
+    "authors": [
+        "Strobel273",
+        "LU_XD"
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/inventiveinventory",
+        "issues": "https://github.com/Strobel273/InventiveInventory/issues"
+    },
+    "license": "MIT",
+    "icon": "assets/inventive_inventory/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "net.origins.inventive_inventory.InventiveInventory"
+        ],
+        "modmenu": [
+            "net.origins.inventive_inventory.integrations.ModMenuIntegration"
+        ]
+    },
+    "mixins": [
+        "keys.mixins.json",
+        "util.mouse.mixins.json",
+        "locked_slots.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=${loader_version}",
+        "fabric": "*",
+        "minecraft": "${minecraft_version}"
+    },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.donate": "https://paypal.me/strobel273"
+            }
+        }
+    }
+}
