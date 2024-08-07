@@ -33,7 +33,7 @@ public class ProfileEntry extends DirectionalLayoutWidget implements Drawable {
         KeyBinding profileKey = KeyRegistry.getByTranslationKey(this.profile.getKey());
         Text initially = profileKey != null ? profileKey.getBoundKeyLocalizedText() : Text.of("Not Bound");
 
-        this.keyButton = ButtonWidget.builder(Text.of(initially), this.toggle()).build();
+        this.keyButton = ButtonWidget.builder(initially, this.toggle()).build();
         this.keyButton.setWidth(60);
 
         Hotbar hotbar = new Hotbar(200, y, profile.getSavedSlots());
