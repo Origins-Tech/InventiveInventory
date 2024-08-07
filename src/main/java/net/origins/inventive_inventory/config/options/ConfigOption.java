@@ -61,7 +61,5 @@ public abstract class ConfigOption<T> {
 
     public abstract T[] getValues();
 
-    protected abstract void cycle();
-
     public abstract CyclingButtonWidget<?> asButton();
 }

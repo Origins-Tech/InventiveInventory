@@ -21,6 +21,11 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
         this.tooltip = Text.translatable("optionTooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
     }
 
+    protected void cycle() {
+        E[] values = enumClass.getEnumConstants();
+        this.setValue(values[(this.getValue().ordinal() + 1) % values.length]);
+    }
+
     @Override
     public E[] getValues() {
         return enumClass.getEnumConstants();
@@ -34,12 +39,6 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
                 return;
             }
         }
-    }
-
-    @Override
-    protected void cycle() {
-        E[] values = enumClass.getEnumConstants();
-        this.setValue(values[(this.getValue().ordinal() + 1) % values.length]);
     }
 
     @Override

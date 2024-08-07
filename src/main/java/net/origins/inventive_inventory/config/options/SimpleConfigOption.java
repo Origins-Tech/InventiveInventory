@@ -21,6 +21,10 @@ public class SimpleConfigOption extends ConfigOption<Boolean> {
         this.tooltip = Text.translatable("optionTooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
     }
 
+    protected void cycle() {
+        this.setValue(!this.getValue());
+    }
+
     @Override
     public Boolean[] getValues() {
         return new Boolean[]{true, false};
@@ -32,11 +36,6 @@ public class SimpleConfigOption extends ConfigOption<Boolean> {
             if (value.equals("Yes")) this.setValue(true);
             else if (value.equals("No")) this.setValue(false);
         }
-    }
-
-    @Override
-    protected void cycle() {
-        this.setValue(!this.getValue());
     }
 
     @Override
