@@ -4,7 +4,7 @@ public class ContextManager {
     private static Contexts CONTEXT = Contexts.INIT;
 
     public static void setContext(Contexts context) {
-        ContextManager.CONTEXT = context;
+        CONTEXT = context;
     }
 
     public static boolean isInit() {
