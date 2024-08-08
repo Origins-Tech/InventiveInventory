@@ -10,6 +10,10 @@ import net.origins.inventive_inventory.util.slots.SlotTypes;
 public class MouseLocation {
     private static Slot hoveredSlot;
 
+    public static Slot getHoveredSlot() {
+        return hoveredSlot;
+    }
+
     public static void setHoveredSlot(Slot slot) {
         hoveredSlot = slot;
     }

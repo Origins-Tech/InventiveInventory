@@ -10,4 +10,8 @@ public class ContextManager {
     public static boolean isInit() {
         return CONTEXT == Contexts.INIT;
     }
+
+    public static boolean isLockedSlots() {
+        return CONTEXT == Contexts.LOCKED_SLOTS;
+    }
 }

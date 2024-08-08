@@ -17,6 +17,7 @@ public class LockedSlotsHandler {
     private static final String LOCKED_SLOTS_FILE = "locked_slots.json";
     public static final Path LOCKED_SLOTS_PATH = ConfigManager.CONFIG_PATH.resolve(LOCKED_SLOTS_FILE);
     private static LockedSlots lockedSlots = new LockedSlots(List.of());
+    public static boolean shouldAdd;
 
     public static void toggle(int slot) {
         ContextManager.setContext(Contexts.LOCKED_SLOTS);
@@ -24,18 +25,23 @@ public class LockedSlotsHandler {
             lockedSlots = getLockedSlots();
             if (lockedSlots.contains(slot)) {
                 lockedSlots.remove(((Integer) slot));
-            } else lockedSlots.add(slot);
-            lockedSlots = lockedSlots.unadjust();
-            JsonArray lockedSlotsJson = new JsonArray();
-            for (int lockedSlot : lockedSlots) {
-                lockedSlotsJson.add(lockedSlot);
+                shouldAdd = false;
+            } else {
+                lockedSlots.add(slot);
+                shouldAdd = true;
             }
-            JsonObject jsonObject = FileHandler.get(LOCKED_SLOTS_PATH).isJsonObject() ? FileHandler.get(LOCKED_SLOTS_PATH).getAsJsonObject() : new JsonObject();
-            jsonObject.remove(InventiveInventory.getWorldName());
-            jsonObject.add(InventiveInventory.getWorldName(), lockedSlotsJson);
-            FileHandler.write(LOCKED_SLOTS_PATH, jsonObject);
+            save();
         }
-        ContextManager.setContext(Contexts.INIT);
+    }
+
+    public static void dragToggle(int slot) {
+        if (PlayerSlots.get().contains(slot)) {
+            lockedSlots = getLockedSlots();
+            if (shouldAdd) {
+                if (!lockedSlots.contains(slot)) lockedSlots.add(slot);
+            } else lockedSlots.remove(Integer.valueOf(slot));
+            save();
+        }
     }
 
     public static LockedSlots getLockedSlots() {
@@ -54,5 +60,17 @@ public class LockedSlotsHandler {
 
     public static void clearLockedSlots() {
         lockedSlots.clear();
+    }
+
+    private static void save() {
+        lockedSlots = lockedSlots.unadjust();
+        JsonArray lockedSlotsJson = new JsonArray();
+        for (int lockedSlot : lockedSlots) {
+            lockedSlotsJson.add(lockedSlot);
+        }
+        JsonObject jsonObject = FileHandler.get(LOCKED_SLOTS_PATH).isJsonObject() ? FileHandler.get(LOCKED_SLOTS_PATH).getAsJsonObject() : new JsonObject();
+        jsonObject.remove(InventiveInventory.getWorldName());
+        jsonObject.add(InventiveInventory.getWorldName(), lockedSlotsJson);
+        FileHandler.write(LOCKED_SLOTS_PATH, jsonObject);
     }
 }
