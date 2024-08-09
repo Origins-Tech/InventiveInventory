@@ -3,20 +3,28 @@ package net.origins.inventive_inventory.features.locked_slots;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.context.ContextManager;
 import net.origins.inventive_inventory.context.Contexts;
 import net.origins.inventive_inventory.util.FileHandler;
+import net.origins.inventive_inventory.util.InteractionHandler;
+import net.origins.inventive_inventory.util.ScreenCheck;
 import net.origins.inventive_inventory.util.slots.PlayerSlots;
+import net.origins.inventive_inventory.util.slots.SlotTypes;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class LockedSlotsHandler {
     private static final String LOCKED_SLOTS_FILE = "locked_slots.json";
     public static final Path LOCKED_SLOTS_PATH = ConfigManager.CONFIG_PATH.resolve(LOCKED_SLOTS_FILE);
     private static LockedSlots lockedSlots = new LockedSlots(List.of());
+    private static List<ItemStack> savedInventory = new ArrayList<>();
     public static boolean shouldAdd;
 
     public static void toggle(int slot) {
@@ -60,6 +68,47 @@ public class LockedSlotsHandler {
 
     public static void clearLockedSlots() {
         lockedSlots.clear();
+    }
+
+    public static void adjustInventory() {
+        List<ItemStack> currentInventory = InventiveInventory.getPlayer().getInventory().main.stream().toList();
+        if (savedInventory.isEmpty() || savedInventory.equals(currentInventory) || ScreenCheck.isPlayerInventory()) return;
+        LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
+
+        for (int i = 9; i < currentInventory.size(); i++) {
+            ItemStack currentStack = currentInventory.get(i);
+            ItemStack savedStack = savedInventory.get(i);
+            if (!lockedSlots.contains(i) || ItemStack.areEqual(currentStack, savedStack)) continue;
+            if (savedStack.isEmpty()) InteractionHandler.dropStack(i);
+            else if (currentStack.getCount() > savedStack.getCount()) {
+                List<Integer> suitableSlots = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).stream()
+                        .filter(slot -> {
+                            ItemStack stack = InteractionHandler.getStackFromSlot(slot);
+                            return stack.isEmpty() || ItemStack.areItemsEqual(stack, currentStack) && stack.getCount() < stack.getMaxCount();
+                        })
+                        .sorted(Comparator.comparing((Integer slot) -> InteractionHandler.getStackFromSlot(slot).getCount(), Comparator.reverseOrder())
+                                .thenComparing(slot -> slot))
+                        .toList();
+                if (!suitableSlots.isEmpty()) {
+                    InteractionHandler.leftClickStack(i);
+                    for (int slot : suitableSlots) {
+                        ItemStack stack = InteractionHandler.getStackFromSlot(slot);
+                        while (InteractionHandler.getCursorStack().getCount() > savedStack.getCount()) {
+                            if (stack.getCount() < stack.getMaxCount()) InteractionHandler.rightClickStack(slot);
+                            else break;
+                        }
+                    }
+                    InteractionHandler.leftClickStack(i);
+                }
+                if (InteractionHandler.getStackFromSlot(i).getCount() > savedStack.getCount()) {
+                    InteractionHandler.dropItem(i, InteractionHandler.getStackFromSlot(i).getCount() - savedStack.getCount());
+                }
+            }
+        }
+    }
+
+    public static void setSavedInventory(PlayerInventory currentInventory) {
+        savedInventory = new ArrayList<>(currentInventory.main);
     }
 
     private static void save() {

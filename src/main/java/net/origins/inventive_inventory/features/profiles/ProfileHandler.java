@@ -45,7 +45,7 @@ public class ProfileHandler {
     public static void load(Profile profile) {
         if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES.is(Status.DISABLED)) return;
         SlotRange slotRange = PlayerSlots.get(SlotTypes.INVENTORY, SlotTypes.HOTBAR, SlotTypes.OFFHAND);
-        slotRange = ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS.is(true) ? slotRange : slotRange.append(SlotTypes.LOCKED_SLOT);
+        slotRange = ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS.is(true) ? slotRange.exclude(SlotTypes.LOCKED_SLOT) : slotRange;
         for (SavedSlot savedSlot : profile.getSavedSlots()) {
             for (int slot : slotRange) {
                 ItemStack slotStack = InteractionHandler.getStackFromSlot(slot);

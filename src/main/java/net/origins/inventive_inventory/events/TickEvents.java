@@ -3,13 +3,13 @@ package net.origins.inventive_inventory.events;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.Status;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
 import net.origins.inventive_inventory.context.ContextManager;
 import net.origins.inventive_inventory.context.Contexts;
 import net.origins.inventive_inventory.features.automatic_refilling.AutomaticRefillingHandler;
+import net.origins.inventive_inventory.features.locked_slots.LockedSlotsHandler;
 import net.origins.inventive_inventory.features.profiles.Profile;
 import net.origins.inventive_inventory.features.profiles.ProfileHandler;
 import net.origins.inventive_inventory.features.profiles.gui.ProfilesScreen;
@@ -25,9 +25,11 @@ public class TickEvents {
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::checkKeys);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureMainHand);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureOffHand);
+        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::adjustInventory);
 
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::automaticRefilling);
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::loadProfile);
+        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventory);
     }
 
     private static void checkKeys(MinecraftClient client) {
@@ -39,12 +41,12 @@ public class TickEvents {
             AutomaticRefillingHandler.reset();
         }
         if (KeyRegistry.openProfilesScreenKey.isPressed() && ConfigManager.PROFILES.is(Status.ENABLED)) {
-            InventiveInventory.getClient().setScreen(new ProfilesScreen());
+            client.setScreen(new ProfilesScreen());
         }
     }
 
     private static void captureMainHand(MinecraftClient client) {
-        if (InventiveInventory.getPlayer() != null && InventiveInventory.getPlayer().isInCreativeMode()) return;
+        if (client.player == null || client.player.isInCreativeMode()) return;
         if (client.currentScreen == null) {
             AutomaticRefillingHandler.runMainHand();
             if (client.options.useKey.isPressed() || client.options.dropKey.isPressed() || client.options.attackKey.isPressed()) {
@@ -56,7 +58,7 @@ public class TickEvents {
     }
 
     private static void captureOffHand(MinecraftClient client) {
-        if (InventiveInventory.getPlayer() != null && InventiveInventory.getPlayer().isInCreativeMode()) return;
+        if (client.player == null || client.player.isInCreativeMode()) return;
         if (client.currentScreen == null) {
             if (AutomaticRefillingHandler.RUN_OFFHAND) AutomaticRefillingHandler.runOffHand();
             else AutomaticRefillingHandler.RUN_OFFHAND = true;
@@ -68,8 +70,13 @@ public class TickEvents {
         } else AutomaticRefillingHandler.reset();
     }
 
+    private static void adjustInventory(MinecraftClient client) {
+        if (client.player == null || client.player.isInCreativeMode()) return;
+        LockedSlotsHandler.adjustInventory();
+    }
+
     private static void automaticRefilling(MinecraftClient client) {
-        if (InventiveInventory.getPlayer() != null && InventiveInventory.getPlayer().isInCreativeMode()) return;
+        if (client.player == null || client.player.isInCreativeMode()) return;
         if (client.currentScreen == null && (client.options.useKey.isPressed() || client.options.dropKey.isPressed() || client.options.attackKey.isPressed())) {
             if (ConfigManager.AUTOMATIC_REFILLING_MODE.getValue().isValid() && ContextManager.isInit()) {
                 ContextManager.setContext(Contexts.AUTOMATIC_REFILLING);
@@ -82,8 +89,8 @@ public class TickEvents {
         }
     }
 
-    private static void loadProfile(MinecraftClient ignored) {
-        if (InventiveInventory.getPlayer() != null && InventiveInventory.getPlayer().isInCreativeMode()) return;
+    private static void loadProfile(MinecraftClient client) {
+        if (client.player == null || client.player.isInCreativeMode()) return;
         for (KeyBinding profileKey : KeyRegistry.profileKeys) {
             if (profileKey.isPressed()) {
                 boolean validMode = ConfigManager.FAST_LOAD.is(true) || (ConfigManager.FAST_LOAD.is(false) && KeyRegistry.loadProfileKey.isPressed());
@@ -97,5 +104,9 @@ public class TickEvents {
                 }
             }
         }
+    }
+
+    private static void captureInventory(MinecraftClient client) {
+        if (client.player != null) LockedSlotsHandler.setSavedInventory(client.player.getInventory());
     }
 }

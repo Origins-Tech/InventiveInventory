@@ -96,7 +96,7 @@ public class AutomaticRefillingHandler {
     }
 
     private static List<Integer> getSameItemSlots(ItemStack handStack) {
-        SlotRange slotRange = PlayerSlots.get(SlotTypes.INVENTORY, SlotTypes.HOTBAR).exclude(InteractionHandler.getSelectedSlot());
+        SlotRange slotRange = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(InteractionHandler.getSelectedSlot());
         slotRange = ConfigManager.AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS.is(true) ? slotRange.exclude(SlotTypes.LOCKED_SLOT) : slotRange;
         Stream<Integer> sameItemSlotsStream = slotRange.stream()
                 .filter(slot -> {

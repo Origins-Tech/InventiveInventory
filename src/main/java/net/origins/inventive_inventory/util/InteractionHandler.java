@@ -70,6 +70,31 @@ public class InteractionHandler {
         }
     }
 
+    public static void dropStack(int slot) {
+        ClientPlayerEntity player = InventiveInventory.getPlayer();
+        int selectedSlot = getSelectedSlot();
+        ItemStack selectedStack = getStackFromSlot(selectedSlot).copy();
+        ItemStack slotStack = getStackFromSlot(slot).copy();
+        if (ItemStack.areItemsEqual(slotStack, selectedStack) && slotStack.getCount() + selectedStack.getCount() > slotStack.getMaxCount()) {
+            leftClickStack(selectedSlot);
+            while (getCursorStack().getCount() > slotStack.getCount()) rightClickStack(slot);
+            leftClickStack(selectedSlot);
+        } else swapStacks(slot, selectedSlot);
+        player.dropSelectedItem(true);
+        if (ItemStack.areItemsEqual(slotStack, selectedStack) && slotStack.getCount() + selectedStack.getCount() > slotStack.getMaxCount()) {
+            swapStacks(slot, selectedSlot);
+        } else swapStacks(selectedSlot, slot);
+    }
+
+    public static void dropItem(int slot, int times) {
+        ClientPlayerEntity player = InventiveInventory.getPlayer();
+        int selectedSlot = getSelectedSlot();
+
+        swapStacks(slot, selectedSlot);
+        for (; times > 0; times--) player.dropSelectedItem(false);
+        swapStacks(slot, selectedSlot);
+    }
+
     private static int getSyncId() {
         return InventiveInventory.getScreenHandler().syncId;
     }
