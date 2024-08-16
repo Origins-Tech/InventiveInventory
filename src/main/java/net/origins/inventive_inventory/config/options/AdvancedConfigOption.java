@@ -8,6 +8,7 @@ import net.origins.inventive_inventory.commands.config.type.ConfigType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     private final Class<E> enumClass;
@@ -48,7 +49,7 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
         return CyclingButtonWidget.builder(ConfigOption::getValueAsText)
                 .tooltip(SimpleOption.constantTooltip(this.tooltip))
                 .omitKeyText()
-                .values(Arrays.stream(this.enumClass.getEnumConstants()).toList()).initially(this.getValue())
+                .values(Arrays.stream(this.enumClass.getEnumConstants()).toArray()).initially(this.getValue())
                 .build(Text.empty(), (button, value) -> this.cycle());
     }
 }

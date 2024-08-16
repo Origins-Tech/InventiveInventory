@@ -8,6 +8,7 @@
     "key.inventive_inventory.profile_0": "Profile 1",
     "key.inventive_inventory.profile_1": "Profile 2",
     "key.inventive_inventory.profile_2": "Profile 3",
+
     "configOption.inventive_inventory.sorting": "Sorting",
     "configOption.inventive_inventory.sorting.mode": "Sorting Mode",
     "configOption.inventive_inventory.sorting.cursor_stack_behaviour": "Cursor Stack Behaviour",
@@ -18,6 +19,7 @@
     "configOption.inventive_inventory.profiles": "Profiles",
     "configOption.inventive_inventory.profiles.fast_load": "Fast Load",
     "configOption.inventive_inventory.ignore_locked_slots": "Ignore Locked Slots",
+
     "optionTooltip.inventive_inventory.status": "Enable or disable this feature.",
     "optionTooltip.inventive_inventory.include_locked_slots": "Choose to ignore or include locked slots.",
     "optionTooltip.inventive_inventory.sorting.mode": "Specify the sorting rule.\nName is alphabetical and\nItem Type contextual.",
