@@ -1,0 +1,77 @@
+name: Publish on CurseForge & Modrinth
+run-name: Deployed by ${{ github.actor}}.
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Mod Version
+        required: true
+      mc_version:
+        description: Minecraft Version
+        required: true
+env:
+  JAVA_VERSION: 21
+  MODRINTH_TOKEN: ${{secrets.MODRINTH_TOKEN}}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Environment Variables
+        run: env
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.7
+        with:
+          submodules: true
+
+      - name: Setup Java
+        uses: actions/setup-java@v4.2.2
+        with:
+          distribution: "temurin"
+          java-version: 21
+
+      - name: Make Gradle Wrapper Executable
+        if: ${{ runner.os != 'Windows' }}
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew clean build
+
+      - name: Publish (CurseForge/Modrinth)
+        uses: Kir-Antipov/mc-publish@v3.3.0                                  
+        with:
+          modrinth-id: bUHfVbsa                                            
+          modrinth-token: "${{env.MODRINTH_TOKEN}}"
+          
+          name: ""                             
+          version: "${{inputs.version}}"
+          version-type: release
+          changelog-file: CHANGELOG.md                                      
+
+          loaders: fabric
+          game-versions: "${{env.MINECRAFT_VERSION}}"
+          java: "${{env.JAVA_VERSION}}"
+          dependencies: |
+            fabric@0.100.8+1.21(type){platform:alias}#(ignore:ignored-platform)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
