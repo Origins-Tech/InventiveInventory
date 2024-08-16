@@ -36,7 +36,8 @@
     "custom": {
         "modmenu": {
             "links": {
-                "modmenu.donate": "https://paypal.me/strobel273"
+                "modmenu.donate": "https://paypal.me/strobel273",
+                "modmenu.discord": "https://discord.gg/uycTMfCsfc"
             }
         }
     }
