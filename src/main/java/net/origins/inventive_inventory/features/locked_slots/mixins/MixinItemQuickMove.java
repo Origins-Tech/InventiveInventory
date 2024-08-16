@@ -16,7 +16,6 @@ public class MixinItemQuickMove {
         return original || LockedSlotsHandler.getLockedSlots().contains(i);
     }
 
-
     @ModifyExpressionValue(method = "insertItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 3))
     private boolean notEmptyAndLockedSlot(boolean original, @Local(ordinal = 2) int i) {
         return original && !LockedSlotsHandler.getLockedSlots().contains(i);

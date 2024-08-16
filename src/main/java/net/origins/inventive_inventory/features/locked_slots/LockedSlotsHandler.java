@@ -73,38 +73,37 @@ public class LockedSlotsHandler {
     public static void adjustInventory() {
         List<ItemStack> currentInventory = InventiveInventory.getPlayer().getInventory().main.stream().toList();
         if (savedInventory.isEmpty() || savedInventory.equals(currentInventory) || ScreenCheck.isPlayerInventory()) return;
+        ContextManager.setContext(Contexts.LOCKED_SLOTS);
         LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
 
         for (int i = 9; i < currentInventory.size(); i++) {
             ItemStack currentStack = currentInventory.get(i);
             ItemStack savedStack = savedInventory.get(i);
             if (!lockedSlots.contains(i) || ItemStack.areEqual(currentStack, savedStack)) continue;
-            if (savedStack.isEmpty()) InteractionHandler.dropStack(i);
-            else if (currentStack.getCount() > savedStack.getCount()) {
-                List<Integer> suitableSlots = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).stream()
-                        .filter(slot -> {
-                            ItemStack stack = InteractionHandler.getStackFromSlot(slot);
-                            return stack.isEmpty() || ItemStack.areItemsEqual(stack, currentStack) && stack.getCount() < stack.getMaxCount();
-                        })
-                        .sorted(Comparator.comparing((Integer slot) -> InteractionHandler.getStackFromSlot(slot).getCount(), Comparator.reverseOrder())
-                                .thenComparing(slot -> slot))
-                        .toList();
-                if (!suitableSlots.isEmpty()) {
-                    InteractionHandler.leftClickStack(i);
-                    for (int slot : suitableSlots) {
+            List<Integer> suitableSlots = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).stream()
+                    .filter(slot -> {
                         ItemStack stack = InteractionHandler.getStackFromSlot(slot);
-                        while (InteractionHandler.getCursorStack().getCount() > savedStack.getCount()) {
-                            if (stack.getCount() < stack.getMaxCount()) InteractionHandler.rightClickStack(slot);
-                            else break;
-                        }
+                        return stack.isEmpty() || ItemStack.areItemsEqual(stack, currentStack) && stack.getCount() < stack.getMaxCount();
+                    })
+                    .sorted(Comparator.comparing((Integer slot) -> InteractionHandler.getStackFromSlot(slot).getCount(), Comparator.reverseOrder())
+                            .thenComparing(slot -> slot))
+                    .toList();
+            if (!suitableSlots.isEmpty()) {
+                InteractionHandler.leftClickStack(i);
+                for (int slot : suitableSlots) {
+                    ItemStack stack = InteractionHandler.getStackFromSlot(slot);
+                    while (InteractionHandler.getCursorStack().getCount() > savedStack.getCount()) {
+                        if (stack.getCount() < stack.getMaxCount()) InteractionHandler.rightClickStack(slot);
+                        else break;
                     }
-                    InteractionHandler.leftClickStack(i);
                 }
-                if (InteractionHandler.getStackFromSlot(i).getCount() > savedStack.getCount()) {
-                    InteractionHandler.dropItem(i, InteractionHandler.getStackFromSlot(i).getCount() - savedStack.getCount());
-                }
+                InteractionHandler.leftClickStack(i);
+            }
+            if (InteractionHandler.getStackFromSlot(i).getCount() > savedStack.getCount()) {
+                InteractionHandler.dropItem(i, InteractionHandler.getStackFromSlot(i).getCount() - savedStack.getCount());
             }
         }
+        ContextManager.setContext(Contexts.INIT);
     }
 
     public static void setSavedInventory(PlayerInventory currentInventory) {

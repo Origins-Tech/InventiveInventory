@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinLockedSlotsToggle {
 
     @Inject(method = "clickSlot", at = @At("HEAD"), cancellable = true)
-    private void onClickSlot(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+    private void toggleLockedSlots(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
         if (AdvancedOperationHandler.isPressed() && button == 0 && actionType == SlotActionType.PICKUP && ContextManager.isInit()) {
             if (!InventiveInventory.getPlayer().isInCreativeMode()) {
                 LockedSlotsHandler.toggle(slotId);
