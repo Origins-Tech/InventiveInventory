@@ -1,4 +1,4 @@
-name: Publish on CurseForge & Modrinth
+name: Publish on Modrinth
 run-name: Deployed by ${{ github.actor}}.
 on:
   workflow_dispatch:
