@@ -24,7 +24,7 @@
     - Enhanced the display of locked slots in the inventory
     - You can now drag your mouse to easily mark or unmark multiple slots as locked
     - In every feature that rearranges items in your inventory, you can specify whether it should include or exclude locked slots
-    - Picked-up items will be placed outside of locked slots or dropped if no free space is available (behavior differs in singleplayer and on servers)
+    - Picked-up items will be placed outside locked slots or dropped if no free space is available (behavior differs in singleplayer and on servers)
     - Locked slots are saved separately for each world and server
 
 - ### Profiles
