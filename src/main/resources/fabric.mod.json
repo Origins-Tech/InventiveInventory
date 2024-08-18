@@ -3,13 +3,13 @@
     "id": "inventive_inventory",
     "version": "${version}",
     "name": "Inventive Inventory",
-    "description": "Experience seamless inventory management in Minecraft with the Inventor’s Companion Mod, your one-stop solution for sorting, auto-refilling, and slot-locking.",
+    "description": "Experience seamless inventory management in Minecraft with Inventive Inventory, your one-stop solution for sorting, auto-refilling, profiles and slot-locking.",
     "authors": [
         "Strobel273",
         "LU_XD"
     ],
     "contact": {
-        "homepage": "https://modrinth.com/mod/inventiveinventory",
+        "homepage": "https://modrinth.com/mod/inventive-inventory",
         "sources": "https://github.com/Strobel273/InventiveInventory",
         "issues": "https://github.com/Strobel273/InventiveInventory/issues",
         "irc": "https://discord.gg/uycTMfCsfc"
