@@ -3,10 +3,14 @@ package net.origins.inventive_inventory.util.tooltips;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.features.profiles.Profile;
 import net.origins.inventive_inventory.keys.KeyRegistry;
 
@@ -34,8 +38,11 @@ public class TooltipBuilder {
         List<Text> textList = new ArrayList<>();
         addTitle(profile.getDisplayStack().getName().getString(), Formatting.AQUA, textList);
         if (profile.getDisplayStack().hasEnchantments()) {
+            Registry<Enchantment> enchantmentRegistry = InventiveInventory.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
             for (RegistryEntry<Enchantment> entry : profile.getDisplayStack().getEnchantments().getEnchantments()) {
-                textList.add(Enchantment.getName(entry, EnchantmentHelper.getLevel(entry, profile.getDisplayStack())));
+                Enchantment enchantment = enchantmentRegistry.get(new Identifier(entry.getIdAsString()));
+                if (enchantment == null) continue;
+                textList.add(enchantment.getName(EnchantmentHelper.getLevel(enchantment, profile.getDisplayStack())));
             }
             textList.add(Text.empty());
         }

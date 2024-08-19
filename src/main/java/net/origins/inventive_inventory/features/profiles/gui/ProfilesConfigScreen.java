@@ -19,12 +19,14 @@ import java.util.List;
 public class ProfilesConfigScreen extends GameOptionsScreen {
     public final List<Text> availableKeys = new ArrayList<>();
     private final DirectionalLayoutWidget layout = DirectionalLayoutWidget.vertical();
+    private OptionListWidget body;
 
     public ProfilesConfigScreen(Screen parent) {
         super(parent, InventiveInventory.getClient().options, Text.of("Profiles Config Screen"));
         MinecraftClient client = InventiveInventory.getClient();
         this.width = client.getWindow().getScaledWidth();
         this.height = client.getWindow().getScaledHeight();
+        this.body = new OptionListWidget(this.client, this.width, this.height, this);
 
         List<KeyBinding> availableBindings = ProfileHandler.getAvailableProfileKeys();
         availableBindings.forEach(binding -> {
@@ -40,7 +42,17 @@ public class ProfilesConfigScreen extends GameOptionsScreen {
     }
 
     @Override
-    protected void addOptions() {
+    protected void init() {
+        super.initHeader();
+        super.initFooter();
+        this.body = new OptionListWidget(this.client, this.width, this.height, this);
+        super.layout.addBody(body);
+        this.addOptions();
+        super.layout.forEachChild(this::addDrawableChild);
+        super.initTabNavigation();
+    }
+
+    private void addOptions() {
         if (this.body == null || this.client == null) return;
         int x = this.body.getX() + 5;
         int y = this.body.getY() + 5;

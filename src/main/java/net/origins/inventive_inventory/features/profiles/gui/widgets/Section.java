@@ -65,10 +65,10 @@ public class Section {
             float nextPosInnerX = centerX + (float) Math.sin(nextAngle) * innerRadius;
             float nextPosInnerY = centerY - (float) Math.cos(nextAngle) * innerRadius;
 
-            builder.vertex(posX, posY, 0).color(color)
-                    .vertex(posInnerX, posInnerY, 0).color(color)
-                    .vertex(nextPosInnerX, nextPosInnerY, 0).color(color)
-                    .vertex(nextPosX, nextPosY, 0).color(color);
+            builder.vertex(posX, posY, 0).color(color).next();
+            builder.vertex(posInnerX, posInnerY, 0).color(color).next();
+            builder.vertex(nextPosInnerX, nextPosInnerY, 0).color(color).next();
+            builder.vertex(nextPosX, nextPosY, 0).color(color).next();
         }
     }
 

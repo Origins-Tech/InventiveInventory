@@ -3,6 +3,7 @@ package net.origins.inventive_inventory.config.screens;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -14,13 +15,24 @@ import net.origins.inventive_inventory.features.profiles.gui.ProfilesConfigScree
 
 
 public class ConfigScreen extends GameOptionsScreen {
+    private OptionListWidget body;
 
     public ConfigScreen(Screen parent) {
         super(parent, InventiveInventory.getClient().options, Text.of("Inventive Inventory Options"));
     }
 
     @Override
-    public void addOptions() {
+    protected void init() {
+        this.body = new OptionListWidget(this.client, parent.width, 0, this);
+        this.initHeader();
+        this.initFooter();
+        this.addOptions();
+        this.layout.addBody(body);
+        this.layout.forEachChild(this::addDrawableChild);
+        this.initTabNavigation();
+    }
+
+    private void addOptions() {
         if (client == null || body == null) return;
         this.addTitle("Sorting");
         this.addWidget(ConfigManager.SORTING);
