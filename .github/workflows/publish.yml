@@ -23,7 +23,7 @@ on:
         required: true
 
 env:
-  JAVA_VERSION: 17
+  JAVA_VERSION: 21
   MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
 permissions:
