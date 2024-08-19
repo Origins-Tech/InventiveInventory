@@ -3,15 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-def version = System.getenv('VERSION') ?: "1.0.0"
-def minecraft_version = System.getenv('MINECRAFT_VERSION') ?: "1.20.5"
-def yarn_mappings = System.getenv('YARN_MAPPINGS') ?: "1.20.5+build.1"
-def loader_version = System.getenv('LOADER_VERSION') ?: "0.15.11"
-def fabric_version = System.getenv('FABRIC_VERSION') ?: "0.97.8+1.20.5"
-def modmenu_version = System.getenv('MODMENU_VERSION') ?: "10.0.0"
-
 base {
-    archivesName = "inventive_inventory-" + minecraft_version
+    archivesName = "inventive_inventory-" + project.minecraft_version
 }
 
 repositories {
@@ -23,25 +16,29 @@ repositories {
 
 dependencies {
     // To change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Other Mods
-    modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
     filteringCharset "UTF-8"
+
     filesMatching("fabric.mod.json") {
-        expand "version": version,
-                "minecraft_version": minecraft_version,
-                "fabric_version": fabric_version,
-                "loader_version": loader_version,
-                "modmenu_version": modmenu_version
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "fabric_version": project.fabric_version,
+                "loader_version": project.loader_version,
+                "modmenu_version": project.modmenu_version
     }
 }
 
