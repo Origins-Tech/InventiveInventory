@@ -21,7 +21,11 @@
     "configOption.inventive_inventory.ignore_locked_slots": "Ignore Locked Slots",
 
     "optionTooltip.inventive_inventory.status": "Enable or disable this feature.",
-    "optionTooltip.inventive_inventory.include_locked_slots": "Choose to ignore or include locked slots.",
+    "optionTooltip.inventive_inventory.ignore_locked_slots": "Choose to ignore or include locked slots.",
     "optionTooltip.inventive_inventory.sorting.mode": "Specify the sorting rule.\nName is alphabetical and\nItem Type contextual.",
-    "optionTooltip.inventive_inventory.automatic_refilling.cursor_stack_behaviour": "Sort Cursor Stack: The stack in your cursor will be sorted.\n\nKeep Cursor Stack: The stack in your cursor will be kept.\n\nAOK-Dependent: When pressing the Advanced Operation Key the stack in your cursor will be kept.\n\nAOK-Dependent Inverted: When pressing the Advanced Operation Key the stack in your cursor will be sorted."
+    "optionTooltip.inventive_inventory.sorting.cursor_stack_behaviour": "Sort Cursor Stack: The stack in your cursor will be sorted.\n\nKeep Cursor Stack: The stack in your cursor will be kept.\n\nAOK-Dependent: When pressing the Advanced Operation Key the stack in your cursor will be kept.\n\nAOK-Dependent Inverted: When pressing the Advanced Operation Key the stack in your cursor will be sorted.",
+    "optionTooltip.inventive_inventory.automatic_refilling.mode": "Automatic: Stack will get refilled automatically.\n\nSemi-Automatic: Stack will only get refilled when pressing the Advanced Operation Key.",
+    "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_behaviour": "Keep Tool: Before your tool breaks it will be replaced.\n\nBreak Tool: Your tool will be replaced after it broke.",
+    "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_priority": "Material: The tool with the best material will get refilled\n\nHealth: The tool with the least durability will get refilled.",
+    "optionTooltip.inventive_inventory.profiles.fast_load": "If activated you only have to press the profile key to load your profile."
 }
