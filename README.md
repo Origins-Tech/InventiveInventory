@@ -2,14 +2,15 @@
 
 Experience seamless inventory management in Minecraft with the Inventor’s Companion Mod, your one-stop solution for sorting, auto-refilling, profiles and slot-locking.
 
-⚙️ -> Configurable Option
+**⚙️ -> Configurable Option**
 
 ## Features 🚀💡
 ### Sorting 🔀🔠
 There's a mess in your inventory? No problem, a simple key press (Default: R)⚙️ will it get organized.
 
-The sorting function is aware of the cursor’s position. 
-This means that if you’re in a container and hover over your inventory, the inventory will be sorted instead of the container. In all other scenarios, the container will be sorted.
+The sorting function is aware of the cursor’s position.  
+This means that if you’re in a container and hover over your inventory, the inventory will be sorted instead of the container.  
+In all other scenarios, the container will be sorted.
 
 By pressing the Advanced Operation Key you can keep your cursor stack while sorting. ⚙️
 > This feature is compatible with all types of containers.
@@ -57,7 +58,9 @@ View and update your created profiles in the Profile Config Screen.
 You can access it with this command ```/inventive-config ProfilesConfigScreen``` or via [ModMenu](https://modrinth.com/mod/modmenu)
 
 ### Automatic Refilling 🔄📦
-Replenishes your current stack with the same items from your inventory.
-Even works with tools
+Replenishes your current stack with items from your inventory.  
+Useful for building with many materials or just to always have some food ready.  
+Works with buckets, bowls and bottles as well as tools.  
+You can press the Advanced Operation Key (Default: ALT)⚙️ to prevent the stack from refilling.⚙️  
 
 **If you have more feature suggestions, join our discord or open an issue on the linked GitHub Repository!**
