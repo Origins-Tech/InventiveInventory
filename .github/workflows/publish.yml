@@ -1,5 +1,5 @@
 name: Publish on Modrinth
-run-name: Deployed by ${{ github.actor }}.
+run-name: Deployed by ${{ github.actor }} - ${{ inputs.version }}.
 on:
   workflow_dispatch:
     inputs:
