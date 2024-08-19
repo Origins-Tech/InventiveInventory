@@ -72,7 +72,7 @@ jobs:
         with:
           modrinth-token: "${{ env.MODRINTH_TOKEN }}"
 
-          name: ""
+          name: "Inventive Inventory ${{ inputs.version }}"
           version: "${{ inputs.version }}"
           version-type: release
           changelog-file: CHANGELOG.md
