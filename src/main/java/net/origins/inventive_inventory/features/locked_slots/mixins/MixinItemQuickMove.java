@@ -22,7 +22,7 @@ public class MixinItemQuickMove {
     }
 
     @ModifyExpressionValue(method = "internalOnSlotClick", at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/slot/Slot;hasStack()Z", ordinal = 3))
-    private boolean hasStackAndIsNoLockedSlot(boolean original, @Local(name = "slot4") Slot slot) {
+    private boolean hasStackAndIsNoLockedSlot(boolean original, @Local(ordinal = 1) Slot slot) {
         return original && !LockedSlotsHandler.getLockedSlots().contains(slot.id);
     }
 }
