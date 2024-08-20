@@ -1,5 +1,5 @@
 # Inventive Inventory
-**[Discord](https://discord.gg/uycTMfCsfc) [GitHub](https://github.com/Origins-Tech/InventiveInventory/issues) [Modrinth](https://modrinth.com/mod/inventive-inventory)**
+**[Discord](https://discord.gg/uycTMfCsfc) | [GitHub](https://github.com/Origins-Tech/InventiveInventory) | [Modrinth](https://modrinth.com/mod/inventive-inventory)**
 
 Experience seamless inventory management in Minecraft with Inventive Inventory, your one-stop solution for sorting, auto-refilling, profiles and slot-locking.
 
