@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName = "inventive_inventory-" + minecraft_version
+    archivesName = project.archives_base_name
 }
 
 repositories {
