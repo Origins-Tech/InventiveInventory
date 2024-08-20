@@ -52,7 +52,6 @@ jobs:
           cat gradle.properties
           
           sed -i 's/version=.*/version=${{ inputs.version }}/' gradle.properties
-          sed -i 's/archives_base_name=.*/archives_base_name=inventive_inventory-${{ inputs.version }}+${{ minecraft_version }}/' gradle.properties
           sed -i 's/minecraft_version=.*/minecraft_version=${{ inputs.minecraft_version }}/' gradle.properties
           sed -i 's/yarn_mappings=.*/yarn_mappings=${{ inputs.yarn_mappings }}/' gradle.properties
           sed -i 's/loader_version=.*/loader_version=${{ inputs.loader_version }}/' gradle.properties
