@@ -21,6 +21,9 @@ on:
       modmenu_version:
         description: Mod Menu Version
         required: true
+      platform:
+        description: Platform to publish (modrinth, curseforge, or empty for all)
+        required: false
 
 env:
   JAVA_VERSION: 21
@@ -68,12 +71,22 @@ jobs:
       - name: Build
         run: ./gradlew clean build
 
-      - name: Publish (Modrinth/Curseforge)
+      - name: Publish to Modrinth
+        if: ${{ inputs.platform == 'modrinth' || inputs.platform == '' }}
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ env.MODRINTH_TOKEN }}"
-          curseforge-token: "${{ env.CURSEFORGE_TOKEN }}"
+          name: "Inventive Inventory ${{ inputs.version }}"
+          version: "${{ inputs.version }}"
+          version-type: release
+          changelog-file: CHANGELOG.md
+          java: "${{ env.JAVA_VERSION }}"
 
+      - name: Publish to Curseforge
+        if: ${{ inputs.platform == 'curseforge' || inputs.platform == '' }}
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        with:
+          curseforge-token: "${{ env.CURSEFORGE_TOKEN }}"
           name: "Inventive Inventory ${{ inputs.version }}"
           version: "${{ inputs.version }}"
           version-type: release
