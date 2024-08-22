@@ -46,7 +46,8 @@
             }
         },
         "mc-publish": {
-            "modrinth": "bUHfVbsa"
+            "modrinth": "bUHfVbsa",
+            "curseforge": 1087663
         }
     }
 }
