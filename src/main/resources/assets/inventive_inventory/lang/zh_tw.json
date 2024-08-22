@@ -1,0 +1,31 @@
+{
+    "key.inventive_inventory.category.inventive_inventory": "創意整理",
+    "key.inventive_inventory.category.inventive_inventory_profiles": "創意設定檔",
+    "key.inventive_inventory.sort": "整理物品欄",
+    "key.inventive_inventory.advanced_operation": "進階操作",
+    "key.inventive_inventory.open_profiles_screen": "開啟設定檔畫面",
+    "key.inventive_inventory.load_profile": "載入設定檔（+ 設定檔快捷鍵）",
+    "key.inventive_inventory.profile_0": "設定檔 1",
+    "key.inventive_inventory.profile_1": "設定檔 2",
+    "key.inventive_inventory.profile_2": "設定檔 3",
+
+    "configOption.inventive_inventory.sorting": "排序",
+    "configOption.inventive_inventory.sorting.mode": "排序模式",
+    "configOption.inventive_inventory.sorting.cursor_stack_behaviour": "游標堆疊行為",
+    "configOption.inventive_inventory.automatic_refilling": "自動補充",
+    "configOption.inventive_inventory.automatic_refilling.mode": "自動補充模式",
+    "configOption.inventive_inventory.automatic_refilling.tool_replacement_behaviour": "工具替換行為",
+    "configOption.inventive_inventory.automatic_refilling.tool_replacement_priority": "工具替換優先級",
+    "configOption.inventive_inventory.profiles": "設定檔",
+    "configOption.inventive_inventory.profiles.fast_load": "快速載入",
+    "configOption.inventive_inventory.ignore_locked_slots": "忽略鎖定的欄位",
+
+    "optionTooltip.inventive_inventory.status": "啟用或停用此功能。",
+    "optionTooltip.inventive_inventory.ignore_locked_slots": "選擇忽略或包含鎖定的欄位。",
+    "optionTooltip.inventive_inventory.sorting.mode": "指定排序規則。\n名稱依字母順序排列，\n物品類型依上下文排列。",
+    "optionTooltip.inventive_inventory.sorting.cursor_stack_behaviour": "排序游標堆疊：您游標中的堆疊將被排序。\n\n保留游標堆疊：您游標中的堆疊將被保留。\n\n依進階操作鍵決定：按下進階操作鍵時，您游標中的堆疊將被保留。\n\n依進階操作鍵決定（反轉）：按下進階操作鍵時，您游標中的堆疊將被排序。",
+    "optionTooltip.inventive_inventory.automatic_refilling.mode": "自動：堆疊將自動補充。\n\n半自動：僅在按下進階操作鍵時才會補充堆疊。",
+    "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_behaviour": "保留工具：在您的工具損壞之前，它將被替換。\n\n損壞工具：您的工具將在損壞後被替換。",
+    "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_priority": "材質：具有最佳材質的工具將被補充\n\n耐久度：耐久度最低的工具將被補充。",
+    "optionTooltip.inventive_inventory.profiles.fast_load": "如果啟用，您只需按下設定檔鍵即可載入您的設定檔。"
+}
