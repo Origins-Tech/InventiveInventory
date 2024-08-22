@@ -1,4 +1,4 @@
-name: Publish on Modrinth
+name: Publish on Modrinth and Curseforge
 run-name: Deployed by ${{ github.actor }} - ${{ inputs.version }} on ${{ inputs.minecraft_version }}.
 on:
   workflow_dispatch:
@@ -25,6 +25,7 @@ on:
 env:
   JAVA_VERSION: 21
   MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+  CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
 
 permissions:
   contents: write
@@ -67,10 +68,11 @@ jobs:
       - name: Build
         run: ./gradlew clean build
 
-      - name: Publish (CurseForge/Modrinth)
+      - name: Publish (Modrinth/Curseforge)
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ env.MODRINTH_TOKEN }}"
+          curseforge-token: "${{ env.CURSEFORGE_TOKEN }}"
 
           name: "Inventive Inventory ${{ inputs.version }}"
           version: "${{ inputs.version }}"
