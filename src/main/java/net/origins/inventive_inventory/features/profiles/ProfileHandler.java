@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
@@ -25,6 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProfileHandler {
+    private final static String ERROR_TRANSLATION_KEY = "error." + InventiveInventory.MOD_ID + ".";
+    private final static String NOTIFICATION_TRANSLATION_KEY = "notification." + InventiveInventory.MOD_ID + ".";
     public static final int MAX_PROFILES = 5;
     private static final String PROFILES_FILE = "profiles.json";
     public static final Path PROFILES_PATH = ConfigManager.CONFIG_PATH.resolve(PROFILES_FILE);
@@ -36,10 +39,10 @@ public class ProfileHandler {
         if (profilesJson.size() < MAX_PROFILES) {
             profilesJson.add(profile.getAsJsonObject());
             save(profilesJson);
-            Notifier.send("Profile created!", Formatting.GREEN);
+            Notifier.send(Text.translatable(NOTIFICATION_TRANSLATION_KEY + "profile_created").getString(), Formatting.GREEN);
             return;
         }
-        Notifier.error("Max amount of profiles reached!");
+        Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "max_amount").getString());
     }
 
     public static void load(Profile profile) {
@@ -57,7 +60,7 @@ public class ProfileHandler {
                 break;
             }
         }
-        Notifier.send("Profile loaded!", Formatting.BLUE);
+        Notifier.send(Text.translatable(NOTIFICATION_TRANSLATION_KEY + "profile_loaded").getString(), Formatting.BLUE);
     }
 
     public static void overwrite(Profile profile) {
@@ -68,7 +71,7 @@ public class ProfileHandler {
         else profilesJson.set(profile.getId(), newProfile.getAsJsonObject());
 
         save(profilesJson);
-        Notifier.send("Profile overwritten!", Formatting.GOLD);
+        Notifier.send(Text.translatable(NOTIFICATION_TRANSLATION_KEY + "profile_overwritten").getString(), Formatting.GOLD);
     }
 
     public static void update(Profile profile) {
@@ -79,7 +82,7 @@ public class ProfileHandler {
         else profilesJson.set(profile.getId(), newProfile.getAsJsonObject());
 
         save(profilesJson);
-        Notifier.send("Profile updated!", Formatting.GOLD);
+        Notifier.send(Text.translatable(NOTIFICATION_TRANSLATION_KEY + "profile_updated").getString(), Formatting.GOLD);
     }
 
     public static void delete(Profile profile) {
@@ -92,7 +95,7 @@ public class ProfileHandler {
             profilesJson.set(i, jsonProfile);
         }
         save(profilesJson);
-        Notifier.send("Profile deleted!", Formatting.RED);
+        Notifier.send(Text.translatable(NOTIFICATION_TRANSLATION_KEY + "profile_deleted").getString(), Formatting.RED);
     }
 
     public static List<Profile> getProfiles() {

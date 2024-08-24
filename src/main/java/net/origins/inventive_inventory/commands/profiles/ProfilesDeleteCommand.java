@@ -8,6 +8,8 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.text.Text;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.features.profiles.Profile;
 import net.origins.inventive_inventory.features.profiles.ProfileHandler;
 import net.origins.inventive_inventory.util.Notifier;
@@ -15,6 +17,7 @@ import net.origins.inventive_inventory.util.Notifier;
 import java.util.concurrent.CompletableFuture;
 
 public class ProfilesDeleteCommand {
+    private final static String ERROR_TRANSLATION_KEY = "error." + InventiveInventory.MOD_ID + ".";
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess ignored) {
         dispatcher.register(ClientCommandManager.literal("inventive-profiles")
@@ -35,7 +38,7 @@ public class ProfilesDeleteCommand {
                 return 1;
             }
         }
-        Notifier.error("This profile does not exist!");
+        Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "does_not_exist").getString());
         return -1;
     }
 

@@ -14,36 +14,38 @@ import net.origins.inventive_inventory.features.profiles.gui.ProfilesConfigScree
 
 
 public class ConfigScreen extends GameOptionsScreen {
+    private final static String TITLE_TRANSLATION_KEY = "title." + InventiveInventory.MOD_ID + ".config_screen";
+    private final static String TEXT_TRANSLATION_KEY = "text." + InventiveInventory.MOD_ID + ".config_screen.";
 
     public ConfigScreen(Screen parent) {
-        super(parent, InventiveInventory.getClient().options, Text.of("Inventive Inventory Options"));
+        super(parent, InventiveInventory.getClient().options, Text.translatable(TITLE_TRANSLATION_KEY));
     }
 
     @Override
     public void addOptions() {
         if (client == null || body == null) return;
-        this.addTitle("Sorting");
+        this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".sorting"));
         this.addWidget(ConfigManager.SORTING);
         this.addWidget(ConfigManager.SORTING_MODE);
         this.addWidget(ConfigManager.CURSOR_STACK_BEHAVIOUR);
 
-        this.addTitle("Automatic Refilling");
+        this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".automatic_refilling"));
         this.addWidget(ConfigManager.AUTOMATIC_REFILLING);
         this.addWidget(ConfigManager.AUTOMATIC_REFILLING_MODE);
         this.addWidget(ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR);
         this.addWidget(ConfigManager.TOOL_REPLACEMENT_PRIORITY);
         this.addWidget(ConfigManager.AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS);
 
-        this.addTitle("Profiles");
+        this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".profiles"));
         this.addWidget(ConfigManager.PROFILES);
-        this.body.addWidgetEntry(new ConfigTextWidget(Text.of("Config Screen:"), this.client.textRenderer), ButtonWidget.builder(Text.of("Config Profiles..."), button -> this.client.setScreen(new ProfilesConfigScreen(this))).build());
+        this.body.addWidgetEntry(new ConfigTextWidget(Text.translatable(TEXT_TRANSLATION_KEY + "config_screen"), this.client.textRenderer), ButtonWidget.builder(Text.translatable(TEXT_TRANSLATION_KEY + "config_profiles"), button -> this.client.setScreen(new ProfilesConfigScreen(this))).build());
         this.addWidget(ConfigManager.FAST_LOAD);
         this.addWidget(ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS);
     }
 
-    private void addTitle(String title) {
+    private void addTitle(Text title) {
         if (this.body == null || client == null) return;
-        TextWidget text = new ConfigTextWidget(Text.of(title).copy().setStyle(Style.EMPTY.withBold(true)), client.textRenderer);
+        TextWidget text = new ConfigTextWidget(title.copy().setStyle(Style.EMPTY.withBold(true)), client.textRenderer);
         text.setWidth(310);
         this.body.addWidgetEntry(text, null);
     }

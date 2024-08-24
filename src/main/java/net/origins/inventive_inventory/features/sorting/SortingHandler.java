@@ -16,8 +16,9 @@ import net.origins.inventive_inventory.util.slots.SlotTypes;
 public class SortingHandler {
 
     public static void sort() {
-        ContextManager.setContext(Contexts.SORTING);
+        System.out.println(ConfigManager.SORTING.getValue());
         if (InventiveInventory.getPlayer().isCreative() || ConfigManager.SORTING.is(Status.DISABLED)) return;
+        ContextManager.setContext(Contexts.SORTING);
         SlotRange slotRange = MouseLocation.isOverInventory() ? PlayerSlots.get().exclude(SlotTypes.LOCKED_SLOT) : ContainerSlots.get();
         ItemStack targetStack = InteractionHandler.getCursorStack().copy();
 

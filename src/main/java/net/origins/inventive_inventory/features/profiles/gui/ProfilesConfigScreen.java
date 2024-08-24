@@ -17,11 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfilesConfigScreen extends GameOptionsScreen {
+    private final static String TITLE_TRANSLATION_KEY = "title." + InventiveInventory.MOD_ID + ".profiles_config_screen";
+    private final static String TEXT_TRANSLATION_KEY = "text." + InventiveInventory.MOD_ID + ".profiles_config_screen.";
+    private final static String DEFAULT_TRANSLATION_KEY = "default." + InventiveInventory.MOD_ID + ".";
     public final List<Text> availableKeys = new ArrayList<>();
     private final DirectionalLayoutWidget layout = DirectionalLayoutWidget.vertical();
 
     public ProfilesConfigScreen(Screen parent) {
-        super(parent, InventiveInventory.getClient().options, Text.of("Profiles Config Screen"));
+        super(parent, InventiveInventory.getClient().options, Text.translatable(TITLE_TRANSLATION_KEY));
         MinecraftClient client = InventiveInventory.getClient();
         this.width = client.getWindow().getScaledWidth();
         this.height = client.getWindow().getScaledHeight();
@@ -30,7 +33,7 @@ public class ProfilesConfigScreen extends GameOptionsScreen {
         availableBindings.forEach(binding -> {
             if (binding != null) availableKeys.add(binding.getBoundKeyLocalizedText());
         });
-        this.availableKeys.add(Text.of("Not Bound"));
+        this.availableKeys.add(Text.translatable(DEFAULT_TRANSLATION_KEY + "not_bound"));
 
         this.init(client, this.width, this.height);
         this.layout.forEachElement(element -> ((ProfileEntry) element).forEachElement(profileElement -> {
@@ -52,7 +55,7 @@ public class ProfilesConfigScreen extends GameOptionsScreen {
             i++;
         }
         if (i == 1) {
-            TextWidget textWidget = new TextWidget(Text.of("You have no profiles in this world."), this.client.textRenderer);
+            TextWidget textWidget = new TextWidget(Text.translatable(TEXT_TRANSLATION_KEY + "no_profiles"), this.client.textRenderer);
             textWidget.setPosition(this.width / 2 - textWidget.getWidth() / 2, this.height / 2 - textWidget.getHeight() / 2);
             this.addDrawableChild(textWidget);
         } else this.initBodyHeader();
@@ -62,9 +65,9 @@ public class ProfilesConfigScreen extends GameOptionsScreen {
         if (client == null) return;
         if (this.body == null) return;
         DirectionalLayoutWidget labelLayout = DirectionalLayoutWidget.horizontal();
-        TextWidget name = new TextWidget(80, 20, Text.of("Profile Name"), this.client.textRenderer).alignCenter();
-        TextWidget key = new TextWidget(60, 20, Text.of("Key"), this.client.textRenderer).alignCenter();
-        TextWidget preview = new TextWidget(205, 20, Text.of("Preview"), this.client.textRenderer).alignCenter();
+        TextWidget name = new TextWidget(80, 20, Text.translatable(TEXT_TRANSLATION_KEY + "name"), this.client.textRenderer).alignCenter();
+        TextWidget key = new TextWidget(60, 20, Text.translatable(DEFAULT_TRANSLATION_KEY + "key"), this.client.textRenderer).alignCenter();
+        TextWidget preview = new TextWidget(205, 20, Text.translatable(TEXT_TRANSLATION_KEY + "preview"), this.client.textRenderer).alignCenter();
         labelLayout.add(name);
         labelLayout.add(key);
         labelLayout.add(EmptyWidget.ofWidth(30));
