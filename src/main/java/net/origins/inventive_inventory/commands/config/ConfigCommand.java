@@ -8,6 +8,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -15,6 +16,7 @@ import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.commands.config.type.ConfigArgumentType;
 import net.origins.inventive_inventory.commands.config.type.ConfigType;
 import net.origins.inventive_inventory.config.options.ConfigOption;
+import net.origins.inventive_inventory.features.profiles.gui.ProfilesConfigScreen;
 import net.origins.inventive_inventory.util.Notifier;
 
 import java.util.Arrays;
@@ -29,6 +31,12 @@ public class ConfigCommand {
                 .then(accessor("Sorting", ConfigType.SORTING))
                 .then(accessor("AutomaticRefilling", ConfigType.AUTOMATIC_REFILLING))
                 .then(accessor("Profiles", ConfigType.PROFILES))
+                .then(ClientCommandManager.literal("ProfilesConfigScreen")
+                        .executes(context -> {
+                            MinecraftClient client = context.getSource().getClient();
+                            client.send(() -> client.setScreen(new ProfilesConfigScreen(null)));
+                            return 1;
+                        }))
         );
     }
 
