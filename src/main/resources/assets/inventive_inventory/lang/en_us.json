@@ -20,6 +20,23 @@
     "configOption.inventive_inventory.profiles.fast_load": "Fast Load",
     "configOption.inventive_inventory.ignore_locked_slots": "Ignore Locked Slots",
 
+    "configOptionButton.inventive_inventory.status.enabled": "Enabled",
+    "configOptionButton.inventive_inventory.status.disabled": "Disabled",
+    "configOptionButton.inventive_inventory.mode.sorting.item_type": "Item Type",
+    "configOptionButton.inventive_inventory.mode.sorting.name": "Name",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.sort_cursor_stack": "Sort Cursor Stack",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.keep_cursor_stack": "Keep Cursor Stack",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.aok_dependent": "AOK-Dependent",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.aok_dependent_inverted": "AOK-Dependent Inverted",
+    "configOptionButton.inventive_inventory.mode.automatic_refilling.automatic": "Automatic",
+    "configOptionButton.inventive_inventory.mode.automatic_refilling.semi_automatic": "Semi Automatic",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour.keep_tool": "Keep Tool",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour.break_tool": "Break Tool",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_priority.material": "Material",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_priority.health": "Remaining Health",
+    "configOptionButton.inventive_inventory.simple_config_option.yes": "Yes",
+    "configOptionButton.inventive_inventory.simple_config_option.no": "No",
+
     "optionTooltip.inventive_inventory.status": "Enable or disable this feature.",
     "optionTooltip.inventive_inventory.ignore_locked_slots": "Choose to ignore or include locked slots.",
     "optionTooltip.inventive_inventory.sorting.mode": "Specify the sorting rule.\nName is alphabetical and\nItem Type contextual.",
@@ -27,5 +44,43 @@
     "optionTooltip.inventive_inventory.automatic_refilling.mode": "Automatic: Stack will get refilled automatically.\n\nSemi-Automatic: Stack will only get refilled when pressing the Advanced Operation Key.",
     "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_behaviour": "Keep Tool: Before your tool breaks it will be replaced.\n\nBreak Tool: Your tool will be replaced after it broke.",
     "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_priority": "Material: The tool with the best material will get refilled\n\nHealth: The tool with the least durability will get refilled.",
-    "optionTooltip.inventive_inventory.profiles.fast_load": "If activated you only have to press the profile key to load your profile."
+    "optionTooltip.inventive_inventory.profiles.fast_load": "If activated you only have to press the profile key to load your profile.",
+
+    "tooltip.inventive_inventory.plus.1": "Create a new profile.",
+    "tooltip.inventive_inventory.plus.2": "Hold ALT to give it a name.",
+
+    "title.inventive_inventory.config_screen": "Inventive Inventory Options",
+    "title.inventive_inventory.config_screen.sorting": "Sorting",
+    "title.inventive_inventory.config_screen.automatic_refilling": "Automatic Refilling",
+    "title.inventive_inventory.config_screen.profiles": "Profiles",
+    "title.inventive_inventory.profiles_config_screen": "Profiles Config Screen",
+
+    "text.inventive_inventory.config_screen.config_screen": "Config Screen:",
+    "text.inventive_inventory.config_screen.config_profiles": "Config Profiles...",
+    "text.inventive_inventory.profiles_config_screen.no_profiles": "You have no profiles in this world.",
+    "text.inventive_inventory.profiles_config_screen.name": "Profile Name",
+    "text.inventive_inventory.profiles_config_screen.preview": "Preview",
+    "text.inventive_inventory.profiles_naming_screen.instruction": "Name your profile:",
+    "text.inventive_inventory.profiles_naming_screen.placeholder": "Profile name...",
+    "text.inventive_inventory.profile_entry.name": "Name...",
+
+    "default.inventive_inventory.not_bound": "Not Bound",
+    "default.inventive_inventory.unnamed": "Unnamed",
+    "default.inventive_inventory.key": "Key",
+
+    "error.inventive_inventory.invalid_config_option": "Invalid config option!",
+    "error.inventive_inventory.invalid_config_value": "Invalid config value!",
+    "error.inventive_inventory.already_set": "Already set to: ",
+    "error.inventive_inventory.exclusive_name": "Profile needs an exclusive name!",
+    "error.inventive_inventory.key": "Key is not available!",
+    "error.inventive_inventory.name": "Profile needs a name!",
+    "error.inventive_inventory.does_not_exist": "This profile does not exist!",
+    "error.inventive_inventory.max_amount": "Max amount of profiles reached!",
+
+    "notification.inventive_inventory.set": "Set to: ",
+    "notification.inventive_inventory.profile_created": "Profile created!",
+    "notification.inventive_inventory.profile_loaded": "Profile loaded!",
+    "notification.inventive_inventory.profile_overwritten": "Profile overwritten!",
+    "notification.inventive_inventory.profile_updated": "Profile updated!",
+    "notification.inventive_inventory.profile_deleted": "Profile deleted!"
 }
