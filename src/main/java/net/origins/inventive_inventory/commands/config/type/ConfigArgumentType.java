@@ -9,6 +9,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.options.ConfigOption;
+import net.origins.inventive_inventory.util.StringFormatter;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.CompletableFuture;
@@ -34,18 +35,21 @@ public class ConfigArgumentType implements ArgumentType<ConfigOption<?>> {
 
     @Override
     public ConfigOption<?> parse(StringReader reader) throws CommandSyntaxException {
-        String str = reader.readString();
+        String str = StringFormatter.placeSpecialCharacters(reader.readString());
         for (Field field : ConfigManager.class.getDeclaredFields()) {
             if (ConfigOption.class.isAssignableFrom(field.getType())) {
                 try {
-                    ConfigOption<?> option = (ConfigOption<?>) field.get(null);
-                    if (Text.translatable(option.getTranslationKey()).getString().replaceAll(" ", "").equals(str)) {
-                        return option;
+                    ConfigOption<?> option = ((ConfigOption<?>) field.get(null));
+                    if (this.configType == option.getConfigType()) {
+                        String rawText = Text.translatable(option.getTranslationKey()).getString();
+                        String finalText = StringFormatter.convertToCamelCase(rawText);
+                        if (finalText.equals(str)) return option;
                     }
-                } catch (IllegalAccessException ignored) {}
+                } catch (IllegalAccessException ignored) {
+                }
             }
         }
-        throw new IllegalArgumentException();
+        return null;
     }
 
     @Override
@@ -55,7 +59,9 @@ public class ConfigArgumentType implements ArgumentType<ConfigOption<?>> {
                 try {
                     ConfigOption<?> option = ((ConfigOption<?>) field.get(null));
                     if (this.configType == option.getConfigType()) {
-                        builder.suggest(Text.translatable(option.getTranslationKey()).getString().replaceAll(" ", ""));
+                        String rawSuggest = Text.translatable(option.getTranslationKey()).getString();
+                        String finalSuggest = StringFormatter.convertToCamelCase(StringFormatter.replaceSpecialCharacters(rawSuggest));
+                        builder.suggest(finalSuggest);
                     }
                 } catch (IllegalAccessException ignored) {
                 }
@@ -63,4 +69,8 @@ public class ConfigArgumentType implements ArgumentType<ConfigOption<?>> {
         }
         return builder.buildFuture();
     }
+
+
+
+
 }
