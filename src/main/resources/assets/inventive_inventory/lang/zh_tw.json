@@ -1,6 +1,6 @@
 {
-    "key.inventive_inventory.category.inventive_inventory": "創意整理",
-    "key.inventive_inventory.category.inventive_inventory_profiles": "創意設定檔",
+    "key.inventive_inventory.category.inventive_inventory": "Inventive Inventory 創意整理",
+    "key.inventive_inventory.category.inventive_inventory_profiles": "設定檔",
     "key.inventive_inventory.sort": "整理物品欄",
     "key.inventive_inventory.advanced_operation": "進階操作",
     "key.inventive_inventory.open_profiles_screen": "開啟設定檔畫面",
@@ -20,6 +20,23 @@
     "configOption.inventive_inventory.profiles.fast_load": "快速載入",
     "configOption.inventive_inventory.ignore_locked_slots": "忽略鎖定的欄位",
 
+    "configOptionButton.inventive_inventory.status.enabled": "啟用",
+    "configOptionButton.inventive_inventory.status.disabled": "停用",
+    "configOptionButton.inventive_inventory.mode.sorting.item_type": "物品類型",
+    "configOptionButton.inventive_inventory.mode.sorting.name": "名稱",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.sort_cursor_stack": "排序游標堆疊",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.keep_cursor_stack": "保留游標堆疊",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.aok_dependent": "依進階操作鍵決定",
+    "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour.aok_dependent_inverted": "依進階操作鍵決定（反轉）",
+    "configOptionButton.inventive_inventory.mode.automatic_refilling.automatic": "自動",
+    "configOptionButton.inventive_inventory.mode.automatic_refilling.semi_automatic": "半自動",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour.keep_tool": "保留工具",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour.break_tool": "損壞工具",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_priority.material": "材質",
+    "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_priority.health": "耐久度",
+    "configOptionButton.inventive_inventory.simple_config_option.yes": "是",
+    "configOptionButton.inventive_inventory.simple_config_option.no": "否",
+
     "optionTooltip.inventive_inventory.status": "啟用或停用此功能。",
     "optionTooltip.inventive_inventory.ignore_locked_slots": "選擇忽略或包含鎖定的欄位。",
     "optionTooltip.inventive_inventory.sorting.mode": "指定排序規則。\n名稱依字母順序排列，\n物品類型依上下文排列。",
@@ -27,5 +44,43 @@
     "optionTooltip.inventive_inventory.automatic_refilling.mode": "自動：堆疊將自動補充。\n\n半自動：僅在按下進階操作鍵時才會補充堆疊。",
     "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_behaviour": "保留工具：在您的工具損壞之前，它將被替換。\n\n損壞工具：您的工具將在損壞後被替換。",
     "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_priority": "材質：具有最佳材質的工具將被補充\n\n耐久度：耐久度最低的工具將被補充。",
-    "optionTooltip.inventive_inventory.profiles.fast_load": "如果啟用，您只需按下設定檔鍵即可載入您的設定檔。"
+    "optionTooltip.inventive_inventory.profiles.fast_load": "如果啟用，您只需按下設定檔鍵即可載入您的設定檔。",
+
+    "tooltip.inventive_inventory.plus.1": "建立新的設定檔。",
+    "tooltip.inventive_inventory.plus.2": "按住 ALT 鍵以命名。",
+
+    "title.inventive_inventory.config_screen": "Inventive Inventory 選項",
+    "title.inventive_inventory.config_screen.sorting": "排序",
+    "title.inventive_inventory.config_screen.automatic_refilling": "自動補充",
+    "title.inventive_inventory.config_screen.profiles": "設定檔",
+    "title.inventive_inventory.profiles_config_screen": "設定檔設定畫面",
+
+    "text.inventive_inventory.config_screen.config_screen": "設定畫面：",
+    "text.inventive_inventory.config_screen.config_profiles": "設定設定檔...",
+    "text.inventive_inventory.profiles_config_screen.no_profiles": "您在此世界中沒有設定檔。",
+    "text.inventive_inventory.profiles_config_screen.name": "設定檔名稱",
+    "text.inventive_inventory.profiles_config_screen.preview": "預覽",
+    "text.inventive_inventory.profiles_naming_screen.instruction": "為您的設定檔命名：",
+    "text.inventive_inventory.profiles_naming_screen.placeholder": "設定檔名稱...",
+    "text.inventive_inventory.profile_entry.name": "名稱...",
+
+    "default.inventive_inventory.not_bound": "未綁定",
+    "default.inventive_inventory.unnamed": "未命名",
+    "default.inventive_inventory.key": "按鍵",
+
+    "error.inventive_inventory.invalid_config_option": "無效的設定選項！",
+    "error.inventive_inventory.invalid_config_value": "無效的設定值！",
+    "error.inventive_inventory.already_set": "已設為：",
+    "error.inventive_inventory.exclusive_name": "設定檔需要一個專屬名稱！",
+    "error.inventive_inventory.key": "按鍵不可用！",
+    "error.inventive_inventory.name": "設定檔需要一個名稱！",
+    "error.inventive_inventory.does_not_exist": "此設定檔不存在！",
+    "error.inventive_inventory.max_amount": "已達到設定檔數量上限！",
+
+    "notification.inventive_inventory.set": "設為：",
+    "notification.inventive_inventory.profile_created": "設定檔已建立！",
+    "notification.inventive_inventory.profile_loaded": "設定檔已載入！",
+    "notification.inventive_inventory.profile_overwritten": "設定檔已覆蓋！",
+    "notification.inventive_inventory.profile_updated": "設定檔已更新！",
+    "notification.inventive_inventory.profile_deleted": "設定檔已刪除！"
 }
