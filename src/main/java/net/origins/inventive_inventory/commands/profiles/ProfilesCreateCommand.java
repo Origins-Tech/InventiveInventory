@@ -9,12 +9,16 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.text.Text;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.features.profiles.ProfileHandler;
 import net.origins.inventive_inventory.util.Notifier;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ProfilesCreateCommand {
+    private final static String ERROR_TRANSLATION_KEY = "error." + InventiveInventory.MOD_ID + ".";
+
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess ignored) {
         dispatcher.register(ClientCommandManager.literal("inventive-profiles")
                 .then(ClientCommandManager.literal("create")
@@ -35,7 +39,7 @@ public class ProfilesCreateCommand {
             ProfileHandler.create(name, "");
             return 1;
         }
-        Notifier.error("Profile needs an exclusive name!");
+        Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "exclusive_name").getString());
         return -1;
     }
 
@@ -49,10 +53,10 @@ public class ProfilesCreateCommand {
                     return 1;
                 }
             }
-            Notifier.error("Key is not available!");
+            Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "key").getString());
             return -1;
         }
-        Notifier.error("Profile needs a name!");
+        Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "name").getString());
         return -1;
     }
 

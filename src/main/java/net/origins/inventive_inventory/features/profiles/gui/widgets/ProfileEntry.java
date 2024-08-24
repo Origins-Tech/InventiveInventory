@@ -13,6 +13,8 @@ import net.origins.inventive_inventory.features.profiles.gui.ProfilesConfigScree
 import net.origins.inventive_inventory.keys.KeyRegistry;
 
 public class ProfileEntry extends DirectionalLayoutWidget implements Drawable {
+    private final static String TEXT_TRANSLATION_KEY = "text." + InventiveInventory.MOD_ID + ".profiles_config_screen.";
+    private final static String DEFAULT_TRANSLATION_KEY = "default." + InventiveInventory.MOD_ID + ".";
     private final TextFieldWidget nameTextField;
     private final ButtonWidget keyButton;
     private final Profile profile;
@@ -28,10 +30,10 @@ public class ProfileEntry extends DirectionalLayoutWidget implements Drawable {
         TextWidget indexText = new TextWidget(40, height, Text.of(index + "."), client.textRenderer);
         this.nameTextField = new TextFieldWidget(client.textRenderer, 80, height, Text.empty());
         this.nameTextField.setText(profile.getName());
-        this.nameTextField.setPlaceholder(Text.of("Name..."));
+        this.nameTextField.setPlaceholder(Text.translatable(TEXT_TRANSLATION_KEY + "name"));
 
         KeyBinding profileKey = KeyRegistry.getByTranslationKey(this.profile.getKey());
-        Text initially = profileKey != null ? profileKey.getBoundKeyLocalizedText() : Text.of("Not Bound");
+        Text initially = profileKey != null ? profileKey.getBoundKeyLocalizedText() : Text.translatable(DEFAULT_TRANSLATION_KEY + "not_bound");
 
         this.keyButton = ButtonWidget.builder(initially, this.toggle()).build();
         this.keyButton.setWidth(60);

@@ -1,20 +1,21 @@
 package net.origins.inventive_inventory.config.enums.sorting;
 
 
+import net.minecraft.text.Text;
 import net.origins.inventive_inventory.config.ConfigManager;
-import net.origins.inventive_inventory.config.enums.accessors.SpecialName;
+import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 import net.origins.inventive_inventory.keys.handler.AdvancedOperationHandler;
 
-public enum CursorStackBehaviour implements SpecialName {
-    AOK_DEPENDENT("AOK-Dependent"),
-    AOK_DEPENDENT_INVERTED("AOK-Dependent Inverted"),
-    @SuppressWarnings("unused") SORT_CURSOR_STACK("Sort Cursor Stack"),
-    KEEP_CURSOR_STACK("Keep Cursor Stack");
+public enum CursorStackBehaviour implements Translatable {
+    AOK_DEPENDENT("aok_dependent"),
+    AOK_DEPENDENT_INVERTED("aok_dependent_inverted"),
+    @SuppressWarnings("unused") SORT_CURSOR_STACK("sort_cursor_stack"),
+    KEEP_CURSOR_STACK("keep_cursor_stack");
 
-    private final String name;
+    private final String translationKey;
 
-    CursorStackBehaviour(String name) {
-        this.name = name;
+    CursorStackBehaviour(String translationKey) {
+        this.translationKey = "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour." + translationKey;
     }
 
     public boolean isValid() {
@@ -24,7 +25,7 @@ public enum CursorStackBehaviour implements SpecialName {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public Text getText() {
+        return Text.translatable(this.translationKey);
     }
 }

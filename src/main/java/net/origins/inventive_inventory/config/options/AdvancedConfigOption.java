@@ -5,6 +5,7 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.commands.config.type.ConfigType;
+import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -36,7 +37,12 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     @Override
     public void setValue(@Nullable String value) {
         for (E config : enumClass.getEnumConstants()) {
-            if (config.toString().equalsIgnoreCase(value)) {
+            if (config instanceof Translatable) {
+                if (((Translatable) config).getText().getString().equalsIgnoreCase(value)) {
+                    this.setValue(config);
+                    return;
+                }
+            } else if (config.toString().equalsIgnoreCase(value)) {
                 this.setValue(config);
                 return;
             }
