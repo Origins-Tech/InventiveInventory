@@ -31,7 +31,7 @@
   "configOptionButton.inventive_inventory.mode.automatic_refilling.automatic": "Automatisch",
   "configOptionButton.inventive_inventory.mode.automatic_refilling.semi_automatic": "Halbautomatisch",
   "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour.keep_tool": "Werkzeug behalten",
-  "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour.break_tool": "Werkzeug brechen",
+  "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour.break_tool": "Werkzeug zerstören",
   "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_priority.material": "Material",
   "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_priority.health": "Verbleibende Gesundheit",
   "configOptionButton.inventive_inventory.simple_config_option.yes": "Ja",
