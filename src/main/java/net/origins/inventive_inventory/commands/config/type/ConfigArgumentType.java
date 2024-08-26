@@ -69,8 +69,4 @@ public class ConfigArgumentType implements ArgumentType<ConfigOption<?>> {
         }
         return builder.buildFuture();
     }
-
-
-
-
 }
