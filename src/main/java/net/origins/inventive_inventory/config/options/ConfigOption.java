@@ -5,27 +5,23 @@ import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.commands.config.type.ConfigType;
 import net.origins.inventive_inventory.config.ConfigManager;
-import net.origins.inventive_inventory.config.enums.accessors.SpecialName;
 import net.origins.inventive_inventory.config.enums.accessors.Stylable;
+import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 import org.jetbrains.annotations.Nullable;
 
 
 public abstract class ConfigOption<T> {
+    protected static final String simpleConfigOptionTranslationKey = "configOptionButton." + InventiveInventory.MOD_ID + ".simple_config_option.";
     private final String key;
     private final ConfigType configType;
     private T value;
 
     public static Text getValueAsText(Object value) {
-        if (value instanceof Boolean) return (Boolean) value ? Text.of("Yes") : Text.of("No");
+        if (value instanceof Boolean) return (Boolean) value ? Text.translatable(simpleConfigOptionTranslationKey + "yes") : Text.translatable(simpleConfigOptionTranslationKey + "no");
         else if (value instanceof Enum<?>) {
-            if (value instanceof SpecialName) return Text.of(((SpecialName) value).getName());
-            String[] words = value.toString().toLowerCase().split("_");
-            StringBuilder result = new StringBuilder();
-            for (String word : words) {
-                result.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
-            }
-            Text text = Text.of(result.toString().trim());
-            if (value instanceof Stylable) return text.copy().setStyle(((Stylable) value).getStyle());
+            Text text = Text.empty();
+            if (value instanceof Translatable) text = ((Translatable) value).getText();
+            if (value instanceof Stylable) text = text.copy().setStyle(((Stylable) value).getStyle());
             return text;
         } else return Text.empty();
     }

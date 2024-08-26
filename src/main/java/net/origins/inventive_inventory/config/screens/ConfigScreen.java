@@ -13,9 +13,10 @@ import net.origins.inventive_inventory.config.ConfigManager;
 
 public class ConfigScreen extends GameOptionsScreen {
     private OptionListWidget body;
+    private final static String TITLE_TRANSLATION_KEY = "title." + InventiveInventory.MOD_ID + ".config_screen";
 
     public ConfigScreen(Screen parent) {
-        super(parent, InventiveInventory.getClient().options, Text.of("Inventive Inventory Options"));
+        super(parent, InventiveInventory.getClient().options, Text.translatable(TITLE_TRANSLATION_KEY));
     }
 
     @Override
