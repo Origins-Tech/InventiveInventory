@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
@@ -19,6 +20,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LockedSlotsHandler {
     private static final String LOCKED_SLOTS_FILE = "locked_slots.json";
@@ -70,9 +72,9 @@ public class LockedSlotsHandler {
         lockedSlots.clear();
     }
 
-    public static void adjustInventory() {
+    public static void adjustAfterItemPickup() {
         List<ItemStack> currentInventory = InventiveInventory.getPlayer().getInventory().main.stream().toList();
-        if (savedInventory.isEmpty() || savedInventory.equals(currentInventory) || ScreenCheck.isPlayerInventory()) return;
+        if (savedInventory.isEmpty() || !pickedUpItem(currentInventory)) return;
         ContextManager.setContext(Contexts.LOCKED_SLOTS);
         LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
 
@@ -108,6 +110,23 @@ public class LockedSlotsHandler {
 
     public static void setSavedInventory(PlayerInventory currentInventory) {
         savedInventory = new ArrayList<>(currentInventory.main);
+    }
+
+    private static boolean pickedUpItem(List<ItemStack> currentInventory) {
+        List<Item> uniqueItems = currentInventory.stream().map(ItemStack::getItem).collect(Collectors.toSet()).stream().toList();
+        for (Item item : uniqueItems) {
+            int currentCount = 0;
+            int savedCount = 0;
+            for (int i = 0; i < currentInventory.size(); i++) {
+                if (ItemStack.areItemsEqual(item.getDefaultStack(), currentInventory.get(i))) {
+                    currentCount += currentInventory.get(i).getCount();
+                }
+                if (ItemStack.areItemsEqual(item.getDefaultStack(), savedInventory.get(i))) {
+                    savedCount += savedInventory.get(i).getCount();
+                }
+            }
+            if (currentCount > savedCount && ScreenCheck.isNone()) return true;
+        } return false;
     }
 
     private static void save() {
