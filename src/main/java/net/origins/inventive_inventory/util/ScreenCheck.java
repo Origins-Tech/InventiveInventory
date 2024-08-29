@@ -9,6 +9,10 @@ import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.features.profiles.gui.ProfilesScreen;
 
 public class ScreenCheck {
+    public static boolean isNone() {
+        return InventiveInventory.getScreen() == null;
+    }
+
     public static boolean isSurvivalInventory() {
         return InventiveInventory.getScreen() instanceof InventoryScreen;
     }

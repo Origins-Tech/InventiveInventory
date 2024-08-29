@@ -25,7 +25,7 @@ public class TickEvents {
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::checkKeys);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureMainHand);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureOffHand);
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::adjustInventory);
+        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::adjustAfterItemPickup);
 
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::automaticRefilling);
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::loadProfile);
@@ -70,9 +70,9 @@ public class TickEvents {
         } else AutomaticRefillingHandler.reset();
     }
 
-    private static void adjustInventory(MinecraftClient client) {
+    private static void adjustAfterItemPickup(MinecraftClient client) {
         if (client.player == null || client.player.isInCreativeMode()) return;
-        LockedSlotsHandler.adjustInventory();
+        if (ContextManager.isInit()) LockedSlotsHandler.adjustAfterItemPickup();
     }
 
     private static void automaticRefilling(MinecraftClient client) {

@@ -7,9 +7,9 @@
         "defaultRequire": 1
     },
     "client": [
+        "MixinLockedSlotsDrag",
         "MixinLockedSlotsDrawer",
-        "MixinLockedSlotsToggle",
-        "MixinLockedSlotsDrag"
+        "MixinLockedSlotsToggle"
     ],
     "mixins": [
         "MixinItemPickup",
