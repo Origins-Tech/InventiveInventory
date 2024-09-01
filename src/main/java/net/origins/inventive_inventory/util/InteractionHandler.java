@@ -75,15 +75,15 @@ public class InteractionHandler {
         ClientPlayerEntity player = InventiveInventory.getPlayer();
         if (isCursorFull()) {
             leftClickStack(slot);
-            dropCursor();
+            dropCursor(times);
             leftClickStack(slot);
         } else for (; times > 0; times--) manager.clickSlot(getSyncId(), slot, LEFT_CLICK, SlotActionType.THROW, player);
     }
 
-    public static void dropCursor() {
+    public static void dropCursor(int times) {
         ClientPlayerInteractionManager manager = InventiveInventory.getInteractionManager();
         ClientPlayerEntity player = InventiveInventory.getPlayer();
-        manager.clickSlot(getSyncId(), ScreenHandler.EMPTY_SPACE_SLOT_INDEX, LEFT_CLICK, SlotActionType.PICKUP, player);
+        for (; times > 0; times--) manager.clickSlot(getSyncId(), ScreenHandler.EMPTY_SPACE_SLOT_INDEX, RIGHT_CLICK, SlotActionType.PICKUP, player);
     }
 
     private static int getSyncId() {
