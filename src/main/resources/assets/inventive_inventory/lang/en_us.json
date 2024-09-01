@@ -19,6 +19,7 @@
     "configOption.inventive_inventory.profiles": "Profiles",
     "configOption.inventive_inventory.profiles.fast_load": "Fast Load",
     "configOption.inventive_inventory.ignore_locked_slots": "Ignore Locked Slots",
+    "configOption.inventive_inventory.locked_slots.pickup_into_locked_slots": "Pick-Up into Locked Slots",
 
     "configOptionButton.inventive_inventory.status.enabled": "Enabled",
     "configOptionButton.inventive_inventory.status.disabled": "Disabled",
@@ -45,6 +46,7 @@
     "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_behaviour": "Keep Tool: Before your tool breaks it will be replaced.\n\nBreak Tool: Your tool will be replaced after it broke.",
     "optionTooltip.inventive_inventory.automatic_refilling.tool_replacement_priority": "Material: The tool with the best material will get refilled\n\nHealth: The tool with the least durability will get refilled.",
     "optionTooltip.inventive_inventory.profiles.fast_load": "If activated you only have to press the profile key to load your profile.",
+    "optionTooltip.inventive_inventory.locked_slots.pickup_into_locked_slots": "Picked-up items will fill locked slots.",
 
     "tooltip.inventive_inventory.plus.1": "Create a new profile.",
     "tooltip.inventive_inventory.plus.2": "Hold ALT to give it a name.",
@@ -54,6 +56,7 @@
     "title.inventive_inventory.config_screen.automatic_refilling": "Automatic Refilling",
     "title.inventive_inventory.config_screen.profiles": "Profiles",
     "title.inventive_inventory.profiles_config_screen": "Profiles Config Screen",
+    "title.inventive_inventory.config_screen.locked_slots": "Locked Slots",
 
     "text.inventive_inventory.config_screen.config_screen": "Config Screen:",
     "text.inventive_inventory.config_screen.config_profiles": "Config Profiles...",
