@@ -71,6 +71,7 @@ public class LockedSlotsHandler {
     }
 
     public static void adjustInventory() {
+        if (ConfigManager.PICKUP_INTO_LOCKED_SLOTS.is(true)) return;
         List<ItemStack> currentInventory = new ArrayList<>(InventiveInventory.getPlayer().getInventory().main);
         if (savedInventory.isEmpty() || !pickedUpItem(currentInventory)) return;
         ContextManager.setContext(Contexts.LOCKED_SLOTS);
