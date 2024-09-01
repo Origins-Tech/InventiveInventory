@@ -53,6 +53,9 @@ public class ConfigScreen extends GameOptionsScreen {
         this.body.addWidgetEntry(new ConfigTextWidget(Text.translatable(TEXT_TRANSLATION_KEY + "config_screen"), this.client.textRenderer), ButtonWidget.builder(Text.translatable(TEXT_TRANSLATION_KEY + "config_profiles"), button -> this.client.setScreen(new ProfilesConfigScreen(this))).build());
         this.addWidget(ConfigManager.FAST_LOAD);
         this.addWidget(ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS);
+
+        this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".locked_slots"));
+        this.addWidget(ConfigManager.PICKUP_INTO_LOCKED_SLOTS);
     }
 
     private void addTitle(Text title) {

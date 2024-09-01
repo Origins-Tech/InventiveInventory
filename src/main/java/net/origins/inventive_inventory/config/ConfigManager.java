@@ -38,6 +38,7 @@ public class ConfigManager {
     public static final ConfigOption<Status> PROFILES = new AdvancedConfigOption<>("profiles", "status", Status.ENABLED, ConfigType.PROFILES);
     public static final ConfigOption<Boolean> FAST_LOAD = new SimpleConfigOption("profiles.fast_load", true, ConfigType.PROFILES);
     public static final ConfigOption<Boolean> PROFILES_IGNORE_LOCKED_SLOTS = new SimpleConfigOption("ignore_locked_slots", true, ConfigType.PROFILES);
+    public static final ConfigOption<Boolean> PICKUP_INTO_LOCKED_SLOTS = new SimpleConfigOption("locked_slots.pickup_into_locked_slots", false, ConfigType.LOCKED_SLOTS);
 
     private static final String CONFIG_FILE = "config.json";
     private static final Path CONFIG_FILE_PATH = CONFIG_PATH.resolve(CONFIG_FILE);
