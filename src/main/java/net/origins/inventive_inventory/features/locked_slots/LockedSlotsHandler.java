@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
@@ -11,7 +12,6 @@ import net.origins.inventive_inventory.context.ContextManager;
 import net.origins.inventive_inventory.context.Contexts;
 import net.origins.inventive_inventory.util.FileHandler;
 import net.origins.inventive_inventory.util.InteractionHandler;
-import net.origins.inventive_inventory.util.ScreenCheck;
 import net.origins.inventive_inventory.util.slots.PlayerSlots;
 import net.origins.inventive_inventory.util.slots.SlotTypes;
 
@@ -71,15 +71,17 @@ public class LockedSlotsHandler {
     }
 
     public static void adjustInventory() {
-        List<ItemStack> currentInventory = InventiveInventory.getPlayer().getInventory().main.stream().toList();
-        if (savedInventory.isEmpty() || savedInventory.equals(currentInventory) || ScreenCheck.isPlayerInventory()) return;
+        List<ItemStack> currentInventory = new ArrayList<>(InventiveInventory.getPlayer().getInventory().main);
+        if (savedInventory.isEmpty() || !pickedUpItem(currentInventory)) return;
         ContextManager.setContext(Contexts.LOCKED_SLOTS);
         LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
 
-        for (int i = 9; i < currentInventory.size(); i++) {
+        int i = 9;
+        for (int invSlot : PlayerSlots.get()) {
             ItemStack currentStack = currentInventory.get(i);
             ItemStack savedStack = savedInventory.get(i);
-            if (!lockedSlots.contains(i) || ItemStack.areEqual(currentStack, savedStack)) continue;
+            i++;
+            if (!lockedSlots.contains(invSlot) || ItemStack.areEqual(currentStack, savedStack)) continue;
             List<Integer> suitableSlots = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).stream()
                     .filter(slot -> {
                         ItemStack stack = InteractionHandler.getStackFromSlot(slot);
@@ -89,7 +91,7 @@ public class LockedSlotsHandler {
                             .thenComparing(slot -> slot))
                     .toList();
             if (!suitableSlots.isEmpty()) {
-                InteractionHandler.leftClickStack(i);
+                InteractionHandler.leftClickStack(invSlot);
                 for (int slot : suitableSlots) {
                     ItemStack stack = InteractionHandler.getStackFromSlot(slot);
                     while (InteractionHandler.getCursorStack().getCount() > savedStack.getCount()) {
@@ -97,10 +99,10 @@ public class LockedSlotsHandler {
                         else break;
                     }
                 }
-                InteractionHandler.leftClickStack(i);
+                InteractionHandler.leftClickStack(invSlot);
             }
-            if (InteractionHandler.getStackFromSlot(i).getCount() > savedStack.getCount()) {
-                InteractionHandler.dropItem(i, InteractionHandler.getStackFromSlot(i).getCount() - savedStack.getCount());
+            if (InteractionHandler.getStackFromSlot(invSlot).getCount() > savedStack.getCount()) {
+                InteractionHandler.dropItem(invSlot, InteractionHandler.getStackFromSlot(invSlot).getCount() - savedStack.getCount());
             }
         }
         ContextManager.setContext(Contexts.INIT);
@@ -108,6 +110,24 @@ public class LockedSlotsHandler {
 
     public static void setSavedInventory(PlayerInventory currentInventory) {
         savedInventory = new ArrayList<>(currentInventory.main);
+        savedInventory.add(InteractionHandler.getCursorStack().copy());
+    }
+
+    private static boolean pickedUpItem(List<ItemStack> currentInventory) {
+        List<Item> uniqueItems = currentInventory.stream().map(ItemStack::getItem).distinct().toList();
+        for (Item item : uniqueItems) {
+            int currentCount = 0;
+            int savedCount = 0;
+            for (int i = 0; i < savedInventory.size(); i++) {
+                if (i < currentInventory.size() && ItemStack.areItemsEqual(item.getDefaultStack(), currentInventory.get(i))) {
+                    currentCount += currentInventory.get(i).getCount();
+                }
+                if (ItemStack.areItemsEqual(item.getDefaultStack(), savedInventory.get(i))) {
+                    savedCount += savedInventory.get(i).getCount();
+                }
+            }
+            if (currentCount > savedCount) return true;
+        } return false;
     }
 
     private static void save() {
