@@ -31,6 +31,7 @@ public class ConfigCommand {
                 .then(accessor("Sorting", ConfigType.SORTING))
                 .then(accessor("AutomaticRefilling", ConfigType.AUTOMATIC_REFILLING))
                 .then(accessor("Profiles", ConfigType.PROFILES))
+                .then(accessor("LockedSlots", ConfigType.LOCKED_SLOTS))
                 .then(ClientCommandManager.literal("ProfilesConfigScreen")
                         .executes(context -> {
                             MinecraftClient client = context.getSource().getClient();
