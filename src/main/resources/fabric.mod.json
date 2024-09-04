@@ -27,6 +27,7 @@
     },
     "mixins": [
         "keys.mixins.json",
+        "keys.keybindfix.mixins.json",
         "util.mouse.mixins.json",
         "locked_slots.mixins.json"
     ],
