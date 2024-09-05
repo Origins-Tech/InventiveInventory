@@ -37,14 +37,14 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     @Override
     public void setValue(@Nullable String value) {
         for (E config : enumClass.getEnumConstants()) {
-            if (config instanceof Translatable) {
+            if (config.toString().equalsIgnoreCase(value)) {
+                this.setValue(config);
+                return;
+            } else if (config instanceof Translatable) {
                 if (((Translatable) config).getText().getString().equalsIgnoreCase(value)) {
                     this.setValue(config);
                     return;
                 }
-            } else if (config.toString().equalsIgnoreCase(value)) {
-                this.setValue(config);
-                return;
             }
         }
     }
