@@ -33,8 +33,9 @@ public class SimpleConfigOption extends ConfigOption<Boolean> {
     @Override
     public void setValue(@Nullable String value) {
         if (value != null) {
-            if (value.equals(Text.translatable(simpleConfigOptionTranslationKey + "yes").getString())) this.setValue(true);
-            else if (value.equals(Text.translatable(simpleConfigOptionTranslationKey + "no").getString())) this.setValue(false);
+            System.out.println(value);
+            if (value.equals("true") || value.equals(Text.translatable(simpleConfigOptionTranslationKey + "yes").getString())) this.setValue(true);
+            else if (value.equals("false") || value.equals(Text.translatable(simpleConfigOptionTranslationKey + "no").getString())) this.setValue(false);
         }
     }
 
