@@ -69,6 +69,9 @@
     "text.inventive_inventory.profiles_naming_screen.placeholder": "Profile name...",
     "text.inventive_inventory.profile_entry.name": "Name...",
 
+    "tab.inventive_inventory.config_screen.options": "Options",
+    "tab.inventive_inventory.config_screen.visuals": "Visuals",
+
     "default.inventive_inventory.not_bound": "Not Bound",
     "default.inventive_inventory.unnamed": "Unnamed",
     "default.inventive_inventory.key": "Key",
