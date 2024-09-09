@@ -15,7 +15,7 @@ public enum CursorStackBehaviour implements Translatable {
     private final String translationKey;
 
     CursorStackBehaviour(String translationKey) {
-        this.translationKey = "configOptionButton.inventive_inventory.sorting.cursor_stack_behaviour." + translationKey;
+        this.translationKey = "config.option_button.inventive_inventory.sorting.cursor_stack_behaviour." + translationKey;
     }
 
     public boolean isValid() {

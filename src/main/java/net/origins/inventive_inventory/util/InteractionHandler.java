@@ -86,6 +86,12 @@ public class InteractionHandler {
         for (; times > 0; times--) manager.clickSlot(getSyncId(), ScreenHandler.EMPTY_SPACE_SLOT_INDEX, RIGHT_CLICK, SlotActionType.PICKUP, player);
     }
 
+    public static void quickMove(int slot) {
+        ClientPlayerInteractionManager manager = InventiveInventory.getInteractionManager();
+        ClientPlayerEntity player = InventiveInventory.getPlayer();
+        manager.clickSlot(getSyncId(), slot, LEFT_CLICK, SlotActionType.QUICK_MOVE, player);
+    }
+
     private static int getSyncId() {
         return InventiveInventory.getScreenHandler().syncId;
     }
