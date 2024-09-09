@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 
 public abstract class ConfigOption<T> {
-    protected static final String simpleConfigOptionTranslationKey = "configOptionButton." + InventiveInventory.MOD_ID + ".simple_config_option.";
+    protected static final String simpleConfigOptionTranslationKey = "config.option_button." + InventiveInventory.MOD_ID + ".simple_config_option.";
     private final String key;
     private final ConfigType configType;
     private T value;
@@ -41,7 +41,7 @@ public abstract class ConfigOption<T> {
     }
 
     public String getTranslationKey() {
-        return "configOption." + InventiveInventory.MOD_ID + "." + this.key;
+        return "config.option." + InventiveInventory.MOD_ID + "." + this.key;
     }
 
     public T getValue() {

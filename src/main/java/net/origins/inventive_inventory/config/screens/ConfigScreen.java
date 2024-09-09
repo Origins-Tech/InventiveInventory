@@ -48,5 +48,7 @@ public class ConfigScreen extends GameOptionsScreen {
 
         this.body.addSingleOptionEntry(ConfigManager.PROFILES.asButton());
         this.body.addOptionEntry(ConfigManager.FAST_LOAD.asButton(), ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS.asButton());
+
+        this.body.addOptionEntry(ConfigManager.PICKUP_INTO_LOCKED_SLOTS.asButton(), ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS.asButton());
     }
 }
