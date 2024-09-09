@@ -18,7 +18,7 @@ public class SimpleConfigOption extends ConfigOption<Boolean> {
 
     public SimpleConfigOption(String key, String tooltipKey, boolean defaultValue, ConfigType configType) {
         super(key, defaultValue, configType);
-        this.tooltip = Text.translatable("optionTooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
+        this.tooltip = Text.translatable("config.option_tooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
     }
 
     protected void cycle() {

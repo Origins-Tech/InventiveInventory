@@ -3,7 +3,6 @@ package net.origins.inventive_inventory.features.locked_slots;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.origins.inventive_inventory.InventiveInventory;
@@ -12,6 +11,7 @@ import net.origins.inventive_inventory.context.ContextManager;
 import net.origins.inventive_inventory.context.Contexts;
 import net.origins.inventive_inventory.util.FileHandler;
 import net.origins.inventive_inventory.util.InteractionHandler;
+import net.origins.inventive_inventory.util.ScreenCheck;
 import net.origins.inventive_inventory.util.slots.PlayerSlots;
 import net.origins.inventive_inventory.util.slots.SlotTypes;
 
@@ -19,12 +19,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LockedSlotsHandler {
     private static final String LOCKED_SLOTS_FILE = "locked_slots.json";
     public static final Path LOCKED_SLOTS_PATH = ConfigManager.CONFIG_PATH.resolve(LOCKED_SLOTS_FILE);
     private static LockedSlots lockedSlots = new LockedSlots(List.of());
-    private static List<ItemStack> savedInventory = new ArrayList<>();
+    private static final List<ItemStack> savedInventory = new ArrayList<>();
+    private static final List<ItemStack> savedHandlerInventory = new ArrayList<>();
     public static boolean shouldAdd;
 
     public static void toggle(int slot) {
@@ -71,12 +74,60 @@ public class LockedSlotsHandler {
     }
 
     public static void adjustInventory() {
-        if (ConfigManager.PICKUP_INTO_LOCKED_SLOTS.is(true)) return;
         List<ItemStack> currentInventory = new ArrayList<>(InventiveInventory.getPlayer().getInventory().main);
-        if (savedInventory.isEmpty() || !pickedUpItem(currentInventory)) return;
-        ContextManager.setContext(Contexts.LOCKED_SLOTS);
-        LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
+        if (savedInventory.isEmpty()) return;
+        boolean tookItem = tookItem(currentInventory);
+        boolean movedItem = movedItem(tookItem);
 
+        ContextManager.setContext(Contexts.LOCKED_SLOTS);
+        if (ConfigManager.PICKUP_INTO_LOCKED_SLOTS.is(false) && tookItem && !movedItem) {
+            rearrangeThenDrop(currentInventory);
+        } else if (ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS.is(false) && movedItem) {
+            rearrangeThenPutBack(currentInventory);
+        }
+        ContextManager.setContext(Contexts.INIT);
+    }
+
+    public static void setSavedInventory() {
+        savedInventory.clear();
+        for (ItemStack stack : InventiveInventory.getPlayer().getInventory().main) savedInventory.add(stack.copy());
+        savedInventory.add(InteractionHandler.getCursorStack().copy());
+    }
+
+    public static void setSavedHandlerInventory() {
+        savedHandlerInventory.clear();
+        if (!ScreenCheck.isNone()) {
+            for (int i = 0; i < InventiveInventory.getScreenHandler().slots.size(); i++) {
+                savedHandlerInventory.add(InteractionHandler.getStackFromSlot(i).copy());
+            }
+        }
+    }
+
+    private static boolean tookItem(List<ItemStack> currentInventory) {
+        Map<Item, Integer> currentCountMap = currentInventory.stream()
+                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+        Map<Item, Integer> savedCountMap = savedInventory.stream()
+                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+        return currentCountMap.entrySet().stream()
+                .anyMatch(entry -> entry.getValue() > savedCountMap.getOrDefault(entry.getKey(), 0));
+    }
+
+    private static boolean movedItem(boolean tookItem) {
+        List<ItemStack> currentHandlerInventory = new ArrayList<>();
+        for (int i = 0; i < InventiveInventory.getScreenHandler().slots.size(); i++) {
+            currentHandlerInventory.add(InteractionHandler.getStackFromSlot(i).copy());
+        }
+
+        Map<Item, Integer> currentCountMap = currentHandlerInventory.stream()
+                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+        Map<Item, Integer> savedCountMap = savedHandlerInventory.stream()
+                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+        return tookItem && currentCountMap.entrySet().stream()
+                .allMatch(entry -> entry.getValue().equals(savedCountMap.getOrDefault(entry.getKey(), 0)));
+    }
+
+    private static void rearrangeThenDrop(List<ItemStack> currentInventory) {
+        LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
         int i = 9;
         for (int invSlot : PlayerSlots.get()) {
             ItemStack currentStack = currentInventory.get(i);
@@ -106,37 +157,45 @@ public class LockedSlotsHandler {
                 InteractionHandler.dropItem(invSlot, InteractionHandler.getStackFromSlot(invSlot).getCount() - savedStack.getCount());
             }
         }
-        ContextManager.setContext(Contexts.INIT);
     }
 
-    public static void setSavedInventory(PlayerInventory currentInventory) {
-        savedInventory = new ArrayList<>(currentInventory.main);
-        savedInventory.add(InteractionHandler.getCursorStack().copy());
-    }
-
-    private static boolean pickedUpItem(List<ItemStack> currentInventory) {
-        List<Item> uniqueItems = currentInventory.stream().map(ItemStack::getItem).distinct().toList();
-        for (Item item : uniqueItems) {
-            int currentCount = 0;
-            int savedCount = 0;
-            for (int i = 0; i < savedInventory.size(); i++) {
-                if (i < currentInventory.size() && ItemStack.areItemsEqual(item.getDefaultStack(), currentInventory.get(i))) {
-                    currentCount += currentInventory.get(i).getCount();
+    private static void rearrangeThenPutBack(List<ItemStack> currentInventory) {
+        LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
+        int i = 9;
+        for (int invSlot : PlayerSlots.get()) {
+            ItemStack currentStack = currentInventory.get(i);
+            ItemStack savedStack = savedInventory.get(i);
+            i++;
+            if (!lockedSlots.contains(invSlot) || ItemStack.areEqual(currentStack, savedStack)) continue;
+            List<Integer> suitableSlots = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).stream()
+                    .filter(slot -> {
+                        ItemStack stack = InteractionHandler.getStackFromSlot(slot);
+                        return stack.isEmpty() || ItemStack.areItemsEqual(stack, currentStack) && stack.getCount() < stack.getMaxCount();
+                    })
+                    .sorted(Comparator.comparing((Integer slot) -> InteractionHandler.getStackFromSlot(slot).getCount(), Comparator.reverseOrder())
+                            .thenComparing(slot -> slot))
+                    .toList();
+            if (!suitableSlots.isEmpty()) {
+                InteractionHandler.leftClickStack(invSlot);
+                for (int slot : suitableSlots) {
+                    ItemStack stack = InteractionHandler.getStackFromSlot(slot);
+                    while (InteractionHandler.getCursorStack().getCount() > savedStack.getCount()) {
+                        if (stack.getCount() < stack.getMaxCount()) InteractionHandler.rightClickStack(slot);
+                        else break;
+                    }
                 }
-                if (ItemStack.areItemsEqual(item.getDefaultStack(), savedInventory.get(i))) {
-                    savedCount += savedInventory.get(i).getCount();
-                }
+                InteractionHandler.leftClickStack(invSlot);
             }
-            if (currentCount > savedCount) return true;
-        } return false;
+            if (InteractionHandler.getStackFromSlot(invSlot).getCount() > savedStack.getCount()) {
+                InteractionHandler.quickMove(invSlot);
+            }
+        }
     }
 
     private static void save() {
         lockedSlots = lockedSlots.unadjust();
         JsonArray lockedSlotsJson = new JsonArray();
-        for (int lockedSlot : lockedSlots) {
-            lockedSlotsJson.add(lockedSlot);
-        }
+        for (int lockedSlot : lockedSlots) lockedSlotsJson.add(lockedSlot);
         JsonObject jsonObject = FileHandler.get(LOCKED_SLOTS_PATH).isJsonObject() ? FileHandler.get(LOCKED_SLOTS_PATH).getAsJsonObject() : new JsonObject();
         jsonObject.remove(InventiveInventory.getWorldName());
         jsonObject.add(InventiveInventory.getWorldName(), lockedSlotsJson);

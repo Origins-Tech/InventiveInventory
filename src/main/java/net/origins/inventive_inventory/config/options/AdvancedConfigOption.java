@@ -21,7 +21,7 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     public AdvancedConfigOption(String key, String tooltipKey, E defaultValue, ConfigType configType) {
         super(key, defaultValue, configType);
         this.enumClass = defaultValue.getDeclaringClass();
-        this.tooltip = Text.translatable("optionTooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
+        this.tooltip = Text.translatable("config.option_tooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
     }
 
     protected void cycle() {

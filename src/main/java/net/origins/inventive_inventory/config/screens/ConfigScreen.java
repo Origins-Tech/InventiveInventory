@@ -44,6 +44,7 @@ public class ConfigScreen extends GameOptionsScreen {
 
         this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".locked_slots"));
         this.addWidget(ConfigManager.PICKUP_INTO_LOCKED_SLOTS);
+        this.addWidget(ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS);
     }
 
     private void addTitle(Text title) {

@@ -15,7 +15,7 @@ public enum SortingModes implements Translatable {
     private final Comparator<Integer> comparator;
 
     SortingModes(String translationKey, Comparator<Integer> comparator) {
-        this.translationKey = "configOptionButton.inventive_inventory.mode.sorting." + translationKey;
+        this.translationKey = "config.option_button.inventive_inventory.mode.sorting." + translationKey;
         this.comparator = comparator;
     }
 

@@ -10,7 +10,7 @@ public enum ToolReplacementBehaviour implements Translatable {
     private final String translationKey;
 
     ToolReplacementBehaviour(String translationKey) {
-        this.translationKey = "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_behaviour." + translationKey;
+        this.translationKey = "config.option_button.inventive_inventory.automatic_refilling.tool_replacement_behaviour." + translationKey;
     }
 
     @Override
