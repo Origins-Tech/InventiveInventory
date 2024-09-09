@@ -10,7 +10,7 @@ public enum ToolReplacementPriority implements Translatable {
     private final String translationKey;
 
     ToolReplacementPriority(String translationKey) {
-        this.translationKey = "configOptionButton.inventive_inventory.automatic_refilling.tool_replacement_priority." + translationKey;
+        this.translationKey = "config.option_button.inventive_inventory.automatic_refilling.tool_replacement_priority." + translationKey;
     }
 
     @Override

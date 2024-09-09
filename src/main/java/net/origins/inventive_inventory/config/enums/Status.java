@@ -14,7 +14,7 @@ public enum Status implements Stylable, Translatable {
     private final Style style;
 
     Status(String translationKey, Formatting color) {
-        this.translationKey = "configOptionButton.inventive_inventory.status." + translationKey;
+        this.translationKey = "config.option_button.inventive_inventory.status." + translationKey;
         this.style = Style.EMPTY.withColor(color);
     }
 
