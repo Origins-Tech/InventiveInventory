@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Mod Version & Minecraft Version**
-Tell us which version you're using
+Tell us which version you're using and if you play in singleplayer or on a server.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
