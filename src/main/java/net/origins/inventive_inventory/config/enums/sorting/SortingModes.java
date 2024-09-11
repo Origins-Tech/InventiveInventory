@@ -2,6 +2,7 @@ package net.origins.inventive_inventory.config.enums.sorting;
 
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
+import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 import net.origins.inventive_inventory.util.InteractionHandler;
 
@@ -15,7 +16,7 @@ public enum SortingModes implements Translatable {
     private final Comparator<Integer> comparator;
 
     SortingModes(String translationKey, Comparator<Integer> comparator) {
-        this.translationKey = "config.option_button.inventive_inventory.mode.sorting." + translationKey;
+        this.translationKey = ConfigManager.OPTION_TRANSLATION_KEY +  ".sorting.mode.name" + translationKey;
         this.comparator = comparator;
     }
 

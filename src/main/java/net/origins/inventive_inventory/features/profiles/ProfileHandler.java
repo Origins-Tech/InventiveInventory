@@ -33,7 +33,7 @@ public class ProfileHandler {
     public static final Path PROFILES_PATH = ConfigManager.CONFIG_PATH.resolve(PROFILES_FILE);
 
     public static void create(String name, String key) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         JsonArray profilesJson = getJsonProfiles();
         Profile profile = new Profile(profilesJson.size(), name, key, createSavedSlots());
         if (profilesJson.size() < MAX_PROFILES) {
@@ -46,7 +46,7 @@ public class ProfileHandler {
     }
 
     public static void load(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         SlotRange slotRange = PlayerSlots.get(SlotTypes.INVENTORY, SlotTypes.HOTBAR, SlotTypes.OFFHAND);
         slotRange = ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS.is(true) ? slotRange.exclude(SlotTypes.LOCKED_SLOT) : slotRange;
         for (SavedSlot savedSlot : profile.getSavedSlots()) {
@@ -64,7 +64,7 @@ public class ProfileHandler {
     }
 
     public static void overwrite(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         JsonArray profilesJson = getJsonProfiles();
         Profile newProfile = new Profile(profile.getId(), profile.getName(), profile.getKey(), createSavedSlots());
         if (profilesJson.isEmpty()) profilesJson.add(newProfile.getAsJsonObject());
@@ -75,7 +75,7 @@ public class ProfileHandler {
     }
 
     public static void update(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         JsonArray profilesJson = getJsonProfiles();
         Profile newProfile = new Profile(profile.getId(), profile.getName(), profile.getKey(), profile.getSavedSlots());
         if (profilesJson.isEmpty()) profilesJson.add(newProfile.getAsJsonObject());
@@ -86,7 +86,7 @@ public class ProfileHandler {
     }
 
     public static void delete(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         JsonArray profilesJson = getJsonProfiles();
         if (!profilesJson.isEmpty()) profilesJson.remove(profile.getId());
         for (int i = 0; i < profilesJson.size(); i++) {

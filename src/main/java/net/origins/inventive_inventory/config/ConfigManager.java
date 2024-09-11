@@ -27,22 +27,25 @@ import java.util.stream.Stream;
 
 public class ConfigManager {
     public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(InventiveInventory.MOD_ID);
-    public static final ConfigOption<Status> SORTING = new AdvancedConfigOption<>("sorting", "status", Status.ENABLED, ConfigType.SORTING);
+    public static final ConfigOption<Status> SORTING_STATUS = new AdvancedConfigOption<>("sorting", "status", Status.ENABLED, ConfigType.SORTING);
     public static final ConfigOption<SortingModes> SORTING_MODE = new AdvancedConfigOption<>("sorting.mode", SortingModes.NAME, ConfigType.SORTING);
     public static final ConfigOption<CursorStackBehaviour> CURSOR_STACK_BEHAVIOUR = new AdvancedConfigOption<>("sorting.cursor_stack_behaviour", CursorStackBehaviour.AOK_DEPENDENT, ConfigType.SORTING);
-    public static final ConfigOption<Status> AUTOMATIC_REFILLING = new AdvancedConfigOption<>("automatic_refilling", "status", Status.ENABLED, ConfigType.AUTOMATIC_REFILLING);
+    public static final ConfigOption<Status> AUTOMATIC_REFILLING_STATUS = new AdvancedConfigOption<>("automatic_refilling", "status", Status.ENABLED, ConfigType.AUTOMATIC_REFILLING);
     public static final ConfigOption<AutomaticRefillingModes> AUTOMATIC_REFILLING_MODE = new AdvancedConfigOption<>("automatic_refilling.mode", AutomaticRefillingModes.AUTOMATIC, ConfigType.AUTOMATIC_REFILLING);
     public static final ConfigOption<ToolReplacementBehaviour> TOOL_REPLACEMENT_BEHAVIOUR = new AdvancedConfigOption<>("automatic_refilling.tool_replacement_behaviour", ToolReplacementBehaviour.BREAK_TOOL, ConfigType.AUTOMATIC_REFILLING);
     public static final ConfigOption<ToolReplacementPriority> TOOL_REPLACEMENT_PRIORITY = new AdvancedConfigOption<>("automatic_refilling.tool_replacement_priority", ToolReplacementPriority.MATERIAL, ConfigType.AUTOMATIC_REFILLING);
     public static final ConfigOption<Boolean> AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS = new SimpleConfigOption("ignore_locked_slots", true, ConfigType.AUTOMATIC_REFILLING);
-    public static final ConfigOption<Status> PROFILES = new AdvancedConfigOption<>("profiles", "status", Status.ENABLED, ConfigType.PROFILES);
+    public static final ConfigOption<Status> PROFILES_STATUS = new AdvancedConfigOption<>("profiles", "status", Status.ENABLED, ConfigType.PROFILES);
     public static final ConfigOption<Boolean> FAST_LOAD = new SimpleConfigOption("profiles.fast_load", true, ConfigType.PROFILES);
     public static final ConfigOption<Boolean> PROFILES_IGNORE_LOCKED_SLOTS = new SimpleConfigOption("ignore_locked_slots", true, ConfigType.PROFILES);
     public static final ConfigOption<Boolean> PICKUP_INTO_LOCKED_SLOTS = new SimpleConfigOption("locked_slots.pickup_into_locked_slots", false, ConfigType.LOCKED_SLOTS);
     public static final ConfigOption<Boolean> QUICK_MOVE_INTO_LOCKED_SLOTS = new SimpleConfigOption("locked_slots.quick_move_into_locked_slots", false, ConfigType.LOCKED_SLOTS);
 
+    public static final String OPTION_TRANSLATION_KEY = "config.options.button.text.inventive_inventory";
+
     private static final String CONFIG_FILE = "config.json";
     private static final Path CONFIG_FILE_PATH = CONFIG_PATH.resolve(CONFIG_FILE);
+
 
     public static void init() throws IOException {
         deleteOldConfigs();

@@ -16,7 +16,7 @@ import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.commands.config.type.ConfigArgumentType;
 import net.origins.inventive_inventory.commands.config.type.ConfigType;
 import net.origins.inventive_inventory.config.options.ConfigOption;
-import net.origins.inventive_inventory.features.profiles.gui.ProfilesConfigScreen;
+import net.origins.inventive_inventory.config.screens.tabs.ProfilesConfigScreen;
 import net.origins.inventive_inventory.util.Notifier;
 
 import java.util.Arrays;

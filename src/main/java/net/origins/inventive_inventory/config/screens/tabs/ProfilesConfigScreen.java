@@ -1,4 +1,4 @@
-package net.origins.inventive_inventory.features.profiles.gui;
+package net.origins.inventive_inventory.config.screens.tabs;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;

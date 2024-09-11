@@ -56,6 +56,7 @@ public class TooltipBuilder {
     private static List<Text> buildPlus() {
         List<Text> textList = new ArrayList<>();
         textList.add(Text.translatable(TOOLTIP_TRANSLATION_KEY + "plus.1"));
+        textList.add(Text.of("\n\n"));
         textList.add(Text.translatable(TOOLTIP_TRANSLATION_KEY + "plus.2"));
         return textList;
     }

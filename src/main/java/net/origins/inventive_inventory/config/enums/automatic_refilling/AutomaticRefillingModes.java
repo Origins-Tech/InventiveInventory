@@ -12,7 +12,7 @@ public enum AutomaticRefillingModes implements Translatable {
     private final String translationKey;
 
     AutomaticRefillingModes(String translationKey) {
-        this.translationKey = "config.option_button.inventive_inventory.mode.automatic_refilling." + translationKey;
+        this.translationKey = ConfigManager.OPTION_TRANSLATION_KEY + ".automatic_refilling.mode." + translationKey;
     }
 
     public boolean isValid() {

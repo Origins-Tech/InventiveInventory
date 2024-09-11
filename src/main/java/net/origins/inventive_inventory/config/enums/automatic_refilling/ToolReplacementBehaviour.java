@@ -1,6 +1,7 @@
 package net.origins.inventive_inventory.config.enums.automatic_refilling;
 
 import net.minecraft.text.Text;
+import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 
 public enum ToolReplacementBehaviour implements Translatable {
@@ -10,7 +11,7 @@ public enum ToolReplacementBehaviour implements Translatable {
     private final String translationKey;
 
     ToolReplacementBehaviour(String translationKey) {
-        this.translationKey = "config.option_button.inventive_inventory.automatic_refilling.tool_replacement_behaviour." + translationKey;
+        this.translationKey = ConfigManager.OPTION_TRANSLATION_KEY + "automatic_refilling.tool_replacement_behaviour." + translationKey;
     }
 
     @Override

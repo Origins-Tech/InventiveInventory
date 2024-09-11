@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.features.profiles.Profile;
 import net.origins.inventive_inventory.features.profiles.ProfileHandler;
-import net.origins.inventive_inventory.features.profiles.gui.ProfilesConfigScreen;
+import net.origins.inventive_inventory.config.screens.tabs.ProfilesConfigScreen;
 import net.origins.inventive_inventory.keys.KeyRegistry;
 
 public class ProfileEntry extends DirectionalLayoutWidget implements Drawable {

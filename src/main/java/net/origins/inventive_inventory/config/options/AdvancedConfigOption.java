@@ -1,7 +1,9 @@
 package net.origins.inventive_inventory.config.options;
 
+import net.minecraft.client.gui.screen.option.VideoOptionsScreen;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.option.SimpleOption;
+import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.commands.config.type.ConfigType;
@@ -18,10 +20,10 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
         this(key, key, defaultValue, configType);
     }
 
-    public AdvancedConfigOption(String key, String tooltipKey, E defaultValue, ConfigType configType) {
-        super(key, defaultValue, configType);
+    public AdvancedConfigOption(String tab, String translationKey, E defaultValue, ConfigType configType) {
+        super(tab, translationKey, defaultValue, configType);
         this.enumClass = defaultValue.getDeclaringClass();
-        this.tooltip = Text.translatable("config.option_tooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
+        this.tooltip = Text.translatable("config." + tab + ".button.tooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
     }
 
     protected void cycle() {
@@ -50,7 +52,8 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     }
 
     @Override
-    public CyclingButtonWidget<?> asButton() {
+    public CyclingButtonWidget<?> asWidget() {
+        VideoOptionsScreen
         return CyclingButtonWidget.builder(ConfigOption::getValueAsText)
                 .tooltip(SimpleOption.constantTooltip(this.tooltip))
                 .omitKeyText()

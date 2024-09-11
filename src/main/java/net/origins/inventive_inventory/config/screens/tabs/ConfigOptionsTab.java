@@ -2,16 +2,13 @@ package net.origins.inventive_inventory.config.screens.tabs;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.OptionListWidget;
-import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.gui.widget.*;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.options.ConfigOption;
 import net.origins.inventive_inventory.config.screens.widgets.ConfigTextWidget;
-import net.origins.inventive_inventory.features.profiles.gui.ProfilesConfigScreen;
 
 public class ConfigOptionsTab extends OptionListWidget {
     private final static String TITLE_TRANSLATION_KEY = "title." + InventiveInventory.MOD_ID + ".config_screen";
@@ -21,19 +18,19 @@ public class ConfigOptionsTab extends OptionListWidget {
         super(client, width, optionsScreen);
 
         this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".sorting"));
-        this.addWidget(ConfigManager.SORTING);
+        this.addWidget(ConfigManager.SORTING_STATUS);
         this.addWidget(ConfigManager.SORTING_MODE);
         this.addWidget(ConfigManager.CURSOR_STACK_BEHAVIOUR);
 
         this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".automatic_refilling"));
-        this.addWidget(ConfigManager.AUTOMATIC_REFILLING);
+        this.addWidget(ConfigManager.AUTOMATIC_REFILLING_STATUS);
         this.addWidget(ConfigManager.AUTOMATIC_REFILLING_MODE);
         this.addWidget(ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR);
         this.addWidget(ConfigManager.TOOL_REPLACEMENT_PRIORITY);
         this.addWidget(ConfigManager.AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS);
 
         this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".profiles"));
-        this.addWidget(ConfigManager.PROFILES);
+        this.addWidget(ConfigManager.PROFILES_STATUS);
         this.addWidgetEntry(new ConfigTextWidget(Text.translatable(TEXT_TRANSLATION_KEY + "config_screen"), this.client.textRenderer), ButtonWidget.builder(Text.translatable(TEXT_TRANSLATION_KEY + "config_profiles"), button -> this.client.setScreen(new ProfilesConfigScreen(optionsScreen))).build());
         this.addWidget(ConfigManager.FAST_LOAD);
         this.addWidget(ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS);
@@ -52,7 +49,7 @@ public class ConfigOptionsTab extends OptionListWidget {
 
     private void addWidget(ConfigOption<?> option) {
         if (client == null) return;
-        this.addWidgetEntry(createTextWidget(option), option.asButton());
+        this.addWidgetEntry(createTextWidget(option), option.asWidget());
     }
 
     private TextWidget createTextWidget(ConfigOption<?> option) {

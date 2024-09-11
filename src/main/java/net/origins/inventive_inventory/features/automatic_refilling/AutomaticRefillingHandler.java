@@ -36,7 +36,7 @@ public class AutomaticRefillingHandler {
 
     public static void runMainHand() {
         SELECTED_SLOT = InteractionHandler.getSelectedSlot();
-        boolean isAutomaticRefillingDisabled = ConfigManager.AUTOMATIC_REFILLING.is(Status.DISABLED);
+        boolean isAutomaticRefillingDisabled = ConfigManager.AUTOMATIC_REFILLING_STATUS.is(Status.DISABLED);
         boolean capturedStackIsEmpty = ItemStack.areItemsEqual(mainHandStack, ItemStack.EMPTY);
         ItemStack currentStack = InteractionHandler.getMainHandStack();
         boolean handFullAndNoTool = ItemStack.areItemsEqual(mainHandStack, currentStack) && !TOOL_CLASSES.contains(currentStack.getItem().getClass());
@@ -65,7 +65,7 @@ public class AutomaticRefillingHandler {
     }
 
     public static void runOffHand() {
-        boolean isAutomaticRefillingDisabled = ConfigManager.AUTOMATIC_REFILLING.is(Status.DISABLED);
+        boolean isAutomaticRefillingDisabled = ConfigManager.AUTOMATIC_REFILLING_STATUS.is(Status.DISABLED);
         boolean capturedStackIsEmpty = ItemStack.areItemsEqual(offHandStack, ItemStack.EMPTY);
         ItemStack currentStack = InteractionHandler.getOffHandStack();
         boolean handFullAndNoTool = ItemStack.areItemsEqual(offHandStack, currentStack) && !TOOL_CLASSES.contains(currentStack.getItem().getClass());
@@ -110,7 +110,7 @@ public class AutomaticRefillingHandler {
             if (ConfigManager.TOOL_REPLACEMENT_PRIORITY.is(ToolReplacementPriority.MATERIAL)) {
                 sameItemSlotsStream = sameItemSlotsStream
                         .sorted(Comparator.comparing(slot -> InteractionHandler.getStackFromSlot(slot).getMaxDamage(), Comparator.reverseOrder()));
-            } else if (ConfigManager.TOOL_REPLACEMENT_PRIORITY.is(ToolReplacementPriority.REMAINING_HEALTH)) {
+            } else if (ConfigManager.TOOL_REPLACEMENT_PRIORITY.is(ToolReplacementPriority.DURABILITY)) {
                 sameItemSlotsStream = sameItemSlotsStream
                         .sorted(Comparator.comparing(slot -> InteractionHandler.getStackFromSlot(slot).getMaxDamage() - InteractionHandler.getStackFromSlot(slot).getDamage()));
             }

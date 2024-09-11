@@ -40,7 +40,7 @@ public class TickEvents {
         if (AutomaticRefillingHandler.SELECTED_SLOT != InteractionHandler.getSelectedSlot()) {
             AutomaticRefillingHandler.reset();
         }
-        if (KeyRegistry.openProfilesScreenKey.isPressed() && ConfigManager.PROFILES.is(Status.ENABLED)) {
+        if (KeyRegistry.openProfilesScreenKey.isPressed() && ConfigManager.PROFILES_STATUS.is(Status.ENABLED)) {
             client.setScreen(new ProfilesScreen());
         }
     }

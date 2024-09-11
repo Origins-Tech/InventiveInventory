@@ -39,7 +39,7 @@ public class SimpleConfigOption extends ConfigOption<Boolean> {
     }
 
     @Override
-    public CyclingButtonWidget<?> asButton() {
+    public CyclingButtonWidget<?> asWidget() {
         return CyclingButtonWidget.builder(ConfigOption::getValueAsText)
                 .tooltip(SimpleOption.constantTooltip(this.tooltip))
                 .omitKeyText()

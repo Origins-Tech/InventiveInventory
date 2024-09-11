@@ -1,6 +1,6 @@
 package net.origins.inventive_inventory.config.options;
 
-import net.minecraft.client.gui.widget.CyclingButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.commands.config.type.ConfigType;
@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class ConfigOption<T> {
     protected static final String simpleConfigOptionTranslationKey = "config.option_button." + InventiveInventory.MOD_ID + ".simple_config_option.";
+    private final String tab;
     private final String key;
     private final ConfigType configType;
     private T value;
@@ -26,7 +27,8 @@ public abstract class ConfigOption<T> {
         } else return Text.empty();
     }
 
-    public ConfigOption(String key, T defaultValue, ConfigType configType) {
+    public ConfigOption(String tab, String key, T defaultValue, ConfigType configType) {
+        this.tab = tab;
         this.key = key;
         this.value = defaultValue;
         this.configType = configType;
@@ -41,7 +43,7 @@ public abstract class ConfigOption<T> {
     }
 
     public String getTranslationKey() {
-        return "config.option." + InventiveInventory.MOD_ID + "." + this.key;
+        return "config." + this.tab +  ".label." + InventiveInventory.MOD_ID + "." + this.key;
     }
 
     public T getValue() {
@@ -57,5 +59,5 @@ public abstract class ConfigOption<T> {
 
     public abstract T[] getValues();
 
-    public abstract CyclingButtonWidget<?> asButton();
+    public abstract ClickableWidget asWidget();
 }

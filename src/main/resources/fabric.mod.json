@@ -25,6 +25,7 @@
             "net.origins.inventive_inventory.integrations.ModMenuIntegration"
         ]
     },
+    "accessWidener": "inventive_inventory.accesswidener",
     "mixins": [
         "keys.mixins.json",
         "keys.keybindfix.mixins.json",
