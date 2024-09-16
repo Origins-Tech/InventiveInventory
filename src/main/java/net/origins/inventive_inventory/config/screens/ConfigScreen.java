@@ -21,7 +21,7 @@ public class ConfigScreen extends GameOptionsScreen {
 
     @Override
     protected void init() {
-        this.body = new OptionListWidget(this.client, this.width, this.height - 65, 32, this.height - 32, 25);
+        this.body = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
         this.addOptions();
         this.addDrawableChild(this.body);
         this.addDrawableChild(

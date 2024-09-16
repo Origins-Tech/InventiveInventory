@@ -79,13 +79,17 @@ public class LockedSlotsHandler {
         boolean tookItem = tookItem(currentInventory);
         boolean movedItem = movedItem(tookItem);
 
-        ContextManager.setContext(Contexts.LOCKED_SLOTS);
+
         if (ConfigManager.PICKUP_INTO_LOCKED_SLOTS.is(false) && tookItem && !movedItem) {
+            ContextManager.setContext(Contexts.LOCKED_SLOTS);
             rearrangeThenDrop(currentInventory);
+            ContextManager.setContext(Contexts.INIT);
         } else if (ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS.is(false) && movedItem) {
+            ContextManager.setContext(Contexts.LOCKED_SLOTS);
             rearrangeThenPutBack(currentInventory);
+            ContextManager.setContext(Contexts.INIT);
         }
-        ContextManager.setContext(Contexts.INIT);
+
     }
 
     public static void setSavedInventory() {
