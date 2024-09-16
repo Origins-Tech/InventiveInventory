@@ -2,7 +2,10 @@ package net.origins.inventive_inventory.config.screens.widgets;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.PlayerScreenHandler;
@@ -61,8 +64,6 @@ public class ConfigProfileWidget extends CustomClickableWidget {
         String name = this.name.getText();
         KeyBinding keyBinding = KeyRegistry.getByBoundKey(this.key.getMessage().getString());
         String key = keyBinding != null ? keyBinding.getTranslationKey() : "";
-        System.out.println(key);
-        System.out.println(this.profile.getKey());
         if (!name.equals(this.profile.getName()) || !key.equals(this.profile.getKey())) {
             this.profile.setName(name);
             this.profile.setKey(key);
