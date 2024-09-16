@@ -17,14 +17,16 @@ import net.origins.inventive_inventory.util.Notifier;
 import java.util.concurrent.CompletableFuture;
 
 public class ProfilesDeleteCommand {
-    private final static String ERROR_TRANSLATION_KEY = "error." + InventiveInventory.MOD_ID + ".";
+    private final static String ERROR_TRANSLATION_KEY = "error.profiles.inventive_inventory.";
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess ignored) {
-        dispatcher.register(ClientCommandManager.literal("inventive-profiles")
-                .then(ClientCommandManager.literal("delete")
-                        .then(ClientCommandManager.argument("profile", StringArgumentType.greedyString())
-                                .suggests(ProfilesDeleteCommand::getProfiles)
-                                .executes(ProfilesDeleteCommand::delete)
+        dispatcher.register(ClientCommandManager.literal(InventiveInventory.MOD_ID)
+                .then(ClientCommandManager.literal("profiles")
+                        .then(ClientCommandManager.literal("delete")
+                                .then(ClientCommandManager.argument("profile", StringArgumentType.greedyString())
+                                        .suggests(ProfilesDeleteCommand::getProfiles)
+                                        .executes(ProfilesDeleteCommand::delete)
+                                )
                         )
                 )
         );

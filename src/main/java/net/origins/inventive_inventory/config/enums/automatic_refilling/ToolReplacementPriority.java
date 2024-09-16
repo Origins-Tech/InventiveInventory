@@ -11,12 +11,17 @@ public enum ToolReplacementPriority implements Translatable {
     private final String translationKey;
 
     ToolReplacementPriority(String translationKey) {
-        this.translationKey = ConfigManager.OPTION_TRANSLATION_KEY + ".automatic_refilling.tool_replacement_priority." + translationKey;
+        this.translationKey = "automatic_refilling.tool_replacement_priority." + translationKey;
     }
 
     @Override
-    public Text getText() {
-        return Text.translatable(this.translationKey);
+    public Text getButtonText() {
+        return Text.translatable(ConfigManager.OPTION_TRANSLATION_KEY + "." + this.translationKey);
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return this.translationKey;
     }
 }
 

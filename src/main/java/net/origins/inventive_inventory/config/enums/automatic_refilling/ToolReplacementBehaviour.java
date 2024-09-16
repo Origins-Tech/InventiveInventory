@@ -11,11 +11,16 @@ public enum ToolReplacementBehaviour implements Translatable {
     private final String translationKey;
 
     ToolReplacementBehaviour(String translationKey) {
-        this.translationKey = ConfigManager.OPTION_TRANSLATION_KEY + "automatic_refilling.tool_replacement_behaviour." + translationKey;
+        this.translationKey = "automatic_refilling.tool_replacement_behaviour." + translationKey;
     }
 
     @Override
-    public Text getText() {
-        return Text.translatable(this.translationKey);
+    public Text getButtonText() {
+        return Text.translatable(ConfigManager.OPTION_TRANSLATION_KEY + "." + this.translationKey);
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return this.translationKey;
     }
 }

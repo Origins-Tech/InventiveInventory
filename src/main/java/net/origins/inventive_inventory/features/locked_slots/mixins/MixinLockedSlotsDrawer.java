@@ -9,6 +9,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.slot.Slot;
 import net.origins.inventive_inventory.InventiveInventory;
+import net.origins.inventive_inventory.config.ConfigManager;
+import net.origins.inventive_inventory.config.enums.locked_slots.Style;
 import net.origins.inventive_inventory.features.locked_slots.LockedSlotsHandler;
 import net.origins.inventive_inventory.keys.handler.AdvancedOperationHandler;
 import net.origins.inventive_inventory.util.Drawer;
@@ -31,8 +33,8 @@ public abstract class MixinLockedSlotsDrawer {
     @Inject(method = "drawSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawItemInSlot(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"))
     private void onDrawItem(DrawContext context, Slot slot, CallbackInfo ci) {
         if (LockedSlotsHandler.getLockedSlots().contains(slot.id) && !InventiveInventory.getPlayer().isInCreativeMode()) {
-            Drawer.drawSlotBackground(context, slot.x, slot.y, 0xFF4D4D4D, 0);
-            Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 200, 8);
+            Drawer.drawSlotBackground(context, slot.x, slot.y, ConfigManager.LOCKED_SLOTS_COLOR.getValue(), 0, ConfigManager.LOCKED_SLOT_STYLE.is(Style.OUTLINED));
+            if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 200, 8);
         }
     }
 
@@ -41,14 +43,14 @@ public abstract class MixinLockedSlotsDrawer {
         if (!InventiveInventory.getPlayer().isInCreativeMode()) {
             if (LockedSlotsHandler.getLockedSlots().contains(slot.id)) {
                 if (AdvancedOperationHandler.isPressed()) {
-                    Drawer.drawSlotBackground(context, x, y, 0xFF8B0000, z + 200);
+                    Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.LOCKED_HOVER_COLOR, z + 200, false);
                     this.drawSlot(context, slot);
                 } else {
                     original.call(context, x, y, z);
-                    Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 300, 8);
+                    if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 300, 8);
                 }
             } else if (PlayerSlots.get().exclude(SlotTypes.LOCKED_SLOT).contains(slot.id) && AdvancedOperationHandler.isPressed()) {
-                Drawer.drawSlotBackground(context, x, y, 0x66FF0000, z + 1);
+                Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.HOVER_COLOR, z + 1, false);
                 this.drawSlot(context, slot);
             } else original.call(context, x, y, z);
         } else original.call(context, x, y, z);

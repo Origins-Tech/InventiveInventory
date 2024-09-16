@@ -15,16 +15,22 @@ public enum Status implements Stylable, Translatable {
     private final Style style;
 
     Status(String translationKey, Formatting color) {
-        this.translationKey = ConfigManager.OPTION_TRANSLATION_KEY + ".universal.status" + translationKey;
+        this.translationKey = "universal.status." + translationKey;
         this.style = Style.EMPTY.withColor(color);
     }
 
+    @Override
     public Style getStyle() {
         return this.style;
     }
 
     @Override
-    public Text getText() {
-        return Text.translatable(this.translationKey);
+    public Text getButtonText() {
+        return Text.translatable(ConfigManager.OPTION_TRANSLATION_KEY + "." + this.translationKey);
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return this.translationKey;
     }
 }

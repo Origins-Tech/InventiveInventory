@@ -8,4 +8,5 @@ public class Textures {
     public static final Identifier PLUS = Identifier.of(InventiveInventory.MOD_ID, "textures/gui/plus.png");
     public static final Identifier TOOLS = Identifier.of(InventiveInventory.MOD_ID, "textures/gui/tools.png");
     public static final Identifier HOTBAR = Identifier.of(InventiveInventory.MOD_ID, "textures/gui/hotbar.png");
+    public static final Identifier SLOT = Identifier.of(InventiveInventory.MOD_ID, "textures/gui/slot.png");
 }

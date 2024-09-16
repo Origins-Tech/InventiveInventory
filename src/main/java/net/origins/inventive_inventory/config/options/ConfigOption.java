@@ -1,49 +1,49 @@
 package net.origins.inventive_inventory.config.options;
 
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
-import net.origins.inventive_inventory.commands.config.type.ConfigType;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.accessors.Stylable;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
+import net.origins.inventive_inventory.config.screens.widgets.ConfigTextWidget;
 import org.jetbrains.annotations.Nullable;
 
 
 public abstract class ConfigOption<T> {
-    protected static final String simpleConfigOptionTranslationKey = "config.option_button." + InventiveInventory.MOD_ID + ".simple_config_option.";
-    private final String tab;
+    protected static final String SIMPLE_TRANSLATION_KEY = "config.universal.button.text." + InventiveInventory.MOD_ID + ".universal.simple.";
+    protected final String tab;
     private final String key;
-    private final ConfigType configType;
+    private final T defaultValue;
     private T value;
 
     public static Text getValueAsText(Object value) {
-        if (value instanceof Boolean) return (Boolean) value ? Text.translatable(simpleConfigOptionTranslationKey + "yes") : Text.translatable(simpleConfigOptionTranslationKey + "no");
+        if (value instanceof Boolean) return (Boolean) value ? Text.translatable(SIMPLE_TRANSLATION_KEY + "yes") : Text.translatable(SIMPLE_TRANSLATION_KEY + "no");
         else if (value instanceof Enum<?>) {
             Text text = Text.empty();
-            if (value instanceof Translatable) text = ((Translatable) value).getText();
+            if (value instanceof Translatable) text = ((Translatable) value).getButtonText();
             if (value instanceof Stylable) text = text.copy().setStyle(((Stylable) value).getStyle());
             return text;
         } else return Text.empty();
     }
 
-    public ConfigOption(String tab, String key, T defaultValue, ConfigType configType) {
+    public ConfigOption(String tab, String key, T defaultValue) {
         this.tab = tab;
         this.key = key;
-        this.value = defaultValue;
-        this.configType = configType;
+        this.value = this.defaultValue = defaultValue;
     }
 
     public boolean is(T value) {
         return this.value == value;
     }
 
-    public ConfigType getConfigType() {
-        return this.configType;
-    }
-
     public String getTranslationKey() {
         return "config." + this.tab +  ".label." + InventiveInventory.MOD_ID + "." + this.key;
+    }
+
+    public T getDefaultValue() {
+        return this.defaultValue;
     }
 
     public T getValue() {
@@ -55,9 +55,15 @@ public abstract class ConfigOption<T> {
         ConfigManager.save();
     }
 
-    public abstract void setValue(@Nullable String value);
+    public void reset() {
+        this.setValue(this.defaultValue);
+    }
 
-    public abstract T[] getValues();
+    public TextWidget createLabel() {
+        return new ConfigTextWidget(Text.translatable(this.getTranslationKey()), InventiveInventory.getClient().textRenderer);
+    }
+
+    public abstract void setValue(@Nullable String value);
 
     public abstract ClickableWidget asWidget();
 }

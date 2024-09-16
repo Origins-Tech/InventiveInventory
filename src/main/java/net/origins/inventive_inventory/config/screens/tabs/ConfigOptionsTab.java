@@ -1,21 +1,17 @@
 package net.origins.inventive_inventory.config.screens.tabs;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.widget.*;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
-import net.origins.inventive_inventory.config.options.ConfigOption;
-import net.origins.inventive_inventory.config.screens.widgets.ConfigTextWidget;
+import net.origins.inventive_inventory.config.screens.ConfigScreen;
+import net.origins.inventive_inventory.util.widgets.ScreenTab;
 
-public class ConfigOptionsTab extends OptionListWidget {
-    private final static String TITLE_TRANSLATION_KEY = "title." + InventiveInventory.MOD_ID + ".config_screen";
-    private final static String TEXT_TRANSLATION_KEY = "text." + InventiveInventory.MOD_ID + ".config_screen.";
+public class ConfigOptionsTab extends ScreenTab {
+    private final static String TITLE_TRANSLATION_KEY = "config.options.title." + InventiveInventory.MOD_ID;
 
-    public ConfigOptionsTab(MinecraftClient client, int width, GameOptionsScreen optionsScreen) {
-        super(client, width, optionsScreen);
+    public ConfigOptionsTab(MinecraftClient client, int width, ConfigScreen screen) {
+        super(client, width, screen);
 
         this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".sorting"));
         this.addWidget(ConfigManager.SORTING_STATUS);
@@ -31,29 +27,11 @@ public class ConfigOptionsTab extends OptionListWidget {
 
         this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".profiles"));
         this.addWidget(ConfigManager.PROFILES_STATUS);
-        this.addWidgetEntry(new ConfigTextWidget(Text.translatable(TEXT_TRANSLATION_KEY + "config_screen"), this.client.textRenderer), ButtonWidget.builder(Text.translatable(TEXT_TRANSLATION_KEY + "config_profiles"), button -> this.client.setScreen(new ProfilesConfigScreen(optionsScreen))).build());
         this.addWidget(ConfigManager.FAST_LOAD);
         this.addWidget(ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS);
 
         this.addTitle(Text.translatable(TITLE_TRANSLATION_KEY + ".locked_slots"));
         this.addWidget(ConfigManager.PICKUP_INTO_LOCKED_SLOTS);
         this.addWidget(ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS);
-    }
-
-    private void addTitle(Text title) {
-        if (client == null) return;
-        TextWidget text = new ConfigTextWidget(title.copy().setStyle(Style.EMPTY.withBold(true)), client.textRenderer);
-        text.setWidth(310);
-        this.addWidgetEntry(text, null);
-    }
-
-    private void addWidget(ConfigOption<?> option) {
-        if (client == null) return;
-        this.addWidgetEntry(createTextWidget(option), option.asWidget());
-    }
-
-    private TextWidget createTextWidget(ConfigOption<?> option) {
-        if (client == null) return null;
-        return new ConfigTextWidget(Text.translatable(option.getTranslationKey()), client.textRenderer).alignCenter();
     }
 }
