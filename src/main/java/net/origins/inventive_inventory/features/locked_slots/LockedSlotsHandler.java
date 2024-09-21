@@ -60,6 +60,7 @@ public class LockedSlotsHandler {
     }
 
     public static void initLockedSlots() {
+        lockedSlots.clear();
         JsonElement jsonFile = FileHandler.get(LOCKED_SLOTS_PATH);
         JsonArray lockedSlotsJson = new JsonArray();
         if (jsonFile.isJsonObject() && jsonFile.getAsJsonObject().has(InventiveInventory.getWorldName())) {
@@ -72,10 +73,6 @@ public class LockedSlotsHandler {
 
     public static LockedSlots getLockedSlots() {
         return lockedSlots.adjust();
-    }
-
-    public static void clearLockedSlots() {
-        lockedSlots.clear();
     }
 
     public static void adjustInventory() {
