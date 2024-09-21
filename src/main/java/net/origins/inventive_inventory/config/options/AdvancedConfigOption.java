@@ -21,7 +21,7 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     public AdvancedConfigOption(String key, String tooltipKey, E defaultValue, ConfigType configType) {
         super(key, defaultValue, configType);
         this.enumClass = defaultValue.getDeclaringClass();
-        this.tooltip = Text.translatable("optionTooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
+        this.tooltip = Text.translatable("config.option_tooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
     }
 
     private void cycle() {
@@ -37,14 +37,14 @@ public class AdvancedConfigOption<E extends Enum<E>> extends ConfigOption<E> {
     @Override
     public void setValue(@Nullable String value) {
         for (E config : enumClass.getEnumConstants()) {
-            if (config instanceof Translatable) {
+            if (config.toString().equalsIgnoreCase(value)) {
+                this.setValue(config);
+                return;
+            } else if (config instanceof Translatable) {
                 if (((Translatable) config).getText().getString().equalsIgnoreCase(value)) {
                     this.setValue(config);
                     return;
                 }
-            } else if (config.toString().equalsIgnoreCase(value)) {
-                this.setValue(config);
-                return;
             }
         }
     }

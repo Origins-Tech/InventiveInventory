@@ -21,7 +21,7 @@ public class ConfigScreen extends GameOptionsScreen {
 
     @Override
     protected void init() {
-        this.body = new OptionListWidget(this.client, this.width, this.height, 32, 25);
+        this.body = new OptionListWidget(this.client, this.width, this.height - 65, 32, 25);
         this.addOptions();
         this.addDrawableChild(this.body);
         this.addDrawableChild(
@@ -48,5 +48,7 @@ public class ConfigScreen extends GameOptionsScreen {
 
         this.body.addSingleOptionEntry(ConfigManager.PROFILES.asButton());
         this.body.addOptionEntry(ConfigManager.FAST_LOAD.asButton(), ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS.asButton());
+
+        this.body.addOptionEntry(ConfigManager.PICKUP_INTO_LOCKED_SLOTS.asButton(), ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS.asButton());
     }
 }

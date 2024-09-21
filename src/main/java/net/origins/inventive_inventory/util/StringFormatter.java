@@ -22,5 +22,4 @@ public class StringFormatter {
                 .replace("oe", "ö")
                 .replace("ue", "ü");
     }
-
 }

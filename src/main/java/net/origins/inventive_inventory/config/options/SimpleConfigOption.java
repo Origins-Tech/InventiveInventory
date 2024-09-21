@@ -15,7 +15,7 @@ public class SimpleConfigOption extends ConfigOption<Boolean> {
 
     public SimpleConfigOption(String key, String tooltipKey, boolean defaultValue, ConfigType configType) {
         super(key, defaultValue, configType);
-        this.tooltip = Text.translatable("optionTooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
+        this.tooltip = Text.translatable("config.option_tooltip." + InventiveInventory.MOD_ID + "." + tooltipKey);
     }
 
     private void cycle() {
@@ -30,8 +30,8 @@ public class SimpleConfigOption extends ConfigOption<Boolean> {
     @Override
     public void setValue(@Nullable String value) {
         if (value != null) {
-            if (value.equals(Text.translatable(simpleConfigOptionTranslationKey + "yes").getString())) this.setValue(true);
-            else if (value.equals(Text.translatable(simpleConfigOptionTranslationKey + "no").getString())) this.setValue(false);
+            if (value.equals("true") || value.equals(Text.translatable(simpleConfigOptionTranslationKey + "yes").getString())) this.setValue(true);
+            else if (value.equals("false") || value.equals(Text.translatable(simpleConfigOptionTranslationKey + "no").getString())) this.setValue(false);
         }
     }
 

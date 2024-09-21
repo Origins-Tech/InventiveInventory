@@ -29,7 +29,7 @@ public class TickEvents {
 
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::automaticRefilling);
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::loadProfile);
-        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventory);
+        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventories);
     }
 
     private static void checkKeys(MinecraftClient client) {
@@ -106,7 +106,10 @@ public class TickEvents {
         }
     }
 
-    private static void captureInventory(MinecraftClient client) {
-        if (client.player != null) LockedSlotsHandler.setSavedInventory(client.player.getInventory());
+    private static void captureInventories(MinecraftClient client) {
+        if (client.player != null){
+            LockedSlotsHandler.setSavedInventory();
+            LockedSlotsHandler.setSavedHandlerInventory();
+        }
     }
 }
