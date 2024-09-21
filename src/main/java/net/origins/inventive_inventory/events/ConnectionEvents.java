@@ -6,6 +6,7 @@ import net.origins.inventive_inventory.features.locked_slots.LockedSlotsHandler;
 public class ConnectionEvents {
 
     public static void register() {
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> LockedSlotsHandler.initLockedSlots());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> LockedSlotsHandler.clearLockedSlots());
     }
 }

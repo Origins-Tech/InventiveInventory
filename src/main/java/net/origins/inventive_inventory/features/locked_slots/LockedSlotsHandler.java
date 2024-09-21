@@ -59,17 +59,18 @@ public class LockedSlotsHandler {
         }
     }
 
-    public static LockedSlots getLockedSlots() {
-        if (lockedSlots.isEmpty()) {
-            JsonElement jsonFile = FileHandler.get(LOCKED_SLOTS_PATH);
-            JsonArray lockedSlotsJson = new JsonArray();
-            if (jsonFile.isJsonObject() && jsonFile.getAsJsonObject().has(InventiveInventory.getWorldName())) {
-                lockedSlotsJson = jsonFile.getAsJsonObject().getAsJsonArray(InventiveInventory.getWorldName());
-            }
-            for (JsonElement slot : lockedSlotsJson.getAsJsonArray()) {
-                lockedSlots.add(slot.getAsInt());
-            }
+    public static void initLockedSlots() {
+        JsonElement jsonFile = FileHandler.get(LOCKED_SLOTS_PATH);
+        JsonArray lockedSlotsJson = new JsonArray();
+        if (jsonFile.isJsonObject() && jsonFile.getAsJsonObject().has(InventiveInventory.getWorldName())) {
+            lockedSlotsJson = jsonFile.getAsJsonObject().getAsJsonArray(InventiveInventory.getWorldName());
         }
+        for (JsonElement slot : lockedSlotsJson.getAsJsonArray()) {
+            lockedSlots.add(slot.getAsInt());
+        }
+    }
+
+    public static LockedSlots getLockedSlots() {
         return lockedSlots.adjust();
     }
 
