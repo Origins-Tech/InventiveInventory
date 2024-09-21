@@ -1,9 +1,11 @@
 # Inventive Inventory
-**[Discord](https://discord.gg/uycTMfCsfc) | [GitHub](https://github.com/Origins-Tech/InventiveInventory) | [Modrinth](https://modrinth.com/mod/inventive-inventory)**
+**[Discord](https://discord.gg/uycTMfCsfc) | [GitHub](https://github.com/Origins-Tech/InventiveInventory) | [Modrinth](https://modrinth.com/mod/inventive-inventory) | [Curseforge](https://www.curseforge.com/minecraft/mc-mods/inventive-inventory)**
 
 Experience seamless inventory management in Minecraft with Inventive Inventory, your one-stop solution for sorting, auto-refilling, profiles and slot-locking.
 
 **⚙️ -> Configurable Option**
+
+**DISCLAIMER: Future features will only find their way into 1.21 version and above! Bugs will still be fixed in older versions!**
 
 ## Features 🚀💡
 ### Sorting 🔀🔠
@@ -20,8 +22,7 @@ By pressing the Advanced Operation Key you can keep your cursor stack while sort
 You can lock slots in your inventory by holding the Advanced Operation Key (Default: Alt) and clicking on the slot.  
 Items in such a slot will not be affected by sorting, automatic refilling or profile loading. ⚙️ (for every feature seperatley)
 
-Additionally, picked-up items won't be placed in such a slot either and will rather get dropped.  
-(In singleplayer this works even with quick-moving items, on servers quick-move preventing is currently not available)
+Additionally, picked-up items or quick-moved won't be placed in such a slot either and will rather get dropped. ⚙️
 
 ### Profiles 📋📂
 Save your current hotbar and offhand state and load it anytime back.
@@ -39,9 +40,9 @@ By pressing and holding 'V'⚙️ you can open the Profile Screen where you can 
 <details>
 <summary>Commands</summary>
 
-- Save: ```/inventive-profiles create <name> [keybinding]```
-- Load: ```/inventive-profiles load <profile>```
-- Delete: ```/inventive-profiles delete <profile>```
+- Save: ```/inventive_inventory profiles create <name> [keybinding]```
+- Load: ```/inventive_inventory profiles load <profile>```
+- Delete: ```/inventive_inventory profiles delete <profile>```
 
 </details>
 
@@ -55,8 +56,8 @@ Alternatively, you can activate Fast Load where you don't have to press the load
 
 </details>
 
-View and update your created profiles in the Profile Config Screen.  
-You can access it with this command ```/inventive-config ProfilesConfigScreen``` or via [ModMenu](https://modrinth.com/mod/modmenu)
+View and update your created profiles in the Profile Tab of the Config Screen.  
+You can access the Config Screen with this command ```/inventive_inventory config``` or via [ModMenu](https://modrinth.com/mod/modmenu)
 
 ### Automatic Refilling 🔄📦
 Replenishes your current stack with items from your inventory.  
@@ -64,4 +65,4 @@ Useful for building with many materials or just to always have some food ready.
 Works with buckets, bowls and bottles as well as tools.  
 You can press the Advanced Operation Key (Default: ALT)⚙️ to prevent the stack from refilling.⚙️  
 
-**If you have more feature suggestions, join our [Discord](https://discord.gg/uycTMfCsfc) or open an issue on the [GitHub Repository](https://github.com/Origins-Tech/InventiveInventory/issues)!**
+**If you have more feature suggestions or found a bug, join our [Discord](https://discord.gg/uycTMfCsfc) or open an issue on the [GitHub Repository](https://github.com/Origins-Tech/InventiveInventory/issues)!**
