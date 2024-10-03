@@ -132,7 +132,7 @@ public class ProfileHandler {
         return savedSlots;
     }
 
-    public static void initProfiles() {
+    public static void init() {
         profiles.clear();
         for (JsonElement jsonElement : getJsonProfiles()) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();

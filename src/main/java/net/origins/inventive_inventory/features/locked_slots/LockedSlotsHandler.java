@@ -59,7 +59,7 @@ public class LockedSlotsHandler {
         }
     }
 
-    public static void initLockedSlots() {
+    public static void init() {
         lockedSlots.clear();
         JsonElement jsonFile = FileHandler.get(LOCKED_SLOTS_PATH);
         JsonArray lockedSlotsJson = new JsonArray();
@@ -78,13 +78,13 @@ public class LockedSlotsHandler {
     public static void adjustInventory() {
         List<ItemStack> currentInventory = new ArrayList<>(InventiveInventory.getPlayer().getInventory().main);
         if (savedInventory.isEmpty()) return;
-        boolean tookItem = tookItem(currentInventory);
-        boolean movedItem = movedItem(tookItem);
+        boolean itemTaken = isItemTaken(currentInventory);
+        boolean itemMoved = isItemMoved(itemTaken);
 
         ContextManager.setContext(Contexts.LOCKED_SLOTS);
-        if (ConfigManager.PICKUP_INTO_LOCKED_SLOTS.is(false) && tookItem && !movedItem) {
+        if (ConfigManager.PICKUP_INTO_LOCKED_SLOTS.is(false) && itemTaken && !itemMoved) {
             rearrange(currentInventory, InteractionHandler::dropItem);
-        } else if (ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS.is(false) && movedItem) {
+        } else if (ConfigManager.QUICK_MOVE_INTO_LOCKED_SLOTS.is(false) && itemMoved) {
             rearrange(currentInventory, (slot, times) -> InteractionHandler.quickMove(slot));
         }
         ContextManager.setContext(Contexts.INIT);
@@ -105,25 +105,25 @@ public class LockedSlotsHandler {
         }
     }
 
-    private static boolean tookItem(List<ItemStack> currentInventory) {
-        Map<Item, Integer> currentCountMap = currentInventory.stream()
-                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
-        Map<Item, Integer> savedCountMap = savedInventory.stream()
-                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+    private static Map<Item, Integer> getItemCountMap(List<ItemStack> inventory) {
+    return inventory.stream()
+            .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+}
+
+    private static boolean isItemTaken(List<ItemStack> currentInventory) {
+        Map<Item, Integer> currentCountMap = getItemCountMap(currentInventory);
+        Map<Item, Integer> savedCountMap = getItemCountMap(savedInventory);
         return currentCountMap.entrySet().stream()
                 .anyMatch(entry -> entry.getValue() > savedCountMap.getOrDefault(entry.getKey(), 0));
     }
 
-    private static boolean movedItem(boolean tookItem) {
+    private static boolean isItemMoved(boolean tookItem) {
         List<ItemStack> currentHandlerInventory = new ArrayList<>();
         for (int i = 0; i < InventiveInventory.getScreenHandler().slots.size(); i++) {
             currentHandlerInventory.add(InteractionHandler.getStackFromSlot(i).copy());
         }
-
-        Map<Item, Integer> currentCountMap = currentHandlerInventory.stream()
-                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
-        Map<Item, Integer> savedCountMap = savedHandlerInventory.stream()
-                .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+        Map<Item, Integer> currentCountMap = getItemCountMap(currentHandlerInventory);
+        Map<Item, Integer> savedCountMap = getItemCountMap(savedHandlerInventory);
         return tookItem && currentCountMap.entrySet().stream()
                 .allMatch(entry -> entry.getValue().equals(savedCountMap.getOrDefault(entry.getKey(), 0)));
     }
