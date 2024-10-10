@@ -2,10 +2,9 @@ package net.origins.inventive_inventory.features.locked_slots;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.CrafterScreenHandler;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.origins.inventive_inventory.InventiveInventory;
-import net.origins.inventive_inventory.integrations.TrinketsIntegration;
-import net.origins.inventive_inventory.util.ScreenCheck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +25,10 @@ public class LockedSlots extends ArrayList<Integer> {
 
     private int calculateSize() {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
-        int size = screenHandler.slots.size();
-        if (ScreenCheck.isPlayerHandler()) size -= TrinketsIntegration.getSlotCount() + 1;
-        else if (screenHandler instanceof CrafterScreenHandler) size -= 1;
+        int size;
+        if (screenHandler instanceof PlayerScreenHandler) size = PlayerScreenHandler.HOTBAR_END;
+        else if (screenHandler instanceof CrafterScreenHandler) size = screenHandler.slots.size() - 1;
+        else size = screenHandler.slots.size();
         return size;
     }
 }
