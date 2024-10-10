@@ -1,5 +1,6 @@
 package net.origins.inventive_inventory.util.slots;
 
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.origins.inventive_inventory.InventiveInventory;
@@ -31,8 +32,13 @@ public class SlotRange extends ArrayList<Integer> {
     public SlotRange append(SlotTypes type) {
         if (type == SlotTypes.HOTBAR) {
             ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
-            int start = screenHandler.slots.size() - PlayerSlots.HOTBAR_SIZE - (screenHandler instanceof PlayerScreenHandler ? PlayerSlots.OFFHAND_SIZE : 0);
-            int stop = screenHandler.slots.size() - (screenHandler instanceof PlayerScreenHandler ? PlayerSlots.OFFHAND_SIZE : 0);
+            int start = (screenHandler instanceof PlayerScreenHandler) ?
+                    PlayerScreenHandler.HOTBAR_START :
+                    screenHandler.slots.size() - PlayerInventory.MAIN_SIZE;
+
+            int stop = (screenHandler instanceof PlayerScreenHandler) ?
+                    PlayerScreenHandler.HOTBAR_END :
+                    screenHandler.slots.size() - PlayerInventory.getHotbarSize();
             IntStream.range(start, stop).forEach(this::add);
         } else if (type == SlotTypes.INVENTORY) {
             this.addAll(PlayerSlots.get());
