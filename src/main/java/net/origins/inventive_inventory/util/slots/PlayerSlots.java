@@ -15,7 +15,7 @@ public class PlayerSlots {
         int start, stop;
         if (screenHandler instanceof PlayerScreenHandler) {
             start = PlayerScreenHandler.INVENTORY_START;
-            stop = PlayerScreenHandler.HOTBAR_END;
+            stop = PlayerScreenHandler.INVENTORY_END;
         } else if (screenHandler instanceof CrafterScreenHandler) {
             start = screenHandler.slots.size() - PlayerInventory.MAIN_SIZE - 1;
             stop = screenHandler.slots.size() - PlayerInventory.getHotbarSize() - 1;
