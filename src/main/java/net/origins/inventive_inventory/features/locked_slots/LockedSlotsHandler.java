@@ -130,9 +130,11 @@ public class LockedSlotsHandler {
 
     private static void rearrange(List<ItemStack> currentInventory, BiConsumer<Integer, Integer> func) {
         LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
+        int i = 9;
         for (int invSlot : PlayerSlots.get()) {
-            ItemStack currentStack = currentInventory.get(invSlot);
-            ItemStack savedStack = savedInventory.get(invSlot);
+            ItemStack currentStack = currentInventory.get(i);
+            ItemStack savedStack = savedInventory.get(i);
+            i++;
             if (!lockedSlots.contains(invSlot) || ItemStack.areEqual(currentStack, savedStack)) continue;
             List<Integer> suitableSlots = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).stream()
                     .filter(slot -> {

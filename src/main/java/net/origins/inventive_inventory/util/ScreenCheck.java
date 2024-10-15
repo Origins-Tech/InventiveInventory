@@ -2,7 +2,7 @@ package net.origins.inventive_inventory.util;
 
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.screen.*;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.features.profiles.gui.ProfilesScreen;
 
@@ -29,5 +29,11 @@ public class ScreenCheck {
 
     public static boolean isProfileScreen() {
         return InventiveInventory.getScreen() instanceof ProfilesScreen;
+    }
+
+    public static boolean isContainer() {
+        ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
+        return screenHandler instanceof GenericContainerScreenHandler || screenHandler instanceof Generic3x3ContainerScreenHandler
+                || screenHandler instanceof HopperScreenHandler;
     }
 }
