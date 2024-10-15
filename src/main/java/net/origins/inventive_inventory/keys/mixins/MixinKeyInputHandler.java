@@ -7,6 +7,7 @@ import net.origins.inventive_inventory.context.ContextManager;
 import net.origins.inventive_inventory.features.sorting.SortingHandler;
 import net.origins.inventive_inventory.keys.KeyRegistry;
 import net.origins.inventive_inventory.keys.handler.AdvancedOperationHandler;
+import net.origins.inventive_inventory.util.ScreenCheck;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +22,7 @@ public class MixinKeyInputHandler {
         if (KeyRegistry.advancedOperationKey.matchesKey(keyCode, scanCode)) {
             AdvancedOperationHandler.setPressed(true);
         }
-        if (KeyRegistry.sortKey.matchesKey(keyCode, scanCode) && ContextManager.isInit()) {
+        if (KeyRegistry.sortKey.matchesKey(keyCode, scanCode) && ContextManager.isInit() && ScreenCheck.isContainer()) {
             SortingHandler.sort();
         }
     }
@@ -31,7 +32,7 @@ public class MixinKeyInputHandler {
         if (KeyRegistry.advancedOperationKey.matchesMouse(button)) {
             AdvancedOperationHandler.setPressed(true);
         }
-        if (KeyRegistry.sortKey.matchesMouse(button) && ContextManager.isInit()) {
+        if (KeyRegistry.sortKey.matchesMouse(button) && ContextManager.isInit() && ScreenCheck.isContainer()) {
             SortingHandler.sort();
         }
     }
