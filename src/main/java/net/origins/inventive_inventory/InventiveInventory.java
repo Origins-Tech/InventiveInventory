@@ -29,8 +29,9 @@ public class InventiveInventory implements ClientModInitializer {
         try {
             ConfigManager.init();
             KeyRegistry.register();
-            TickEvents.register();
             ConnectionEvents.register();
+            TickEvents.register();
+            //NewTickEvents.register();
             CommandRegistry.register();
             LOGGER.info(MOD_NAME + " initialized successfully!");
         } catch (IOException e) {
