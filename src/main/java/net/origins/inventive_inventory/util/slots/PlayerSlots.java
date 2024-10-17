@@ -1,7 +1,6 @@
 package net.origins.inventive_inventory.util.slots;
 
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.CrafterScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.origins.inventive_inventory.InventiveInventory;
@@ -16,9 +15,6 @@ public class PlayerSlots {
         if (screenHandler instanceof PlayerScreenHandler) {
             start = PlayerScreenHandler.INVENTORY_START;
             stop = PlayerScreenHandler.INVENTORY_END;
-        } else if (screenHandler instanceof CrafterScreenHandler) {
-            start = screenHandler.slots.size() - PlayerInventory.MAIN_SIZE - 1;
-            stop = screenHandler.slots.size() - PlayerInventory.getHotbarSize() - 1;
         } else {
             start = screenHandler.slots.size() - PlayerInventory.MAIN_SIZE;
             stop = screenHandler.slots.size() - PlayerInventory.getHotbarSize();

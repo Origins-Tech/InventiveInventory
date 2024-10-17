@@ -1,7 +1,6 @@
 package net.origins.inventive_inventory.features.locked_slots;
 
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.CrafterScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.origins.inventive_inventory.InventiveInventory;
@@ -27,7 +26,6 @@ public class LockedSlots extends ArrayList<Integer> {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
         int size;
         if (screenHandler instanceof PlayerScreenHandler) size = PlayerScreenHandler.HOTBAR_END;
-        else if (screenHandler instanceof CrafterScreenHandler) size = screenHandler.slots.size() - 1;
         else size = screenHandler.slots.size();
         return size;
     }
