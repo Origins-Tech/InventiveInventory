@@ -50,7 +50,7 @@ public class AutomaticRefillingHandler {
 
         int emptiesSlot = InteractionHandler.getSelectedSlot();
         if (!sameItemSlots.isEmpty()) {
-            if (SlotRange.slotIn(SlotTypes.HOTBAR, sameItemSlots.getFirst()))
+            if (PlayerScreenHandler.isInHotbar(sameItemSlots.getFirst()))
                 InteractionHandler.setSelectedSlot(sameItemSlots.getFirst() - PlayerInventory.MAIN_SIZE);
             else {
                 InteractionHandler.swapStacks(sameItemSlots.getFirst(), InteractionHandler.getSelectedSlot());
