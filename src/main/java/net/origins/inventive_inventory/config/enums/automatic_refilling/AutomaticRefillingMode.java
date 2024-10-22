@@ -15,7 +15,7 @@ public enum AutomaticRefillingMode implements Translatable {
         this.translationKey = "automatic_refilling.mode." + translationKey;
     }
 
-    public boolean isValid() {
+    public static boolean isValid() {
         return ConfigManager.AUTOMATIC_REFILLING_MODE.is(SEMI_AUTOMATIC) && AdvancedOperationHandler.isPressed() ||
                 ConfigManager.AUTOMATIC_REFILLING_MODE.is(AUTOMATIC) && !AdvancedOperationHandler.isPressed();
     }

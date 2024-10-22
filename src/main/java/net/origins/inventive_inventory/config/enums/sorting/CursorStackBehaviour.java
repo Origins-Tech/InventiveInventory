@@ -18,7 +18,7 @@ public enum CursorStackBehaviour implements Translatable {
         this.translationKey = "sorting.cursor_stack_behaviour." + translationKey;
     }
 
-    public boolean isValid() {
+    public static boolean isValid() {
         return ConfigManager.CURSOR_STACK_BEHAVIOUR.is(KEEP_CURSOR_STACK) ||
                 ConfigManager.CURSOR_STACK_BEHAVIOUR.is(AOK_DEPENDENT) && AdvancedOperationHandler.isPressed() ||
                 ConfigManager.CURSOR_STACK_BEHAVIOUR.is(AOK_DEPENDENT_INVERTED) && !AdvancedOperationHandler.isPressed();

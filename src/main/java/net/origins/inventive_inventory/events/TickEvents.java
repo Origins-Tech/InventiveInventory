@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.Status;
+import net.origins.inventive_inventory.config.enums.automatic_refilling.AutomaticRefillingMode;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
 import net.origins.inventive_inventory.context.ContextManager;
 import net.origins.inventive_inventory.context.Contexts;
@@ -23,11 +24,11 @@ public class TickEvents {
 
     public static void register() {
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::checkKeys);
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureMainHand);
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureOffHand);
+        //ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureMainHand);
+        //ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureOffHand);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::adjustInventory);
 
-        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::automaticRefilling);
+        //ClientTickEvents.END_CLIENT_TICK.register(TickEvents::automaticRefilling);
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::loadProfile);
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventories);
     }
@@ -78,7 +79,7 @@ public class TickEvents {
     private static void automaticRefilling(MinecraftClient client) {
         if (client.player == null || client.player.isInCreativeMode()) return;
         if (client.currentScreen == null && (client.options.useKey.isPressed() || client.options.dropKey.isPressed() || client.options.attackKey.isPressed())) {
-            if (ConfigManager.AUTOMATIC_REFILLING_MODE.getValue().isValid() && ContextManager.isInit()) {
+            if (AutomaticRefillingMode.isValid() && ContextManager.isInit()) {
                 ContextManager.setContext(Contexts.AUTOMATIC_REFILLING);
                 AutomaticRefillingHandler.runMainHand();
                 if (AutomaticRefillingHandler.RUN_OFFHAND) {
@@ -107,7 +108,7 @@ public class TickEvents {
     }
 
     private static void captureInventories(MinecraftClient client) {
-        if (client.player != null){
+        if (client.player != null) {
             LockedSlotsHandler.setSavedInventory();
             LockedSlotsHandler.setSavedHandlerInventory();
         }
