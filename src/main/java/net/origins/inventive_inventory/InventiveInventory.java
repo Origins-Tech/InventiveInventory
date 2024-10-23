@@ -11,7 +11,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.origins.inventive_inventory.commands.CommandRegistry;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.events.ConnectionEvents;
-import net.origins.inventive_inventory.events.NewTickEvents;
 import net.origins.inventive_inventory.events.TickEvents;
 import net.origins.inventive_inventory.keys.KeyRegistry;
 import net.origins.inventive_inventory.util.ScreenCheck;
@@ -32,7 +31,6 @@ public class InventiveInventory implements ClientModInitializer {
             KeyRegistry.register();
             ConnectionEvents.register();
             TickEvents.register();
-            NewTickEvents.register();
             CommandRegistry.register();
             LOGGER.info(MOD_NAME + " initialized successfully!");
         } catch (IOException e) {
