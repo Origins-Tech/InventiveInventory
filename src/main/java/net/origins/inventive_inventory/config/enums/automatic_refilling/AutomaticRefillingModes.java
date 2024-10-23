@@ -15,7 +15,7 @@ public enum AutomaticRefillingModes implements Translatable {
         this.translationKey = "config.option_button.inventive_inventory.mode.automatic_refilling." + translationKey;
     }
 
-    public boolean isValid() {
+    public static boolean isValid() {
         return ConfigManager.AUTOMATIC_REFILLING_MODE.is(AutomaticRefillingModes.SEMI_AUTOMATIC) && AdvancedOperationHandler.isPressed() ||
                 ConfigManager.AUTOMATIC_REFILLING_MODE.is(AutomaticRefillingModes.AUTOMATIC) && !AdvancedOperationHandler.isPressed();
     }

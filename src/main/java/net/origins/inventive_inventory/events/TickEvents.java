@@ -1,11 +1,14 @@
+
 package net.origins.inventive_inventory.events;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.world.ClientWorld;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.Status;
-import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
+import net.origins.inventive_inventory.config.enums.automatic_refilling.AutomaticRefillingModes;
 import net.origins.inventive_inventory.context.ContextManager;
 import net.origins.inventive_inventory.context.Contexts;
 import net.origins.inventive_inventory.features.automatic_refilling.AutomaticRefillingHandler;
@@ -23,13 +26,12 @@ public class TickEvents {
 
     public static void register() {
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::checkKeys);
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureMainHand);
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::captureOffHand);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::adjustInventory);
 
-        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::automaticRefilling);
+        ClientTickEvents.START_WORLD_TICK.register(TickEvents::automaticRefilling);
+
+        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventory);
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::loadProfile);
-        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventories);
     }
 
     private static void checkKeys(MinecraftClient client) {
@@ -37,7 +39,7 @@ public class TickEvents {
         if (client.currentScreen == null) {
             AdvancedOperationHandler.setPressed(KeyRegistry.advancedOperationKey.isPressed());
         }
-        if (AutomaticRefillingHandler.SELECTED_SLOT != InteractionHandler.getSelectedSlot()) {
+        if (AutomaticRefillingHandler.getSelectedSlot() != InteractionHandler.getSelectedSlot()) {
             AutomaticRefillingHandler.reset();
         }
         if (KeyRegistry.openProfilesScreenKey.isPressed() && ConfigManager.PROFILES.is(Status.ENABLED)) {
@@ -45,48 +47,32 @@ public class TickEvents {
         }
     }
 
-    private static void captureMainHand(MinecraftClient client) {
-        if (client.player == null || client.player.isCreative()) return;
-        if (client.currentScreen == null) {
-            AutomaticRefillingHandler.runMainHand();
-            if (client.options.useKey.isPressed() || client.options.dropKey.isPressed() || client.options.attackKey.isPressed()) {
-                if (!(ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.KEEP_TOOL) && AutomaticRefillingHandler.TOOL_CLASSES.contains(InteractionHandler.getMainHandStack().getItem().getClass()) && InteractionHandler.getMainHandStack().getMaxDamage() - InteractionHandler.getMainHandStack().getDamage() == 1)) {
-                    AutomaticRefillingHandler.setMainHandStack(InteractionHandler.getMainHandStack());
-                }
-            } else AutomaticRefillingHandler.reset();
-        } else AutomaticRefillingHandler.reset();
-    }
-
-    private static void captureOffHand(MinecraftClient client) {
-        if (client.player == null || client.player.isCreative()) return;
-        if (client.currentScreen == null) {
-            if (AutomaticRefillingHandler.RUN_OFFHAND) AutomaticRefillingHandler.runOffHand();
-            else AutomaticRefillingHandler.RUN_OFFHAND = true;
-            if (client.options.useKey.isPressed()) {
-                if (!(ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.KEEP_TOOL) && AutomaticRefillingHandler.TOOL_CLASSES.contains(InteractionHandler.getOffHandStack().getItem().getClass()) && InteractionHandler.getOffHandStack().getMaxDamage() - InteractionHandler.getOffHandStack().getDamage() == 1)) {
-                    AutomaticRefillingHandler.setOffHandStack(InteractionHandler.getOffHandStack());
-                }
-            }
-        } else AutomaticRefillingHandler.reset();
-    }
-
     private static void adjustInventory(MinecraftClient client) {
         if (client.player == null || client.player.isCreative()) return;
-        LockedSlotsHandler.adjustInventory();
+        if (ContextManager.isInit()) LockedSlotsHandler.adjustInventory();
     }
 
-    private static void automaticRefilling(MinecraftClient client) {
-        if (client.player == null || client.player.isCreative()) return;
-        if (client.currentScreen == null && (client.options.useKey.isPressed() || client.options.dropKey.isPressed() || client.options.attackKey.isPressed())) {
-            if (ConfigManager.AUTOMATIC_REFILLING_MODE.getValue().isValid() && ContextManager.isInit()) {
-                ContextManager.setContext(Contexts.AUTOMATIC_REFILLING);
-                AutomaticRefillingHandler.runMainHand();
-                if (AutomaticRefillingHandler.RUN_OFFHAND) {
-                    AutomaticRefillingHandler.runOffHand();
-                }
-                ContextManager.setContext(Contexts.INIT);
-            } else AutomaticRefillingHandler.reset();
+    private static void automaticRefilling(ClientWorld ignoredWorld) {
+        if (InventiveInventory.getPlayer().isCreative()) return;
+        if (AutomaticRefillingModes.isValid() && ConfigManager.AUTOMATIC_REFILLING.is(Status.ENABLED) && ContextManager.isInit() && AutomaticRefillingHandler.shouldRun()) {
+            ContextManager.setContext(Contexts.AUTOMATIC_REFILLING);
+            AutomaticRefillingHandler.runMainHand();
+            ContextManager.setContext(Contexts.INIT);
         }
+        if (AutomaticRefillingModes.isValid() && ConfigManager.AUTOMATIC_REFILLING.is(Status.ENABLED) && ContextManager.isInit() && AutomaticRefillingHandler.shouldRunOffHand()) {
+            ContextManager.setContext(Contexts.AUTOMATIC_REFILLING);
+            AutomaticRefillingHandler.runOffHand();
+            ContextManager.setContext(Contexts.INIT);
+        }
+    }
+
+    private static void captureInventory(MinecraftClient client) {
+        if (client.player == null || client.player.isCreative()) return;
+        LockedSlotsHandler.setSavedInventory();
+        LockedSlotsHandler.setSavedHandlerInventory();
+        AutomaticRefillingHandler.setMainHandStack(client.player.getMainHandStack());
+        AutomaticRefillingHandler.setOffHandStack(client.player.getOffHandStack());
+        AutomaticRefillingHandler.setSelectedSlot(InteractionHandler.getSelectedSlot());
     }
 
     private static void loadProfile(MinecraftClient client) {
@@ -103,13 +89,6 @@ public class TickEvents {
                     ContextManager.setContext(Contexts.INIT);
                 }
             }
-        }
-    }
-
-    private static void captureInventories(MinecraftClient client) {
-        if (client.player != null){
-            LockedSlotsHandler.setSavedInventory();
-            LockedSlotsHandler.setSavedHandlerInventory();
         }
     }
 }
