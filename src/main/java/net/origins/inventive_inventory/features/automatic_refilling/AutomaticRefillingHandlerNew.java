@@ -45,8 +45,8 @@ public class AutomaticRefillingHandlerNew {
 
     public static boolean shouldRun() {
         GameOptions options = InventiveInventory.getClient().options;
-        if (!(options.useKey.isPressed() || options.dropKey.isPressed() || options.attackKey.isPressed() && !mainHandStack.isDamageable())) return false;
-        if (mainHandStack.isEmpty() || !ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || mainHandStack.getCount() > 1) return false;
+        if (!(options.useKey.isPressed() || options.dropKey.isPressed() || options.attackKey.isPressed() && mainHandStack.isDamageable())) return false;
+        if (mainHandStack.isEmpty() || ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || mainHandStack.getCount() > 1) return false;
         return !mainHandStack.isDamageable() || ToolReplacementBehaviour.isValid(mainHandStack);
     }
 
@@ -56,7 +56,7 @@ public class AutomaticRefillingHandlerNew {
             return false;
         }
         if (!InventiveInventory.getClient().options.useKey.isPressed()) return false;
-        if (offHandStack.isEmpty() || !ItemStack.areEqual(offHandStack, InteractionHandler.getOffHandStack()) || offHandStack.getCount() > 1) return false;
+        if (offHandStack.isEmpty() || ItemStack.areEqual(offHandStack, InteractionHandler.getOffHandStack()) || offHandStack.getCount() > 1) return false;
         return !offHandStack.isDamageable() || ToolReplacementBehaviour.isValid(offHandStack);
     }
 
