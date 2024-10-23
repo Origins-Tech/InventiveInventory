@@ -46,7 +46,7 @@ public class AutomaticRefillingHandler {
     public static boolean shouldRun() {
         GameOptions options = InventiveInventory.getClient().options;
         if (!(options.useKey.isPressed() || options.dropKey.isPressed() || options.attackKey.isPressed() && mainHandStack.isDamageable())) return false;
-        if (mainHandStack.isEmpty() || ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || mainHandStack.getCount() > 1) return false;
+        if (mainHandStack.isEmpty() || ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || !ItemStack.areItemsAndComponentsEqual(mainHandStack, InteractionHandler.getMainHandStack()) && mainHandStack.isDamageable() || mainHandStack.getCount() > 1) return false;
         return !mainHandStack.isDamageable() || ToolReplacementBehaviour.isValid(mainHandStack);
     }
 
