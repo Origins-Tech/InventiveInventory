@@ -41,18 +41,22 @@ public abstract class MixinLockedSlotsDrawer {
     @WrapOperation(method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawSlotHighlight(Lnet/minecraft/client/gui/DrawContext;III)V"))
     private void drawSlotHighlight(DrawContext context, int x, int y, int z, Operation<Void> original, @Local Slot slot) {
         if (!InventiveInventory.getPlayer().isInCreativeMode()) {
-            if (LockedSlotsHandler.getLockedSlots().contains(slot.id)) {
-                if (AdvancedOperationHandler.isPressed()) {
+            if (AdvancedOperationHandler.isPressed()) {
+                if (LockedSlotsHandler.getLockedSlots().contains(slot.id)) {
                     Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.LOCKED_HOVER_COLOR, z + 200, false);
                     this.drawSlot(context, slot);
-                } else {
-                    original.call(context, x, y, z);
-                    if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 300, 8);
+                    return;
+                } else if (PlayerSlots.get().exclude(SlotTypes.LOCKED_SLOT).contains(slot.id)) {
+                    Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.HOVER_COLOR, z + 1, false);
+                    this.drawSlot(context, slot);
+                    return;
                 }
-            } else if (PlayerSlots.get().exclude(SlotTypes.LOCKED_SLOT).contains(slot.id) && AdvancedOperationHandler.isPressed()) {
-                Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.HOVER_COLOR, z + 1, false);
-                this.drawSlot(context, slot);
-            } else original.call(context, x, y, z);
-        } else original.call(context, x, y, z);
+            } else if (LockedSlotsHandler.getLockedSlots().contains(slot.id)) {
+                original.call(context, x, y, z);
+                if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 300, 8);
+                return;
+            }
+        }
+        original.call(context, x, y, z);
     }
 }
