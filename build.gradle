@@ -16,9 +16,6 @@ repositories {
     maven {
         url 'https://maven.terraformersmc.com/'
     }
-    maven {
-        url 'https://maven.ladysnake.org/releases'
-    }
 }
 
 dependencies {
@@ -32,7 +29,6 @@ dependencies {
 
     // Other Mods
     modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
-    modImplementation "dev.emi:trinkets:${trinkets_version}"
 }
 
 processResources {
