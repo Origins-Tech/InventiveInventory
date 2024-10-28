@@ -138,5 +138,6 @@ public class AutomaticRefillingHandler {
 
     public static void reset() {
         mainHandStack = ItemStack.EMPTY;
+        offHandStack = ItemStack.EMPTY;
     }
 }

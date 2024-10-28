@@ -61,6 +61,8 @@ public class LockedSlotsHandler {
 
     public static void init() {
         lockedSlots.clear();
+        savedInventory.clear();
+        savedHandlerInventory.clear();
         JsonElement jsonFile = FileHandler.get(LOCKED_SLOTS_PATH);
         JsonArray lockedSlotsJson = new JsonArray();
         if (jsonFile.isJsonObject() && jsonFile.getAsJsonObject().has(InventiveInventory.getWorldName())) {
@@ -130,6 +132,7 @@ public class LockedSlotsHandler {
 
     private static void rearrange(List<ItemStack> currentInventory, BiConsumer<Integer, Integer> func) {
         LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
+        if (savedInventory.isEmpty()) return;
         int i = 9;
         for (int invSlot : PlayerSlots.get()) {
             ItemStack currentStack = currentInventory.get(i);
