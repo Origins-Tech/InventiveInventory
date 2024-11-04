@@ -5,6 +5,7 @@ import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
@@ -36,7 +37,12 @@ public enum SortingMode implements Translatable {
                         ItemEnchantmentsComponent finalComponent = component;
                         return component.getEnchantments()
                                 .stream()
-                                .map(entry -> Enchantment.getName(entry, 0).getString() + " " + finalComponent.getLevel(entry))
+                                .map(entry -> {
+                                    if (entry.getKey().isPresent()) {
+                                        Enchantment enchantment = Registries.ENCHANTMENT.get(entry.getKey().get());
+                                        if (enchantment != null) return enchantment.getName(0).getString() + " " + finalComponent.getLevel(enchantment);
+                                    } return "";
+                                })
                                 .collect(Collectors.joining(", "));
                     }
                     return "";
