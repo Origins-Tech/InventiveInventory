@@ -1,6 +1,8 @@
 package net.origins.inventive_inventory.config.enums.automatic_refilling;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 
 public enum ToolReplacementBehaviour implements Translatable {
@@ -10,11 +12,21 @@ public enum ToolReplacementBehaviour implements Translatable {
     private final String translationKey;
 
     ToolReplacementBehaviour(String translationKey) {
-        this.translationKey = "config.option_button.inventive_inventory.automatic_refilling.tool_replacement_behaviour." + translationKey;
+        this.translationKey = "automatic_refilling.tool_replacement_behaviour." + translationKey;
+    }
+
+    public static boolean isValid(ItemStack stack) {
+        return ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(KEEP_TOOL) && stack.getMaxDamage() - stack.getDamage() == 2 ||
+                ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(BREAK_TOOL) && stack.getMaxDamage() - stack.getDamage() == 0;
     }
 
     @Override
-    public Text getText() {
-        return Text.translatable(this.translationKey);
+    public Text getButtonText() {
+        return Text.translatable(ConfigManager.OPTION_TRANSLATION_KEY + "." + this.translationKey);
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return this.translationKey;
     }
 }

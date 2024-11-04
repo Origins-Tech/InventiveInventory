@@ -15,17 +15,22 @@ public enum CursorStackBehaviour implements Translatable {
     private final String translationKey;
 
     CursorStackBehaviour(String translationKey) {
-        this.translationKey = "config.option_button.inventive_inventory.sorting.cursor_stack_behaviour." + translationKey;
+        this.translationKey = "sorting.cursor_stack_behaviour." + translationKey;
     }
 
-    public boolean isValid() {
+    public static boolean isValid() {
         return ConfigManager.CURSOR_STACK_BEHAVIOUR.is(KEEP_CURSOR_STACK) ||
                 ConfigManager.CURSOR_STACK_BEHAVIOUR.is(AOK_DEPENDENT) && AdvancedOperationHandler.isPressed() ||
                 ConfigManager.CURSOR_STACK_BEHAVIOUR.is(AOK_DEPENDENT_INVERTED) && !AdvancedOperationHandler.isPressed();
     }
 
     @Override
-    public Text getText() {
-        return Text.translatable(this.translationKey);
+    public Text getButtonText() {
+        return Text.translatable(ConfigManager.OPTION_TRANSLATION_KEY + "." + this.translationKey);
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return this.translationKey;
     }
 }

@@ -7,8 +7,8 @@ import net.origins.inventive_inventory.InventiveInventory;
 import org.jetbrains.annotations.Nullable;
 
 public class KeyRegistry {
-    public static final String INVENTIVE_INVENTORY_CATEGORY = "key.inventive_inventory.category.inventive_inventory";
-    public static final String INVENTIVE_INVENTORY_PROFILES_CATEGORY = "key.inventive_inventory.category.inventive_inventory_profiles";
+    public static final String INVENTIVE_INVENTORY_CATEGORY = "key.category.inventive_inventory.main";
+    public static final String INVENTIVE_INVENTORY_PROFILES_CATEGORY = "key.category.inventive_inventory.profiles";
     public static final KeyBinding[] profileKeys = new KeyBinding[3];
     private static final String KEY_SORT = "key.inventive_inventory.sort";
     private static final String KEY_ADVANCED_OPERATION = "key.inventive_inventory.advanced_operation";

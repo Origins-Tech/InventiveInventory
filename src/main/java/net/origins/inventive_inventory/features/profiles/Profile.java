@@ -9,7 +9,7 @@ import net.origins.inventive_inventory.util.InteractionHandler;
 import java.util.List;
 
 public class Profile {
-    private final int id;
+    private int id;
     private final ItemStack displayStack;
     private final List<SavedSlot> savedSlots;
     private String name;
@@ -33,6 +33,10 @@ public class Profile {
 
     public int getId() {
         return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -3,16 +3,17 @@ package net.origins.inventive_inventory.config;
 import com.google.gson.JsonObject;
 import net.fabricmc.loader.api.FabricLoader;
 import net.origins.inventive_inventory.InventiveInventory;
-import net.origins.inventive_inventory.commands.config.type.ConfigType;
 import net.origins.inventive_inventory.config.enums.Status;
-import net.origins.inventive_inventory.config.enums.automatic_refilling.AutomaticRefillingModes;
+import net.origins.inventive_inventory.config.enums.automatic_refilling.AutomaticRefillingMode;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementPriority;
+import net.origins.inventive_inventory.config.enums.locked_slots.Style;
 import net.origins.inventive_inventory.config.enums.sorting.CursorStackBehaviour;
-import net.origins.inventive_inventory.config.enums.sorting.SortingModes;
-import net.origins.inventive_inventory.config.options.AdvancedConfigOption;
+import net.origins.inventive_inventory.config.enums.sorting.SortingMode;
 import net.origins.inventive_inventory.config.options.ConfigOption;
-import net.origins.inventive_inventory.config.options.SimpleConfigOption;
+import net.origins.inventive_inventory.config.options.buttons.EnumButtonOption;
+import net.origins.inventive_inventory.config.options.buttons.SimpleButtonOption;
+import net.origins.inventive_inventory.config.options.fields.ColorFieldOption;
 import net.origins.inventive_inventory.features.locked_slots.LockedSlotsHandler;
 import net.origins.inventive_inventory.features.profiles.ProfileHandler;
 import net.origins.inventive_inventory.util.FileHandler;
@@ -27,22 +28,29 @@ import java.util.stream.Stream;
 
 public class ConfigManager {
     public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(InventiveInventory.MOD_ID);
-    public static final ConfigOption<Status> SORTING = new AdvancedConfigOption<>("sorting", "status", Status.ENABLED, ConfigType.SORTING);
-    public static final ConfigOption<SortingModes> SORTING_MODE = new AdvancedConfigOption<>("sorting.mode", SortingModes.NAME, ConfigType.SORTING);
-    public static final ConfigOption<CursorStackBehaviour> CURSOR_STACK_BEHAVIOUR = new AdvancedConfigOption<>("sorting.cursor_stack_behaviour", CursorStackBehaviour.AOK_DEPENDENT, ConfigType.SORTING);
-    public static final ConfigOption<Status> AUTOMATIC_REFILLING = new AdvancedConfigOption<>("automatic_refilling", "status", Status.ENABLED, ConfigType.AUTOMATIC_REFILLING);
-    public static final ConfigOption<AutomaticRefillingModes> AUTOMATIC_REFILLING_MODE = new AdvancedConfigOption<>("automatic_refilling.mode", AutomaticRefillingModes.AUTOMATIC, ConfigType.AUTOMATIC_REFILLING);
-    public static final ConfigOption<ToolReplacementBehaviour> TOOL_REPLACEMENT_BEHAVIOUR = new AdvancedConfigOption<>("automatic_refilling.tool_replacement_behaviour", ToolReplacementBehaviour.BREAK_TOOL, ConfigType.AUTOMATIC_REFILLING);
-    public static final ConfigOption<ToolReplacementPriority> TOOL_REPLACEMENT_PRIORITY = new AdvancedConfigOption<>("automatic_refilling.tool_replacement_priority", ToolReplacementPriority.MATERIAL, ConfigType.AUTOMATIC_REFILLING);
-    public static final ConfigOption<Boolean> AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS = new SimpleConfigOption("ignore_locked_slots", true, ConfigType.AUTOMATIC_REFILLING);
-    public static final ConfigOption<Status> PROFILES = new AdvancedConfigOption<>("profiles", "status", Status.ENABLED, ConfigType.PROFILES);
-    public static final ConfigOption<Boolean> FAST_LOAD = new SimpleConfigOption("profiles.fast_load", true, ConfigType.PROFILES);
-    public static final ConfigOption<Boolean> PROFILES_IGNORE_LOCKED_SLOTS = new SimpleConfigOption("ignore_locked_slots", true, ConfigType.PROFILES);
-    public static final ConfigOption<Boolean> PICKUP_INTO_LOCKED_SLOTS = new SimpleConfigOption("locked_slots.pickup_into_locked_slots", false, ConfigType.LOCKED_SLOTS);
-    public static final ConfigOption<Boolean> QUICK_MOVE_INTO_LOCKED_SLOTS = new SimpleConfigOption("locked_slots.quick_move_into_locked_slots", false, ConfigType.LOCKED_SLOTS);
+    public static final ConfigOption<Status> SORTING_STATUS = new EnumButtonOption<>("options", "sorting.status", Status.ENABLED);
+    public static final ConfigOption<SortingMode> SORTING_MODE = new EnumButtonOption<>("options", "sorting.mode", SortingMode.NAME);
+    public static final ConfigOption<CursorStackBehaviour> CURSOR_STACK_BEHAVIOUR = new EnumButtonOption<>("options", "sorting.cursor_stack_behaviour", CursorStackBehaviour.AOK_DEPENDENT);
+    public static final ConfigOption<Status> AUTOMATIC_REFILLING_STATUS = new EnumButtonOption<>("options", "automatic_refilling.status", Status.ENABLED);
+    public static final ConfigOption<AutomaticRefillingMode> AUTOMATIC_REFILLING_MODE = new EnumButtonOption<>("options", "automatic_refilling.mode", AutomaticRefillingMode.AUTOMATIC);
+    public static final ConfigOption<ToolReplacementBehaviour> TOOL_REPLACEMENT_BEHAVIOUR = new EnumButtonOption<>("options", "automatic_refilling.tool_replacement_behaviour", ToolReplacementBehaviour.BREAK_TOOL);
+    public static final ConfigOption<ToolReplacementPriority> TOOL_REPLACEMENT_PRIORITY = new EnumButtonOption<>("options", "automatic_refilling.tool_replacement_priority", ToolReplacementPriority.MATERIAL);
+    public static final ConfigOption<Boolean> AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS = new SimpleButtonOption("options", "universal.ignore_locked_slots", true);
+    public static final ConfigOption<Status> PROFILES_STATUS = new EnumButtonOption<>("options", "profiles.status", Status.ENABLED);
+    public static final ConfigOption<Boolean> FAST_LOAD = new SimpleButtonOption("options", "profiles.fast_load", true);
+    public static final ConfigOption<Boolean> PICKUP_INTO_LOCKED_SLOTS = new SimpleButtonOption("options", "locked_slots.pickup_into_locked_slots", false);
+    public static final ConfigOption<Boolean> QUICK_MOVE_INTO_LOCKED_SLOTS = new SimpleButtonOption("options", "locked_slots.quick_move_into_locked_slots", false);
+    public static final ConfigOption<Boolean> PROFILES_IGNORE_LOCKED_SLOTS = new SimpleButtonOption("options", "universal.ignore_locked_slots", true);
+    public static final ConfigOption<Boolean> SHOW_LOCK = new SimpleButtonOption("visuals", "locked_slots.show_lock", true);
+    public static final ConfigOption<Style> LOCKED_SLOT_STYLE = new EnumButtonOption<>("visuals", "locked_slots.style", Style.FILLED);
+    public static final ConfigOption<Integer> LOCKED_SLOTS_COLOR = new ColorFieldOption("visuals", "locked_slots.color", 0xFF4D4D4D);
+
+    public static final String OPTION_TRANSLATION_KEY = "config.options.button.text.inventive_inventory";
+    public static final String VISUALS_TRANSLATION_KEY = "config.visuals.button.text.inventive_inventory";
 
     private static final String CONFIG_FILE = "config.json";
     private static final Path CONFIG_FILE_PATH = CONFIG_PATH.resolve(CONFIG_FILE);
+
 
     public static void init() throws IOException {
         deleteOldConfigs();

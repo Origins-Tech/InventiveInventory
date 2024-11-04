@@ -12,7 +12,6 @@ import net.origins.inventive_inventory.features.profiles.ProfileHandler;
 import org.lwjgl.glfw.GLFW;
 
 public class ProfilesNamingScreen extends Screen {
-    private static final String TRANSLATION_KEY = "text." + InventiveInventory.MOD_ID + ".profiles_naming_screen.";
     private TextFieldWidget textFieldWidget;
 
     public ProfilesNamingScreen() {
@@ -30,9 +29,9 @@ public class ProfilesNamingScreen extends Screen {
         int centerY = this.height / 2;
 
         DirectionalLayoutWidget layout = DirectionalLayoutWidget.vertical();
-        TextWidget textWidget = new TextWidget(150, 10, Text.translatable(TRANSLATION_KEY + "instruction"), this.client.textRenderer);
+        TextWidget textWidget = new TextWidget(150, 10, Text.translatable("profiles.screen.naming.text_field.inventive_inventory.placeholder"), this.client.textRenderer);
         this.textFieldWidget = new TextFieldWidget(this.client.textRenderer, 150, 20, Text.empty());
-        this.textFieldWidget.setPlaceholder(Text.translatable(TRANSLATION_KEY + "placeholder"));
+        this.textFieldWidget.setPlaceholder(Text.translatable("profiles.screen.naming.text_field.inventive_inventory.placeholder"));
         ButtonWidget doneButton = ButtonWidget.builder(ScreenTexts.DONE, (button) -> createProfile()).build();
 
         layout.add(textWidget);

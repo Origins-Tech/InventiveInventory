@@ -1,10 +1,13 @@
 package net.origins.inventive_inventory.features.automatic_refilling;
 
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.screen.PlayerScreenHandler;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
-import net.origins.inventive_inventory.config.enums.Status;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementPriority;
 import net.origins.inventive_inventory.util.InteractionHandler;
@@ -18,64 +21,63 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class AutomaticRefillingHandler {
-
-    public static final List<Class<? extends Item>> TOOL_CLASSES = List.of(SwordItem.class, PickaxeItem.class, AxeItem.class, ShovelItem.class, HoeItem.class, BowItem.class, CrossbowItem.class, TridentItem.class, MaceItem.class);
     private static final List<Item> EMPTIES = List.of(Items.BUCKET, Items.GLASS_BOTTLE, Items.BOWL);
-    public static int SELECTED_SLOT;
-    public static boolean RUN_OFFHAND = true;
-    private static ItemStack offHandStack = ItemStack.EMPTY;
     private static ItemStack mainHandStack = ItemStack.EMPTY;
+    private static ItemStack offHandStack = ItemStack.EMPTY;
+    private static int selectedSlot;
+    private static boolean runOffHand = true;
 
-    public static void setOffHandStack(ItemStack itemStack) {
-        offHandStack = itemStack.copy();
+    public static void setMainHandStack(ItemStack stack) {
+        mainHandStack = stack.copy();
     }
 
-    public static void setMainHandStack(ItemStack itemStack) {
-        mainHandStack = itemStack.copy();
+    public static void setOffHandStack(ItemStack stack) {
+        offHandStack = stack.copy();
+    }
+
+    public static int getSelectedSlot() {
+        return selectedSlot;
+    }
+
+    public static void setSelectedSlot(int selectedSlot) {
+        AutomaticRefillingHandler.selectedSlot = selectedSlot;
+    }
+
+    public static boolean shouldRun() {
+        GameOptions options = InventiveInventory.getClient().options;
+        if (!(options.useKey.isPressed() || options.dropKey.isPressed() || options.attackKey.isPressed() && mainHandStack.isDamageable())) return false;
+        if (mainHandStack.isEmpty() || ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || !ItemStack.areItemsAndComponentsEqual(mainHandStack, InteractionHandler.getMainHandStack()) && mainHandStack.isDamageable() || mainHandStack.getCount() > 1) return false;
+        return !mainHandStack.isDamageable() || ToolReplacementBehaviour.isValid(mainHandStack);
+    }
+
+    public static boolean shouldRunOffHand() {
+        if (!runOffHand) {
+            runOffHand = true;
+            return false;
+        }
+        if (!InventiveInventory.getClient().options.useKey.isPressed()) return false;
+        if (offHandStack.isEmpty() || ItemStack.areEqual(offHandStack, InteractionHandler.getOffHandStack()) || offHandStack.getCount() > 1) return false;
+        return !offHandStack.isDamageable() || ToolReplacementBehaviour.isValid(offHandStack);
     }
 
     public static void runMainHand() {
-        SELECTED_SLOT = InteractionHandler.getSelectedSlot();
-        boolean isAutomaticRefillingDisabled = ConfigManager.AUTOMATIC_REFILLING.is(Status.DISABLED);
-        boolean capturedStackIsEmpty = ItemStack.areItemsEqual(mainHandStack, ItemStack.EMPTY);
-        ItemStack currentStack = InteractionHandler.getMainHandStack();
-        boolean handFullAndNoTool = ItemStack.areItemsEqual(mainHandStack, currentStack) && !TOOL_CLASSES.contains(currentStack.getItem().getClass());
-        boolean handFullAndToolDurabilityOver1 = ItemStack.areItemsEqual(mainHandStack, currentStack) && TOOL_CLASSES.contains(currentStack.getItem().getClass()) && currentStack.getMaxDamage() - currentStack.getDamage() > 1;
-        if (isAutomaticRefillingDisabled || capturedStackIsEmpty || handFullAndNoTool || handFullAndToolDurabilityOver1)
-            return;
-        if (ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.BREAK_TOOL) && TOOL_CLASSES.contains(currentStack.getItem().getClass()) && currentStack.getMaxDamage() - currentStack.getDamage() == 1)
-            return;
-
         List<Integer> sameItemSlots = getSameItemSlots(mainHandStack);
 
         int emptiesSlot = InteractionHandler.getSelectedSlot();
         if (!sameItemSlots.isEmpty()) {
-            if (SlotRange.slotIn(SlotTypes.HOTBAR, sameItemSlots.getFirst()))
+            if (PlayerScreenHandler.isInHotbar(sameItemSlots.getFirst())) {
                 InteractionHandler.setSelectedSlot(sameItemSlots.getFirst() - PlayerInventory.MAIN_SIZE);
-            else {
+            } else {
                 InteractionHandler.swapStacks(sameItemSlots.getFirst(), InteractionHandler.getSelectedSlot());
                 emptiesSlot = sameItemSlots.getFirst();
             }
-            RUN_OFFHAND = false;
-            offHandStack = ItemStack.EMPTY;
-        }
+        } else runOffHand = false;
 
         mainHandStack = ItemStack.EMPTY;
         if (EMPTIES.contains(InteractionHandler.getStackFromSlot(emptiesSlot).getItem())) mergeEmpties(emptiesSlot);
     }
 
     public static void runOffHand() {
-        boolean isAutomaticRefillingDisabled = ConfigManager.AUTOMATIC_REFILLING.is(Status.DISABLED);
-        boolean capturedStackIsEmpty = ItemStack.areItemsEqual(offHandStack, ItemStack.EMPTY);
-        ItemStack currentStack = InteractionHandler.getOffHandStack();
-        boolean handFullAndNoTool = ItemStack.areItemsEqual(offHandStack, currentStack) && !TOOL_CLASSES.contains(currentStack.getItem().getClass());
-        boolean handFullAndToolDurabilityOver1 = ItemStack.areItemsEqual(offHandStack, currentStack) && TOOL_CLASSES.contains(currentStack.getItem().getClass()) && currentStack.getMaxDamage() - currentStack.getDamage() > 1;
-        if (isAutomaticRefillingDisabled || capturedStackIsEmpty || handFullAndNoTool || handFullAndToolDurabilityOver1)
-            return;
-        if (ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.BREAK_TOOL) && TOOL_CLASSES.contains(currentStack.getItem().getClass()) && currentStack.getMaxDamage() - currentStack.getDamage() == 1)
-            return;
-        SELECTED_SLOT = InteractionHandler.getSelectedSlot();
-
         List<Integer> sameItemSlots = getSameItemSlots(offHandStack);
 
         int emptiesSlot = PlayerScreenHandler.OFFHAND_ID;
@@ -88,29 +90,23 @@ public class AutomaticRefillingHandler {
         if (EMPTIES.contains(InteractionHandler.getStackFromSlot(emptiesSlot).getItem())) mergeEmpties(emptiesSlot);
     }
 
-    public static void reset() {
-        setMainHandStack(ItemStack.EMPTY);
-        setOffHandStack(ItemStack.EMPTY);
-        RUN_OFFHAND = true;
-        SELECTED_SLOT = -1;
-    }
-
     private static List<Integer> getSameItemSlots(ItemStack handStack) {
         SlotRange slotRange = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(InteractionHandler.getSelectedSlot());
         slotRange = ConfigManager.AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS.is(true) ? slotRange.exclude(SlotTypes.LOCKED_SLOT) : slotRange;
         Stream<Integer> sameItemSlotsStream = slotRange.stream()
                 .filter(slot -> {
-                    ItemStack itemStack = InteractionHandler.getStackFromSlot(slot);
-                    boolean isEqualAndNoTool = ItemStack.areItemsAndComponentsEqual(handStack, itemStack) && !TOOL_CLASSES.contains(itemStack.getItem().getClass());
-                    boolean isSameToolType = itemStack.getItem().getClass().equals(handStack.getItem().getClass()) && TOOL_CLASSES.contains(itemStack.getItem().getClass());
-                    return isEqualAndNoTool || isSameToolType && ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.KEEP_TOOL) && itemStack.getMaxDamage() - itemStack.getDamage() > 1 || isSameToolType && ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.BREAK_TOOL);
+                    ItemStack stack = InteractionHandler.getStackFromSlot(slot);
+                    if (handStack.isDamageable()) {
+                        return stack.getItem().getClass().equals(handStack.getItem().getClass()) &&
+                                ((ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.KEEP_TOOL) && stack.getMaxDamage() - stack.getDamage() > 1) || ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.BREAK_TOOL));
+                    } return ItemStack.areItemsEqual(handStack, stack);
                 });
 
-        if (TOOL_CLASSES.contains(handStack.getItem().getClass())) {
+        if (handStack.isDamageable()) {
             if (ConfigManager.TOOL_REPLACEMENT_PRIORITY.is(ToolReplacementPriority.MATERIAL)) {
                 sameItemSlotsStream = sameItemSlotsStream
                         .sorted(Comparator.comparing(slot -> InteractionHandler.getStackFromSlot(slot).getMaxDamage(), Comparator.reverseOrder()));
-            } else if (ConfigManager.TOOL_REPLACEMENT_PRIORITY.is(ToolReplacementPriority.REMAINING_HEALTH)) {
+            } else if (ConfigManager.TOOL_REPLACEMENT_PRIORITY.is(ToolReplacementPriority.DURABILITY)) {
                 sameItemSlotsStream = sameItemSlotsStream
                         .sorted(Comparator.comparing(slot -> InteractionHandler.getStackFromSlot(slot).getMaxDamage() - InteractionHandler.getStackFromSlot(slot).getDamage()));
             }
@@ -138,5 +134,10 @@ public class AutomaticRefillingHandler {
             InteractionHandler.leftClickStack(itemSlot);
             InteractionHandler.leftClickStack(sameItemSlots.getFirst());
         }
+    }
+
+    public static void reset() {
+        mainHandStack = ItemStack.EMPTY;
+        offHandStack = ItemStack.EMPTY;
     }
 }

@@ -1,3 +1,4 @@
+
 package net.origins.inventive_inventory.commands.config.type;
 
 public enum ConfigType {
