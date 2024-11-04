@@ -10,8 +10,11 @@ public class ConnectionEvents {
     public static void register() {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             AutomaticRefillingHandler.reset();
-            LockedSlotsHandler.init();
             ProfileHandler.init();
+            if (!client.isInSingleplayer()) LockedSlotsHandler.startScheduler();
+            else LockedSlotsHandler.init();
         });
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> LockedSlotsHandler.reset());
     }
 }

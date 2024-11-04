@@ -3,6 +3,7 @@ package net.origins.inventive_inventory.features.locked_slots;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.origins.inventive_inventory.InventiveInventory;
@@ -20,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
@@ -60,9 +64,7 @@ public class LockedSlotsHandler {
     }
 
     public static void init() {
-        lockedSlots.clear();
-        savedInventory.clear();
-        savedHandlerInventory.clear();
+        reset();
         JsonElement jsonFile = FileHandler.get(LOCKED_SLOTS_PATH);
         JsonArray lockedSlotsJson = new JsonArray();
         if (jsonFile.isJsonObject() && jsonFile.getAsJsonObject().has(InventiveInventory.getWorldName())) {
@@ -71,6 +73,12 @@ public class LockedSlotsHandler {
         for (JsonElement slot : lockedSlotsJson.getAsJsonArray()) {
             lockedSlots.add(slot.getAsInt());
         }
+    }
+
+    public static void reset() {
+        lockedSlots.clear();
+        savedInventory.clear();
+        savedHandlerInventory.clear();
     }
 
     public static LockedSlots getLockedSlots() {
@@ -108,9 +116,8 @@ public class LockedSlotsHandler {
     }
 
     private static Map<Item, Integer> getItemCountMap(List<ItemStack> inventory) {
-    return inventory.stream()
-            .collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
-}
+        return inventory.stream().collect(Collectors.toMap(ItemStack::getItem, ItemStack::getCount, Integer::sum));
+    }
 
     private static boolean isItemTaken(List<ItemStack> currentInventory) {
         Map<Item, Integer> currentCountMap = getItemCountMap(currentInventory);
@@ -172,5 +179,24 @@ public class LockedSlotsHandler {
         jsonObject.remove(InventiveInventory.getWorldName());
         jsonObject.add(InventiveInventory.getWorldName(), lockedSlotsJson);
         FileHandler.write(LOCKED_SLOTS_PATH, jsonObject);
+    }
+
+    public static void startScheduler() {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        Runnable task = new Runnable() {
+            private int iteration = 0;
+
+            @Override
+            public void run() {
+                System.out.println("HERE");
+                MinecraftClient client = InventiveInventory.getClient();
+                if ((client.getNetworkHandler() != null && client.getNetworkHandler().getAdvancementHandler().getManager().getAdvancements().isEmpty()) || iteration > 15) {
+                    LockedSlotsHandler.init();
+                    scheduler.shutdown();
+                }
+                iteration++;
+            }
+        };
+        scheduler.scheduleAtFixedRate(task, 0, 50, TimeUnit.MILLISECONDS);
     }
 }

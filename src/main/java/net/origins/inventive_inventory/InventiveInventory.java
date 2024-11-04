@@ -77,7 +77,9 @@ public class InventiveInventory implements ClientModInitializer {
             worldName = InventiveInventory.getClient().getServer().getSaveProperties().getLevelName();
         } else {
             if (InventiveInventory.getClient().getNetworkHandler() != null) {
-                worldName = InventiveInventory.getClient().getNetworkHandler().getConnection().getAddress().toString();
+                String address = InventiveInventory.getClient().getNetworkHandler().getConnection().getAddress().toString();
+                if (address.contains("/")) worldName = address.split("/")[0];
+                else worldName = address;
             }
         }
         return worldName;
