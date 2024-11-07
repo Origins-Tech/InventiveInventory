@@ -13,6 +13,9 @@ public class ConnectionEvents {
             ProfileHandler.init();
         });
 
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> LockedSlotsHandler.reset());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            LockedSlotsHandler.reset();
+            LockedSlotsHandler.schedulerStarted = false;
+        });
     }
 }

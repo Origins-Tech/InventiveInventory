@@ -35,8 +35,13 @@ public class TickEvents {
     }
 
     private static void playerHandling(MinecraftClient client) {
-        if (client.player == null) LockedSlotsHandler.reset();
-        else if (!LockedSlotsHandler.isInitied) LockedSlotsHandler.startScheduler();
+        if (client.player == null) {
+            LockedSlotsHandler.reset();
+            LockedSlotsHandler.schedulerStarted = false;
+            return;
+        }
+        if (!LockedSlotsHandler.schedulerStarted) LockedSlotsHandler.startScheduler();
+        else if (LockedSlotsHandler.shouldInit) LockedSlotsHandler.init();
     }
 
 

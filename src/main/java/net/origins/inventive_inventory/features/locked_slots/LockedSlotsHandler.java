@@ -32,7 +32,8 @@ public class LockedSlotsHandler {
     private static final List<ItemStack> savedInventory = new ArrayList<>();
     private static final List<ItemStack> savedHandlerInventory = new ArrayList<>();
     public static boolean shouldAdd;
-    public static boolean isInitied;
+    public static boolean shouldInit;
+    public static boolean schedulerStarted;
     private static LockedSlots lockedSlots = new LockedSlots(List.of());
 
     public static final int HOVER_COLOR = 0x66FF0000;
@@ -65,6 +66,7 @@ public class LockedSlotsHandler {
 
     public static void init() {
         reset();
+        shouldInit = false;
         JsonElement jsonFile = FileHandler.get(LOCKED_SLOTS_PATH);
         JsonArray lockedSlotsJson = new JsonArray();
         if (jsonFile.isJsonObject() && jsonFile.getAsJsonObject().has(InventiveInventory.getWorldName())) {
@@ -76,7 +78,6 @@ public class LockedSlotsHandler {
     }
 
     public static void reset() {
-        isInitied = false;
         lockedSlots.clear();
         savedInventory.clear();
         savedHandlerInventory.clear();
@@ -139,8 +140,8 @@ public class LockedSlotsHandler {
     }
 
     private static void rearrange(List<ItemStack> currentInventory, BiConsumer<Integer, Integer> func) {
-        LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
         if (savedInventory.isEmpty()) return;
+        LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
         int i = 9;
         for (int invSlot : PlayerSlots.get()) {
             ItemStack currentStack = currentInventory.get(i);
@@ -183,20 +184,20 @@ public class LockedSlotsHandler {
     }
 
     public static void startScheduler() {
-        isInitied = true;
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         Runnable task = new Runnable() {
             private int iteration = 0;
 
             @Override
             public void run() {
-                if (iteration > 5) {
-                    LockedSlotsHandler.init();
+                if (iteration > 10) {
+                    LockedSlotsHandler.shouldInit = true;
                     scheduler.shutdown();
                 }
                 iteration++;
             }
         };
         scheduler.scheduleAtFixedRate(task, 0, 50, TimeUnit.MILLISECONDS);
+        schedulerStarted = true;
     }
 }
