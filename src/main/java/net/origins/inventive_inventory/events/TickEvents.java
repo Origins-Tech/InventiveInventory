@@ -24,6 +24,7 @@ import java.util.List;
 public class TickEvents {
 
     public static void register() {
+        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::playerHandling);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::checkKeys);
         ClientTickEvents.START_CLIENT_TICK.register(TickEvents::adjustInventory);
 
@@ -32,6 +33,12 @@ public class TickEvents {
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventory);
         ClientTickEvents.END_CLIENT_TICK.register(TickEvents::loadProfile);
     }
+
+    private static void playerHandling(MinecraftClient client) {
+        if (client.player == null) LockedSlotsHandler.reset();
+        else if (!LockedSlotsHandler.isInitied) LockedSlotsHandler.startScheduler();
+    }
+
 
     private static void checkKeys(MinecraftClient client) {
         if (client.player == null || client.player.isInCreativeMode()) return;

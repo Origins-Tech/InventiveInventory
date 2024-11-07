@@ -3,7 +3,6 @@ package net.origins.inventive_inventory.features.locked_slots;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.origins.inventive_inventory.InventiveInventory;
@@ -33,6 +32,7 @@ public class LockedSlotsHandler {
     private static final List<ItemStack> savedInventory = new ArrayList<>();
     private static final List<ItemStack> savedHandlerInventory = new ArrayList<>();
     public static boolean shouldAdd;
+    public static boolean isInitied;
     private static LockedSlots lockedSlots = new LockedSlots(List.of());
 
     public static final int HOVER_COLOR = 0x66FF0000;
@@ -76,6 +76,7 @@ public class LockedSlotsHandler {
     }
 
     public static void reset() {
+        isInitied = false;
         lockedSlots.clear();
         savedInventory.clear();
         savedHandlerInventory.clear();
@@ -182,15 +183,14 @@ public class LockedSlotsHandler {
     }
 
     public static void startScheduler() {
+        isInitied = true;
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         Runnable task = new Runnable() {
             private int iteration = 0;
 
             @Override
             public void run() {
-                System.out.println("HERE");
-                MinecraftClient client = InventiveInventory.getClient();
-                if ((client.getNetworkHandler() != null && client.getNetworkHandler().getAdvancementHandler().getManager().getAdvancements().isEmpty()) || iteration > 15) {
+                if (iteration > 5) {
                     LockedSlotsHandler.init();
                     scheduler.shutdown();
                 }
