@@ -11,10 +11,11 @@ public class ConnectionEvents {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             AutomaticRefillingHandler.reset();
             ProfileHandler.init();
-            if (!client.isInSingleplayer()) LockedSlotsHandler.startScheduler();
-            else LockedSlotsHandler.init();
         });
 
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> LockedSlotsHandler.reset());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            LockedSlotsHandler.reset();
+            LockedSlotsHandler.schedulerStarted = false;
+        });
     }
 }
