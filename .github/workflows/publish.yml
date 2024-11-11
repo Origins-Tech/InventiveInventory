@@ -27,6 +27,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.base.ref, '1.21')
+    env:
+      JAVA_VERSION: 21
+      version: ${{ steps.read-properties.outputs.version }}
+      minecraft_version: ${{ steps.read-properties.outputs.minecraft_version }}
+      platform: ${{ github.event_name == 'pull_request' && 'All' || github.event.inputs.platform }}
+
 
     steps:
       - name: Check Environment Variables
@@ -44,6 +50,7 @@ jobs:
           java-version: "${{ env.JAVA_VERSION }}"
 
       - name: Read version and minecraft_version from gradle.properties
+        id: read-properties
         run: | 
           version=$(grep '^version=' gradle.properties | cut -d'=' -f2-)
           minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2-)
