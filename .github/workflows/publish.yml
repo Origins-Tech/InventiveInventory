@@ -1,9 +1,9 @@
 name: Publish
-run-name: Deployed by ${{ github.actor }} on ${{ env.platform }} - ${{ env.version }} on ${{ env.minecraft_version }}.
+run-name: Deployed by ${{ github.actor }} on ${{ github.event.inputs.platform || 'All' }} - ${{ steps.read-properties.outputs.version }} on ${{ steps.read-properties.outputs.minecraft_version }}.
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    branches:
+      - "1.21"
   workflow_dispatch:
     inputs:
       platform:
@@ -15,24 +15,14 @@ on:
           - Modrinth
           - Curseforge
 
-
-env:
-  JAVA_VERSION: 21
-  platform: ${{ github.event_name == 'pull_request' && 'All' || github.event.inputs.platform }}
-
 permissions:
   contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.base.ref, '1.21')
     env:
       JAVA_VERSION: 21
-      version: ${{ steps.read-properties.outputs.version }}
-      minecraft_version: ${{ steps.read-properties.outputs.minecraft_version }}
-      platform: ${{ github.event_name == 'pull_request' && 'All' || github.event.inputs.platform }}
-
 
     steps:
       - name: Check Environment Variables
@@ -54,8 +44,11 @@ jobs:
         run: | 
           version=$(grep '^version=' gradle.properties | cut -d'=' -f2-)
           minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2-)
-          echo "version=$version" >> $GITHUB_ENV
-          echo "minecraft_version=$minecraft_version" >> $GITHUB_ENV
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "minecraft_version=$minecraft_version" >> $GITHUB_OUTPUT
+        outputs:
+          version: ${{ steps.read-properties.outputs.version }}
+          minecraft_version: ${{ steps.read-properties.outputs.minecraft_version }}
 
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
@@ -65,12 +58,12 @@ jobs:
         run: ./gradlew clean build
 
       - name: Publish to Modrinth
-        if: ${{ env.platform == 'Modrinth' || env.platform == 'ALL' }}
+        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event.inputs.platform == 'ALL' }}
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
-          name: "Inventive Inventory ${{ env.version }}"
-          version: "${{ env.version }}"
+          name: "Inventive Inventory ${{ steps.read-properties.outputs.version }}"
+          version: "${{ steps.read-properties.outputs.version }}"
           game-versions: |
             [1.21, 1.21.1]
           version-type: release
@@ -78,12 +71,12 @@ jobs:
           java: "${{ env.JAVA_VERSION }}"
 
       - name: Publish to Curseforge
-        if: ${{ env.platform == 'Curseforge' || env.platform == 'ALL' }}
+        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event.inputs.platform == 'ALL' }}
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
-          name: "Inventive Inventory ${{ env.version }}"
-          version: "${{ env.version }}"
+          name: "Inventive Inventory ${{ steps.read-properties.outputs.version }}"
+          version: "${{ steps.read-properties.outputs.version }}"
           game-versions: |
             [1.21, 1.21.1]
           version-type: release
