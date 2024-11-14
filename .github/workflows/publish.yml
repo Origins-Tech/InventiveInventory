@@ -16,6 +16,9 @@ on:
           - All
           - Modrinth
           - Curseforge
+      version:
+        description: Mod Version
+        required: true
 
 permissions:
   contents: write
