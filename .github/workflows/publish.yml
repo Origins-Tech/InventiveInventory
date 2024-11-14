@@ -1,5 +1,6 @@
+
 name: Publish
-run-name: Deployed by ${{ github.actor }} on ${{ github.event.inputs.platform || 'All' }} - ${{ steps.read-properties.outputs.version }} on ${{ steps.read-properties.outputs.minecraft_version }}.
+
 on:
   push:
     branches:
@@ -7,6 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       platform:
+        default: All
         description: Platform to publish
         required: true
         type: choice
@@ -44,12 +46,12 @@ jobs:
         run: | 
           version=$(grep '^version=' gradle.properties | cut -d'=' -f2-)
           minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2-)
-          echo "version=$version" >> $GITHUB_OUTPUT
-          echo "minecraft_version=$minecraft_version" >> $GITHUB_OUTPUT
-        outputs:
-          version: ${{ steps.read-properties.outputs.version }}
-          minecraft_version: ${{ steps.read-properties.outputs.minecraft_version }}
+          echo "version=$version" >> $GITHUB_ENV
+          echo "minecraft_version=$minecraft_version" >> $GITHUB_ENV
 
+      - name: Set run name
+        run: echo "run_name=Deployed by ${{ github.actor }} on ${{ github.event.inputs.platform }} - ${{ env.version }} on ${{ env.minecraft_version }}" >> $GITHUB_OUTPUT
+   
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
@@ -58,7 +60,7 @@ jobs:
         run: ./gradlew clean build
 
       - name: Publish to Modrinth
-        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event.inputs.platform == 'ALL' }}
+        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event_name == 'push' }}
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
@@ -71,7 +73,7 @@ jobs:
           java: "${{ env.JAVA_VERSION }}"
 
       - name: Publish to Curseforge
-        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event.inputs.platform == 'ALL' }}
+        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event_name == 'push' }}
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
