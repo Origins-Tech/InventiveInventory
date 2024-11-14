@@ -49,8 +49,8 @@ jobs:
           echo "minecraft_version=$minecraft_version" >> $GITHUB_ENV
 
       - name: Set run name
-        run: echo "::set-output name=run_name::Deployed by ${{ github.actor }} on ${{ github.event.inputs.platform }} - ${{ env.version }} on ${{ env.minecraft_version }}."
-        
+        run: echo "run_name=Deployed by ${{ github.actor }} on ${{ github.event.inputs.platform }} - ${{ env.version }} on ${{ env.minecraft_version }}" >> $GITHUB_OUTPUT
+   
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
@@ -59,7 +59,7 @@ jobs:
         run: ./gradlew clean build
 
       - name: Publish to Modrinth
-        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event.inputs.platform == 'All' }}
+        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event_name == 'push' }}
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
@@ -72,7 +72,7 @@ jobs:
           java: "${{ env.JAVA_VERSION }}"
 
       - name: Publish to Curseforge
-        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event.inputs.platform == 'All' }}
+        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event_name == 'push' }}
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
