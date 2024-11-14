@@ -1,21 +1,27 @@
 package net.origins.inventive_inventory.config.enums.automatic_refilling;
 
 import net.minecraft.text.Text;
+import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 
 public enum ToolReplacementPriority implements Translatable {
     MATERIAL("material"),
-    REMAINING_HEALTH("health");
+    DURABILITY("durability");
 
     private final String translationKey;
 
     ToolReplacementPriority(String translationKey) {
-        this.translationKey = "config.option_button.inventive_inventory.automatic_refilling.tool_replacement_priority." + translationKey;
+        this.translationKey = "automatic_refilling.tool_replacement_priority." + translationKey;
     }
 
     @Override
-    public Text getText() {
-        return Text.translatable(this.translationKey);
+    public Text getButtonText() {
+        return Text.translatable(ConfigManager.OPTION_TRANSLATION_KEY + "." + this.translationKey);
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return this.translationKey;
     }
 }
 

@@ -7,6 +7,10 @@ base {
     archivesName = project.archives_base_name
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/inventive_inventory.accesswidener")
+}
+
 repositories {
     // Add repositories to retrieve artifacts from in here.
     maven {

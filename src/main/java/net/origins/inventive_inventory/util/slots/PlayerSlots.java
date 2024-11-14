@@ -3,18 +3,27 @@ package net.origins.inventive_inventory.util.slots;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.origins.inventive_inventory.InventiveInventory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerSlots {
-    public static final int HOTBAR_SIZE = 9;
-    public static final int OFFHAND_SIZE = 1;
-
     public static SlotRange get() {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
-        int start = screenHandler.slots.size() - PlayerInventory.MAIN_SIZE - (screenHandler instanceof PlayerScreenHandler ? OFFHAND_SIZE : 0);
-        int stop = screenHandler.slots.size() - HOTBAR_SIZE - (screenHandler instanceof PlayerScreenHandler ? OFFHAND_SIZE : 0);
+        List<Slot> playerSlots = screenHandler.slots.stream()
+                .filter(slot -> slot.inventory instanceof PlayerInventory)
+                .filter(slot -> !PlayerInventory.isValidHotbarIndex(slot.getIndex()))
+                .filter(slot -> !(screenHandler instanceof PlayerScreenHandler) || !PlayerScreenHandler.isInHotbar(slot.id))
+                .toList();
+
+        if (playerSlots.stream().anyMatch(slot -> slot.getClass().equals(Slot.class))) {
+            playerSlots = playerSlots.stream().filter(slot -> slot.getClass().equals(Slot.class)).toList();
+        }
+        if (playerSlots.isEmpty()) return new SlotRange(0, 0);
+        int start = playerSlots.getFirst().id;
+        int stop = playerSlots.getLast().id;
         return new SlotRange(start, stop);
     }
 

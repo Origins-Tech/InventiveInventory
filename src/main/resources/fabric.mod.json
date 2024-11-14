@@ -25,6 +25,7 @@
             "net.origins.inventive_inventory.integrations.ModMenuIntegration"
         ]
     },
+    "accessWidener": "inventive_inventory.accesswidener",
     "mixins": [
         "keys.mixins.json",
         "keys.keybindfix.mixins.json",
@@ -32,12 +33,12 @@
         "locked_slots.mixins.json"
     ],
     "depends": {
-        "minecraft": "${minecraft_version}",
-        "fabric": ">=${fabric_version}",
-        "fabricloader": ">=${loader_version}"
+        "minecraft": ">=1.20.5 <=1.20.6",
+        "fabric": ">=0.97.5+1.20.5",
+        "fabricloader": ">=0.15.0"
     },
     "suggests": {
-        "modmenu": ">=${modmenu_version}"
+        "modmenu": ">=10.0.0"
     },
     "custom": {
         "modmenu": {

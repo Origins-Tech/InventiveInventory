@@ -9,6 +9,10 @@ public class ConfigTextWidget extends TextWidget {
         super(message, textRenderer);
     }
 
+    public ConfigTextWidget(int width, int height, Text message, TextRenderer textRenderer) {
+        super(width, height, message, textRenderer);
+    }
+
     @Override
     public void setPosition(int x, int y) {
         super.setPosition(x, y + 6);

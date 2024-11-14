@@ -3,14 +3,11 @@ package net.origins.inventive_inventory.util.tooltips;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.origins.inventive_inventory.InventiveInventory;
-import net.minecraft.util.Identifier;
 import net.origins.inventive_inventory.features.profiles.Profile;
 import net.origins.inventive_inventory.keys.KeyRegistry;
 
@@ -18,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TooltipBuilder {
-    private final static String TOOLTIP_TRANSLATION_KEY = "tooltip." + InventiveInventory.MOD_ID + ".";
-    private final static String DEFAULT_TRANSLATION_KEY = "default." + InventiveInventory.MOD_ID + ".";
+    private final static String TOOLTIP_TRANSLATION_KEY = "profiles.screen.tooltip.inventive_inventory.";
 
     public static List<Text> of(TooltipType type, Profile profile) {
         if (type == TooltipType.NAME) return buildName(profile);
@@ -40,11 +36,11 @@ public class TooltipBuilder {
         List<Text> textList = new ArrayList<>();
         addTitle(Text.of(profile.getDisplayStack().getName().getString()), Formatting.AQUA, textList);
         if (profile.getDisplayStack().hasEnchantments()) {
-            Registry<Enchantment> enchantmentRegistry = InventiveInventory.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
             for (RegistryEntry<Enchantment> entry : profile.getDisplayStack().getEnchantments().getEnchantments()) {
-                Enchantment enchantment = enchantmentRegistry.get(new Identifier(entry.getIdAsString()));
-                if (enchantment == null) continue;
-                textList.add(enchantment.getName(EnchantmentHelper.getLevel(enchantment, profile.getDisplayStack())));
+                if (entry.getKey().isPresent()) {
+                    Enchantment enchantment = Registries.ENCHANTMENT.get(entry.getKey().get());
+                    if (enchantment != null) textList.add(enchantment.getName(EnchantmentHelper.getLevel(enchantment, profile.getDisplayStack())));
+                }
             }
             textList.add(Text.empty());
         }
@@ -54,7 +50,7 @@ public class TooltipBuilder {
 
     private static List<Text> buildUnknown(Profile profile) {
         List<Text> textList = new ArrayList<>();
-        addTitle(Text.translatable(DEFAULT_TRANSLATION_KEY + "unnamed"), Formatting.GRAY, textList);
+        addTitle(Text.translatable(TOOLTIP_TRANSLATION_KEY + "unnamed"), Formatting.GRAY, textList);
         addKey(profile, textList);
         return textList;
     }
@@ -62,6 +58,7 @@ public class TooltipBuilder {
     private static List<Text> buildPlus() {
         List<Text> textList = new ArrayList<>();
         textList.add(Text.translatable(TOOLTIP_TRANSLATION_KEY + "plus.1"));
+        textList.add(Text.empty());
         textList.add(Text.translatable(TOOLTIP_TRANSLATION_KEY + "plus.2"));
         return textList;
     }
@@ -73,7 +70,7 @@ public class TooltipBuilder {
     private static void addKey(Profile profile, List<Text> textList) {
         if (profile.getKey() != null) {
             KeyBinding keyBinding = KeyRegistry.getByTranslationKey(profile.getKey());
-            if (keyBinding != null) textList.add(Text.of(Text.translatable(DEFAULT_TRANSLATION_KEY + "key").getString() + ": " + keyBinding.getBoundKeyLocalizedText().getString()));
+            if (keyBinding != null) textList.add(Text.of(Text.translatable(TOOLTIP_TRANSLATION_KEY + "key").getString() + ": " + keyBinding.getBoundKeyLocalizedText().getString()));
         }
     }
 }

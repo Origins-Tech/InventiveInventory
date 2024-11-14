@@ -17,16 +17,18 @@ import net.origins.inventive_inventory.util.Notifier;
 import java.util.concurrent.CompletableFuture;
 
 public class ProfilesCreateCommand {
-    private final static String ERROR_TRANSLATION_KEY = "error." + InventiveInventory.MOD_ID + ".";
+    private final static String ERROR_TRANSLATION_KEY = "error.profiles.inventive_inventory.";
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess ignored) {
-        dispatcher.register(ClientCommandManager.literal("inventive-profiles")
-                .then(ClientCommandManager.literal("create")
-                        .then(ClientCommandManager.argument("name", StringArgumentType.string())
-                                .executes(ProfilesCreateCommand::create)
-                                .then(ClientCommandManager.argument("keybinding", StringArgumentType.word())
-                                        .suggests(ProfilesCreateCommand::getKeyBinds)
-                                        .executes(ProfilesCreateCommand::createWithKeyBinding)
+        dispatcher.register(ClientCommandManager.literal(InventiveInventory.MOD_ID)
+                .then(ClientCommandManager.literal("profiles")
+                        .then(ClientCommandManager.literal("create")
+                                .then(ClientCommandManager.argument("name", StringArgumentType.string())
+                                        .executes(ProfilesCreateCommand::create)
+                                        .then(ClientCommandManager.argument("keybinding", StringArgumentType.word())
+                                                .suggests(ProfilesCreateCommand::getKeyBinds)
+                                                .executes(ProfilesCreateCommand::createWithKeyBinding)
+                                        )
                                 )
                         )
                 )
@@ -56,7 +58,7 @@ public class ProfilesCreateCommand {
             Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "key").getString());
             return -1;
         }
-        Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "name").getString());
+        Notifier.error(Text.translatable(ERROR_TRANSLATION_KEY + "exclusive_name").getString());
         return -1;
     }
 

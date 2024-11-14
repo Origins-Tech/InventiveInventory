@@ -1,27 +1,14 @@
 name: Publish
-run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform }} - ${{ inputs.version }} on ${{ inputs.minecraft_version }}.
+run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform || 'All' }} - ${{ inputs.version || github.event.head_commit.message }} on 1.20.5, 1.20.6
+
 on:
+  push:
+    branches:
+      - "1.20.5"
   workflow_dispatch:
     inputs:
-      version:
-        description: Mod Version
-        required: true
-      minecraft_version:
-        description: Minecraft Version
-        required: true
-      yarn_mappings:
-        description: Yarn Mappings
-        required: true
-      loader_version:
-        description: Loader Version
-        required: true
-      fabric_version:
-        description: Fabric API Version
-        required: true
-      modmenu_version:
-        description: Mod Menu Version
-        required: true
       platform:
+        default: All
         description: Platform to publish
         required: true
         type: choice
@@ -29,10 +16,9 @@ on:
           - All
           - Modrinth
           - Curseforge
-          
-
-env:
-  JAVA_VERSION: 21
+      version:
+        description: Mod Version
+        required: true
 
 permissions:
   contents: write
@@ -40,6 +26,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      JAVA_VERSION: 21
+
     steps:
       - name: Check Environment Variables
         run: env
@@ -55,18 +44,11 @@ jobs:
           distribution: "temurin"
           java-version: "${{ env.JAVA_VERSION }}"
 
-      - name: Overwrite gradle.properties
-        run: |
-          cat gradle.properties
-          
-          sed -i 's/version=.*/version=${{ inputs.version }}/' gradle.properties
-          sed -i 's/minecraft_version=.*/minecraft_version=${{ inputs.minecraft_version }}/' gradle.properties
-          sed -i 's/yarn_mappings=.*/yarn_mappings=${{ inputs.yarn_mappings }}/' gradle.properties
-          sed -i 's/loader_version=.*/loader_version=${{ inputs.loader_version }}/' gradle.properties
-          sed -i 's/fabric_version=.*/fabric_version=${{ inputs.fabric_version }}/' gradle.properties
-          sed -i 's/modmenu_version=.*/modmenu_version=${{ inputs.modmenu_version }}/' gradle.properties
-
-          cat gradle.properties
+      - name: Read version and minecraft_version from gradle.properties
+        id: read-properties
+        run: | 
+          version=$(grep '^version=' gradle.properties | cut -d'=' -f2-)
+          echo "version=$version" >> $GITHUB_ENV
 
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
@@ -76,23 +58,29 @@ jobs:
         run: ./gradlew clean build
 
       - name: Publish to Modrinth
-        if: ${{ inputs.platform == 'Modrinth' || inputs.platform == 'ALL' }}
+        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event_name == 'push' }}
+
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
-          name: "Inventive Inventory ${{ inputs.version }}"
-          version: "${{ inputs.version }}"
+          name: "Inventive Inventory ${{ env.version }}"
+          version: "${{ env.version }}"
+          game-versions: |
+            [1.20.5, 1.20.6]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"
 
       - name: Publish to Curseforge
-        if: ${{ inputs.platform == 'Curseforge' || inputs.platform == 'ALL' }}
+        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event_name == 'push' }}
+
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
-          name: "Inventive Inventory ${{ inputs.version }}"
-          version: "${{ inputs.version }}"
+          name: "Inventive Inventory ${{ env.version }}"
+          version: "${{ env.version }}"
+          game-versions: |
+            [1.20.5, 1.20.6]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"
