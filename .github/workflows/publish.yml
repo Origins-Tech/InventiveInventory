@@ -45,9 +45,7 @@ jobs:
         id: read-properties
         run: | 
           version=$(grep '^version=' gradle.properties | cut -d'=' -f2-)
-          minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2-)
           echo "version=$version" >> $GITHUB_ENV
-          echo "minecraft_version=$minecraft_version" >> $GITHUB_ENV
 
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
@@ -62,8 +60,8 @@ jobs:
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
-          name: "Inventive Inventory ${{ steps.read-properties.outputs.version }}"
-          version: "${{ steps.read-properties.outputs.version }}"
+          name: "Inventive Inventory ${{ env.version }}"
+          version: "${{ env.version }}"
           game-versions: |
             [1.21, 1.21.1]
           version-type: release
@@ -76,8 +74,8 @@ jobs:
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
-          name: "Inventive Inventory ${{ steps.read-properties.outputs.version }}"
-          version: "${{ steps.read-properties.outputs.version }}"
+          name: "Inventive Inventory ${{ env.version }}"
+          version: "${{ evn.version }}"
           game-versions: |
             [1.21, 1.21.1]
           version-type: release
