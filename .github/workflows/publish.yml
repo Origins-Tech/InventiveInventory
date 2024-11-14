@@ -1,4 +1,3 @@
-
 name: Publish
 run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform || 'All' }} - ${{ inputs.version || github.event.head_commit.message }} on 1.21, 1.21.1
 
@@ -30,9 +29,6 @@ jobs:
     steps:
       - name: Check Environment Variables
         run: env
-
-      - name: Fail the job
-        run: exit 1
         
       - name: Checkout Repository
         uses: actions/checkout@v4.1.7
