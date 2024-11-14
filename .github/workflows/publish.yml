@@ -75,7 +75,7 @@ jobs:
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
           name: "Inventive Inventory ${{ env.version }}"
-          version: "${{ evn.version }}"
+          version: "${{ env.version }}"
           game-versions: |
             [1.21, 1.21.1]
           version-type: release
