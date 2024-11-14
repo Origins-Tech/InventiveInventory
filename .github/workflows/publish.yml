@@ -61,6 +61,7 @@ jobs:
 
       - name: Publish to Modrinth
         if: ${{ github.event.inputs.platform == 'Modrinth' || github.event_name == 'push' }}
+
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
@@ -74,6 +75,7 @@ jobs:
 
       - name: Publish to Curseforge
         if: ${{ github.event.inputs.platform == 'Curseforge' || github.event_name == 'push' }}
+
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
