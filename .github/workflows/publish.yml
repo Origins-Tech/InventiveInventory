@@ -1,5 +1,6 @@
 
 name: Publish
+run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform || "All" }} - ${{ inputs.version || github.ref }} on 1.21, 1.21.1"
 
 on:
   push:
@@ -25,11 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: 21
-
+    
     steps:
       - name: Check Environment Variables
         run: env
 
+      - name: Fail the job
+        run: exit 1
+        
       - name: Checkout Repository
         uses: actions/checkout@v4.1.7
         with:
@@ -49,9 +53,6 @@ jobs:
           echo "version=$version" >> $GITHUB_ENV
           echo "minecraft_version=$minecraft_version" >> $GITHUB_ENV
 
-      - name: Set run name
-        run: echo "run_name=Deployed by ${{ github.actor }} on ${{ github.event.inputs.platform }} - ${{ env.version }} on ${{ env.minecraft_version }}" >> $GITHUB_OUTPUT
-   
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
