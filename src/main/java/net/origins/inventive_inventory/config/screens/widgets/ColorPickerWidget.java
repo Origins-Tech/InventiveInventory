@@ -19,13 +19,19 @@ public class ColorPickerWidget extends CustomClickableWidget {
     public ColorPickerWidget(ColorFieldOption option) {
         super(150, 45);
         ColorFieldWidget colorField = new ColorFieldWidget(Text.of(Integer.toHexString(option.getValue())), option);
+        ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.Argb.getAlpha(option.getValue()) / 255, option);
         DirectionalLayoutWidget horizontal = DirectionalLayoutWidget.horizontal().spacing(50);
         horizontal.add(colorField);
-        horizontal.add(ButtonWidget.builder(Text.translatable("config.visuals.button.text.inventive_inventory.locked_slots.color.reset"), button -> colorField.reset())
+        horizontal.add(
+                ButtonWidget.builder(Text.translatable("config.visuals.button.text.inventive_inventory.locked_slots.color.reset"),
+                        button -> {
+                            colorField.reset();
+                            sliderWidget.reset();
+                        })
                 .tooltip(Tooltip.of(Text.translatable("config.visuals.button.tooltip.inventive_inventory.locked_slots.color.reset")))
                 .size(50, 20)
-                .build());
-        ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.Argb.getAlpha(option.getValue()) / 255, option);
+                .build()
+        );
         this.vertical.add(horizontal);
         this.vertical.add(sliderWidget);
         this.vertical.refreshPositions();
@@ -36,7 +42,8 @@ public class ColorPickerWidget extends CustomClickableWidget {
         this.vertical.setPosition(this.getX(), this.getY());
         this.vertical.forEachElement(widget -> {
             if (widget instanceof ClickableWidget) ((ClickableWidget) widget).render(context, mouseX, mouseY, delta);
-            else if (widget instanceof DirectionalLayoutWidget) widget.forEachChild(innerWidget -> innerWidget.render(context, mouseX, mouseY, delta));
+            else if (widget instanceof DirectionalLayoutWidget)
+                widget.forEachChild(innerWidget -> innerWidget.render(context, mouseX, mouseY, delta));
         });
     }
 
@@ -78,7 +85,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         this.vertical.forEachElement(element -> {
-           if (element instanceof DirectionalLayoutWidget layoutWidget) {
+            if (element instanceof DirectionalLayoutWidget layoutWidget) {
                 layoutWidget.forEachElement(innerElement -> {
                     if (innerElement instanceof TextFieldWidget textFieldWidget) {
                         textFieldWidget.keyPressed(keyCode, scanCode, modifiers);
@@ -128,4 +135,5 @@ public class ColorPickerWidget extends CustomClickableWidget {
             }
         });
     }
+
 }
