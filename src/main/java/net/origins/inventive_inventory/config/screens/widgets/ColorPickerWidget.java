@@ -136,4 +136,5 @@ public class ColorPickerWidget extends CustomClickableWidget {
             }
         });
     }
+
 }
