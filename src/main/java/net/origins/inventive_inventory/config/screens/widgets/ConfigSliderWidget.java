@@ -23,7 +23,7 @@ public class ConfigSliderWidget extends SliderWidget {
     @Override
     protected void applyValue() {
         this.opacity = (int) (this.value * 255);
-        this.option.setValue(ColorHelper.Argb.withAlpha(this.opacity, option.getValue() & 0x00FFFFFF));
+        this.option.setValue(ColorHelper.Argb.getArgb(this.opacity, ColorHelper.Argb.getRed(option.getValue()), ColorHelper.Argb.getGreen(option.getValue()), ColorHelper.Argb.getBlue(option.getValue())));
     }
 
     @Override

@@ -1,18 +1,17 @@
 package net.origins.inventive_inventory.config.enums.sorting;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
 import net.origins.inventive_inventory.util.InteractionHandler;
 
 import java.util.Comparator;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
 
 public enum SortingMode implements Translatable {
     NAME("name", Comparator.comparing(slot -> InteractionHandler.getStackFromSlot(slot).getName().getString())),
@@ -31,25 +30,16 @@ public enum SortingMode implements Translatable {
                 .thenComparing(slot -> InteractionHandler.getStackFromSlot(slot).getCount(), Comparator.reverseOrder())
                 .thenComparing(slot -> {
                     ItemStack stack = InteractionHandler.getStackFromSlot(slot);
-                    ItemEnchantmentsComponent component = stack.get(DataComponentTypes.STORED_ENCHANTMENTS);
-                    if (component == null) component = stack.get(DataComponentTypes.ENCHANTMENTS);
-                    if (component != null) {
-                        ItemEnchantmentsComponent finalComponent = component;
-                        return component.getEnchantments()
-                                .stream()
-                                .map(entry -> {
-                                    if (entry.getKey().isPresent()) {
-                                        Enchantment enchantment = Registries.ENCHANTMENT.get(entry.getKey().get());
-                                        if (enchantment != null) return enchantment.getName(0).getString() + " " + finalComponent.getLevel(enchantment);
-                                    } return "";
-                                })
-                                .collect(Collectors.joining(", "));
+                    NbtList nbtList = EnchantedBookItem.getEnchantmentNbt(stack);
+                    if (nbtList.isEmpty()) nbtList = stack.getEnchantments();
+                    if (!nbtList.isEmpty()) {
+                        AtomicReference<String> result = new AtomicReference<>("");
+                        EnchantmentHelper.fromNbt(nbtList).forEach((enchantment, integer) -> result.set(result.get().concat(enchantment.getName(0).getString() + " " + integer + ", ")));
+                        return result.get();
                     }
                     return "";
                 });
     }
-
-
 
     @Override
     public Text getButtonText() {

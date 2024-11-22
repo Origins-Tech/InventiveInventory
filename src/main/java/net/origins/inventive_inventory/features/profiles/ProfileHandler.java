@@ -33,7 +33,7 @@ public class ProfileHandler {
     private static final List<Profile> profiles = new ArrayList<>();
 
     public static void create(String name, String key) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isCreative() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         Profile profile = new Profile(profiles.size(), name, key, createSavedSlots());
         if (profiles.size() < MAX_PROFILES) {
             profiles.add(profile);
@@ -45,7 +45,7 @@ public class ProfileHandler {
     }
 
     public static void load(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isCreative() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         SlotRange slotRange = PlayerSlots.get(SlotTypes.INVENTORY, SlotTypes.HOTBAR, SlotTypes.OFFHAND);
         slotRange = ConfigManager.PROFILES_IGNORE_LOCKED_SLOTS.is(true) ? slotRange.exclude(SlotTypes.LOCKED_SLOT) : slotRange;
         for (SavedSlot savedSlot : profile.getSavedSlots()) {
@@ -63,7 +63,7 @@ public class ProfileHandler {
     }
 
     public static void overwrite(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isCreative() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         Profile newProfile = new Profile(profile.getId(), profile.getName(), profile.getKey(), createSavedSlots());
         profiles.set(profile.getId(), newProfile);
         save();
@@ -71,7 +71,7 @@ public class ProfileHandler {
     }
 
     public static void update(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isCreative() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         Profile newProfile = new Profile(profile.getId(), profile.getName(), profile.getKey(), profile.getSavedSlots());
         profiles.set(profile.getId(), newProfile);
         save();
@@ -79,7 +79,7 @@ public class ProfileHandler {
     }
 
     public static void delete(Profile profile) {
-        if (InventiveInventory.getPlayer().isInCreativeMode() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
+        if (InventiveInventory.getPlayer().isCreative() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
         profiles.remove(profile.getId());
         for (int i = 0; i < profiles.size(); i++) {
             profiles.get(i).setId(i);

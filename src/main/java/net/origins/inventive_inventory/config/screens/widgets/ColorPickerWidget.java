@@ -27,7 +27,8 @@ public class ColorPickerWidget extends CustomClickableWidget {
                         button -> {
                             colorField.reset();
                             sliderWidget.reset();
-                        })
+                        }
+                )
                 .tooltip(Tooltip.of(Text.translatable("config.visuals.button.tooltip.inventive_inventory.locked_slots.color.reset")))
                 .size(50, 20)
                 .build()

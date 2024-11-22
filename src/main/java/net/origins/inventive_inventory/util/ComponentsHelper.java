@@ -1,20 +1,19 @@
 package net.origins.inventive_inventory.util;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 
 
 public class ComponentsHelper {
 
     public static boolean arePotionsEqual(ItemStack stack, ItemStack otherStack) {
-        PotionContentsComponent potionContentsComponent = stack.get(DataComponentTypes.POTION_CONTENTS);
-        PotionContentsComponent otherPotionContentsComponent = otherStack.get(DataComponentTypes.POTION_CONTENTS);
+        NbtCompound potionContentsComponent = stack.getSubNbt("Potion");
+        NbtCompound otherPotionContentsComponent = otherStack.getSubNbt("Potion");
         if (potionContentsComponent == null && otherPotionContentsComponent == null) return true;
         if (potionContentsComponent == null || otherPotionContentsComponent == null) return false;
-        if (potionContentsComponent.potion().isEmpty() || otherPotionContentsComponent.potion().isEmpty()) return false;
-        return potionContentsComponent.potion().get().getIdAsString().equals(otherPotionContentsComponent.potion().get().getIdAsString());
+        if (potionContentsComponent.isEmpty() || otherPotionContentsComponent.isEmpty()) return false;
+        return potionContentsComponent.equals(otherPotionContentsComponent);
     }
 
     public static boolean areCustomNamesEqual(ItemStack stack, ItemStack otherStack) {
@@ -22,6 +21,6 @@ public class ComponentsHelper {
     }
 
     public static boolean areEnchantmentsEqual(ItemStack stack, ItemStack otherStack) {
-        return EnchantmentHelper.getEnchantments(stack).equals(EnchantmentHelper.getEnchantments(otherStack));
+        return EnchantmentHelper.get(stack).equals(EnchantmentHelper.get(otherStack));
     }
 }
