@@ -30,4 +30,8 @@ public class ConfigSliderWidget extends SliderWidget {
     protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
         super.onDrag(mouseX, mouseY, deltaX, deltaY);
     }
+
+    public void reset() {
+        this.setValue(1);
+    }
 }
