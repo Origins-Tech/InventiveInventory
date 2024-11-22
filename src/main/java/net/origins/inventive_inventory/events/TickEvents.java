@@ -46,7 +46,7 @@ public class TickEvents {
 
 
     private static void checkKeys(MinecraftClient client) {
-        if (client.player == null || client.player.isInCreativeMode()) return;
+        if (client.player == null || client.player.isCreative()) return;
         if (client.currentScreen == null) {
             AdvancedOperationHandler.setPressed(KeyRegistry.advancedOperationKey.isPressed());
         }
@@ -59,12 +59,12 @@ public class TickEvents {
     }
 
     private static void adjustInventory(MinecraftClient client) {
-        if (client.player == null || client.player.isInCreativeMode()) return;
+        if (client.player == null || client.player.isCreative()) return;
         if (ContextManager.isInit()) LockedSlotsHandler.adjustInventory();
     }
 
     private static void automaticRefilling(ClientWorld ignoredWorld) {
-        if (InventiveInventory.getPlayer().isInCreativeMode()) return;
+        if (InventiveInventory.getPlayer().isCreative()) return;
         if (AutomaticRefillingMode.isValid() && ConfigManager.AUTOMATIC_REFILLING_STATUS.is(Status.ENABLED) && ContextManager.isInit() && AutomaticRefillingHandler.shouldRun()) {
             ContextManager.setContext(Contexts.AUTOMATIC_REFILLING);
             AutomaticRefillingHandler.runMainHand();
@@ -78,7 +78,7 @@ public class TickEvents {
     }
 
     private static void captureInventory(MinecraftClient client) {
-        if (client.player == null || client.player.isInCreativeMode()) return;
+        if (client.player == null || client.player.isCreative()) return;
         LockedSlotsHandler.setSavedInventory();
         LockedSlotsHandler.setSavedHandlerInventory();
         AutomaticRefillingHandler.setMainHandStack(client.player.getMainHandStack());
@@ -87,7 +87,7 @@ public class TickEvents {
     }
 
     private static void loadProfile(MinecraftClient client) {
-        if (client.player == null || client.player.isInCreativeMode()) return;
+        if (client.player == null || client.player.isCreative()) return;
         for (KeyBinding profileKey : KeyRegistry.profileKeys) {
             if (profileKey.isPressed()) {
                 boolean validMode = ConfigManager.FAST_LOAD.is(true) || (ConfigManager.FAST_LOAD.is(false) && KeyRegistry.loadProfileKey.isPressed());

@@ -23,11 +23,16 @@ public class ConfigSliderWidget extends SliderWidget {
     @Override
     protected void applyValue() {
         this.opacity = (int) (this.value * 255);
-        this.option.setValue(ColorHelper.Argb.withAlpha(this.opacity, option.getValue() & 0x00FFFFFF));
+        this.option.setValue(ColorHelper.Argb.getArgb(this.opacity, option.getValue() & 0xFF0000, option.getValue() & 0x00FF00, option.getValue() & 0x0000FF));
     }
 
     @Override
     protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
         super.onDrag(mouseX, mouseY, deltaX, deltaY);
+    }
+
+    public void reset() {
+        this.value = 255;
+        this.applyValue();
     }
 }

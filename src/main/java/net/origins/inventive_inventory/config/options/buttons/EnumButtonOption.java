@@ -1,7 +1,9 @@
 package net.origins.inventive_inventory.config.options.buttons;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;
@@ -44,7 +46,7 @@ public class EnumButtonOption<E extends Enum<E>> extends ConfigOption<E> {
                 .tooltip(value -> Tooltip.of(Text.translatable("config." + this.tab + ".button.tooltip." + InventiveInventory.MOD_ID + "." + ((Translatable) value).getTranslationKey())))
                 .omitKeyText()
                 .values(Arrays.stream(this.enumClass.getEnumConstants()).toArray()).initially(this.getValue())
-                .build(Text.empty(), (button, value) -> this.cycle());
+                .build(0, 0, 150, 20, Text.empty(), (button, value) -> this.cycle());
     }
 
 }
