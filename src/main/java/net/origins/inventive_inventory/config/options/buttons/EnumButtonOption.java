@@ -1,9 +1,7 @@
 package net.origins.inventive_inventory.config.options.buttons;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
-import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.enums.accessors.Translatable;

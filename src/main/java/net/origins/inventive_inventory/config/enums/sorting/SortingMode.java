@@ -1,6 +1,5 @@
 package net.origins.inventive_inventory.config.enums.sorting;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.Item;
