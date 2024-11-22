@@ -22,6 +22,11 @@ public abstract class CustomListWidget extends ElementListWidget<CustomListWidge
         this.centerListVertically = false;
     }
 
+    @Override
+    protected int getScrollbarPositionX() {
+        return this.getWidth() / 2 + this.getRowWidth() / 2 + 5; // + 5 for spacing
+    }
+
     public void addAll(List<ClickableWidget> widgets) {
         for (int i = 0; i < widgets.size(); i += 2) {
             this.addWidgetEntry(widgets.get(i), i < widgets.size() - 1 ? widgets.get(i + 1) : null);
