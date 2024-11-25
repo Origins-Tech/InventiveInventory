@@ -74,11 +74,11 @@ public class ConfigProfileWidget extends CustomClickableWidget {
     private ButtonWidget.PressAction toggle() {
         return button -> {
             Text message = button.getMessage();
-            Text newMessage = this.parent.availableKeys.getFirst();
+            Text newMessage = this.parent.availableKeys.get(0);
             if (message.getString().equals(newMessage.getString())) {
                 this.parent.availableKeys.remove(newMessage);
                 this.parent.availableKeys.add(newMessage);
-                newMessage = this.parent.availableKeys.getFirst();
+                newMessage = this.parent.availableKeys.get(0);
             }
             if (!message.getString().equals("Not Bound")) {
                 this.parent.availableKeys.add(message);

@@ -22,8 +22,8 @@ public class PlayerSlots {
             playerSlots = playerSlots.stream().filter(slot -> slot.getClass().equals(Slot.class)).toList();
         }
         if (playerSlots.isEmpty()) return new SlotRange(0, 0);
-        int start = playerSlots.getFirst().id;
-        int stop = playerSlots.getLast().id;
+        int start = playerSlots.get(0).id;
+        int stop = playerSlots.get(playerSlots.size() - 1).id;
         return new SlotRange(start, stop);
     }
 

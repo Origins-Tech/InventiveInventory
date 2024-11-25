@@ -39,7 +39,7 @@ public abstract class TabbedScreen extends Screen {
     }
 
     protected void initBody() {
-        activeTab = this.layout.addBody(this.tabs.getFirst());
+        activeTab = this.layout.addBody(this.tabs.get(0));
     }
 
     protected void initFooter() {
