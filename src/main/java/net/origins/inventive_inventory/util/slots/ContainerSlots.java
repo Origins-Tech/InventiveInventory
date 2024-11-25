@@ -12,6 +12,6 @@ public class ContainerSlots {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
         List<Slot> containerSlots = screenHandler.slots.stream().filter(slot -> !(slot.inventory instanceof PlayerInventory)).toList();
         if (containerSlots.isEmpty()) return new SlotRange(0, 0);
-        return new SlotRange(containerSlots.getFirst().id, containerSlots.getLast().id);
+        return new SlotRange(containerSlots.get(0).id, containerSlots.get(containerSlots.size() - 1).id);
     }
 }

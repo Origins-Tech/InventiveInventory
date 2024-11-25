@@ -102,7 +102,7 @@ public class ProfileHandler {
     public static String getAvailableProfileKey() {
         List<KeyBinding> availableProfileKeys = getAvailableProfileKeys();
         if (availableProfileKeys.isEmpty()) return "";
-        else return availableProfileKeys.getFirst().getTranslationKey();
+        else return availableProfileKeys.get(0).getTranslationKey();
     }
 
     public static List<KeyBinding> getAvailableProfileKeys() {
