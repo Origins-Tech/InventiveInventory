@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
@@ -36,12 +37,12 @@ public abstract class MixinLockedSlotsDrawer {
     private void onDrawItem(DrawContext context, Slot slot, CallbackInfo ci) {
         if (!InventiveInventory.getPlayer().isInCreativeMode() && LockedSlotsHandler.getLockedSlots().contains(slot.id) ) {
             Drawer.drawSlotBackground(context, slot.x, slot.y, ConfigManager.LOCKED_SLOTS_COLOR.getValue(), 0, ConfigManager.LOCKED_SLOT_STYLE.is(Style.OUTLINED));
-            if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 200, 8);
+            if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 8);
         }
     }
 
     @WrapOperation(method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawSlotHighlightFront(Lnet/minecraft/client/gui/DrawContext;)V"))
-    private void drawSlotHighlight(HandledScreen instance, DrawContext context, Operation<Void> original) {
+    private void drawSlotHighlight(HandledScreen<ScreenHandler> instance, DrawContext context, Operation<Void> original) {
         Slot slot = this.focusedSlot;
         if (!InventiveInventory.getPlayer().isInCreativeMode() && slot != null) {
             if (AdvancedOperationHandler.isPressed()) {
@@ -56,7 +57,7 @@ public abstract class MixinLockedSlotsDrawer {
                 }
             } else if (LockedSlotsHandler.getLockedSlots().contains(slot.id)) {
                 original.call(instance, context);
-                if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 300, 8);
+                if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 8);
                 return;
             }
         }

@@ -91,9 +91,9 @@ public class Section {
         this.iconY = middleY - 8;
 
         if (this.profile == null) {
-            context.drawTexture(RenderLayer::getGuiTextured, Textures.PLUS, iconX, iconY, 0, 0, 0, 16, 16, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, Textures.PLUS, iconX, iconY, 0, 0, 16, 16, 16, 16);
         } else if (this.profile.getDisplayStack() == null) {
-            context.drawTexture(RenderLayer::getGuiTextured, Textures.TOOLS, iconX, iconY, 0, 0, 0, 16, 16, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, Textures.TOOLS, iconX, iconY, 0, 0, 16, 16, 16, 16);
         } else context.drawItem(this.profile.getDisplayStack(), iconX, iconY);
     }
 
