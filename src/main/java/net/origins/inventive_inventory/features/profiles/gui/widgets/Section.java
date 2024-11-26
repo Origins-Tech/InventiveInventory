@@ -92,7 +92,7 @@ public class Section {
 
         if (this.profile == null) {
             context.drawTexture(RenderLayer::getGuiTextured, Textures.PLUS, iconX, iconY, 0, 0, 16, 16, 16, 16);
-        } else if (this.profile.getDisplayStack() == null) {
+        } else if (this.profile.getDisplayStack().isEmpty()) {
             context.drawTexture(RenderLayer::getGuiTextured, Textures.TOOLS, iconX, iconY, 0, 0, 16, 16, 16, 16);
         } else context.drawItem(this.profile.getDisplayStack(), iconX, iconY);
     }
@@ -105,7 +105,7 @@ public class Section {
             List<Text> textList;
             if (this.profile != null) {
                 if (!this.profile.getName().isEmpty()) textList = TooltipBuilder.of(TooltipType.NAME, this.profile);
-                else if (this.profile.getDisplayStack() != null)
+                else if (!this.profile.getDisplayStack().isEmpty())
                     textList = TooltipBuilder.of(TooltipType.ITEM, this.profile);
                 else textList = TooltipBuilder.of(TooltipType.UNKNOWN, this.profile);
             } else textList = TooltipBuilder.of(TooltipType.PLUS, null);

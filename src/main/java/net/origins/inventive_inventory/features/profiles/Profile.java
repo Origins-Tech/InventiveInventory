@@ -20,7 +20,7 @@ public class Profile {
         this.name = name;
         this.key = key;
         this.savedSlots = savedSlots;
-        this.displayStack = InteractionHandler.getAnyHandStack();
+        this.displayStack = InteractionHandler.getAnyHandStack().copy();
     }
 
     public Profile(int id, String name, String key, JsonObject displayStack, JsonArray savedSlots) {
