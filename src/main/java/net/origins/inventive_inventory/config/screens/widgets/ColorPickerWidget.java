@@ -19,13 +19,19 @@ public class ColorPickerWidget extends CustomClickableWidget {
     public ColorPickerWidget(ColorFieldOption option) {
         super(150, 45);
         ColorFieldWidget colorField = new ColorFieldWidget(Text.of(Integer.toHexString(option.getValue())), option);
+        ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.getAlpha(option.getValue()) / 255, option);
         DirectionalLayoutWidget horizontal = DirectionalLayoutWidget.horizontal().spacing(50);
         horizontal.add(colorField);
-        horizontal.add(ButtonWidget.builder(Text.translatable("config.visuals.button.text.inventive_inventory.locked_slots.color.reset"), button -> colorField.reset())
+        horizontal.add(
+                ButtonWidget.builder(Text.translatable("config.visuals.button.text.inventive_inventory.locked_slots.color.reset"),
+                        button -> {
+                            colorField.reset();
+                            sliderWidget.reset();
+                        })
                 .tooltip(Tooltip.of(Text.translatable("config.visuals.button.tooltip.inventive_inventory.locked_slots.color.reset")))
                 .size(50, 20)
-                .build());
-        ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.getAlpha(option.getValue()) / 255, option);
+                .build()
+        );
         this.vertical.add(horizontal);
         this.vertical.add(sliderWidget);
         this.vertical.refreshPositions();
