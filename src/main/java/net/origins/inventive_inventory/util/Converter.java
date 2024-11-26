@@ -22,6 +22,7 @@ import net.origins.inventive_inventory.features.profiles.SavedSlot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Converter {
     public static JsonObject itemStackToJson(ItemStack stack) {
@@ -65,19 +66,25 @@ public class Converter {
 
         if (stackJson.getAsJsonObject("components").has("enchantments")) {
             ItemEnchantmentsComponent.Builder enchantmentBuilder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-            Registry<Enchantment> enchantmentRegistry = InventiveInventory.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
-            for (JsonElement enchantmentElement : stackJson.getAsJsonObject("components").get("enchantments").getAsJsonArray()) {
-                JsonObject enchantmentObject = enchantmentElement.getAsJsonObject();
-                Enchantment enchantment = enchantmentRegistry.get(Identifier.of(enchantmentObject.get("id").getAsString()));
-                enchantmentBuilder.add(enchantmentRegistry.getEntry(enchantment), enchantmentObject.get("lvl").getAsInt());
+            Optional<Registry<Enchantment>> opt = InventiveInventory.getRegistryManager().getOptional(RegistryKeys.ENCHANTMENT);
+            if (opt.isPresent()) {
+                Registry<Enchantment> enchantmentRegistry = opt.get();
+                for (JsonElement enchantmentElement : stackJson.getAsJsonObject("components").get("enchantments").getAsJsonArray()) {
+                    JsonObject enchantmentObject = enchantmentElement.getAsJsonObject();
+                    Enchantment enchantment = enchantmentRegistry.get(Identifier.of(enchantmentObject.get("id").getAsString()));
+                    enchantmentBuilder.add(enchantmentRegistry.getEntry(enchantment), enchantmentObject.get("lvl").getAsInt());
+                }
+                componentBuilder.add(DataComponentTypes.ENCHANTMENTS, enchantmentBuilder.build());
+                }
             }
-            componentBuilder.add(DataComponentTypes.ENCHANTMENTS, enchantmentBuilder.build());
-        }
 
         if (stackJson.getAsJsonObject("components").has("potion")) {
-            Registry<Potion> potionRegistry = InventiveInventory.getRegistryManager().getOrThrow(RegistryKeys.POTION);
-            Potion potion = potionRegistry.get(Identifier.of(stackJson.getAsJsonObject("components").get("potion").getAsString()));
-            item = PotionContentsComponent.createStack(Items.POTION, potionRegistry.getEntry(potion));
+            Optional<Registry<Potion>> opt = InventiveInventory.getRegistryManager().getOptional(RegistryKeys.POTION);
+            if (opt.isPresent()) {
+                Registry<Potion> potionRegistry = opt.get();
+                Potion potion = potionRegistry.get(Identifier.of(stackJson.getAsJsonObject("components").get("potion").getAsString()));
+                item = PotionContentsComponent.createStack(Items.POTION, potionRegistry.getEntry(potion));
+            }
         }
 
         item.applyComponentsFrom(componentBuilder.build());
