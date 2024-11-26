@@ -2,6 +2,7 @@ package net.origins.inventive_inventory.features.profiles.gui.widgets;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.features.profiles.Profile;
@@ -90,9 +91,9 @@ public class Section {
         this.iconY = middleY - 8;
 
         if (this.profile == null) {
-            context.drawTexture(Textures.PLUS, iconX, iconY, 0, 0, 0, 16, 16, 16, 16);
-        } else if (this.profile.getDisplayStack() == null) {
-            context.drawTexture(Textures.TOOLS, iconX, iconY, 0, 0, 0, 16, 16, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, Textures.PLUS, iconX, iconY, 0, 0, 16, 16, 16, 16);
+        } else if (this.profile.getDisplayStack().isEmpty()) {
+            context.drawTexture(RenderLayer::getGuiTextured, Textures.TOOLS, iconX, iconY, 0, 0, 16, 16, 16, 16);
         } else context.drawItem(this.profile.getDisplayStack(), iconX, iconY);
     }
 
@@ -104,7 +105,7 @@ public class Section {
             List<Text> textList;
             if (this.profile != null) {
                 if (!this.profile.getName().isEmpty()) textList = TooltipBuilder.of(TooltipType.NAME, this.profile);
-                else if (this.profile.getDisplayStack() != null)
+                else if (!this.profile.getDisplayStack().isEmpty())
                     textList = TooltipBuilder.of(TooltipType.ITEM, this.profile);
                 else textList = TooltipBuilder.of(TooltipType.UNKNOWN, this.profile);
             } else textList = TooltipBuilder.of(TooltipType.PLUS, null);

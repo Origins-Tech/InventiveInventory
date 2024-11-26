@@ -46,12 +46,14 @@ public abstract class TabbedScreen extends Screen {
         this.layout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());
     }
 
-    @Override
     protected void initTabNavigation() {
         this.layout.refreshPositions();
-        if (activeTab != null) {
-            activeTab.position(this.width, this.layout);
-        }
+        this.tabs.forEach(screenTab -> screenTab.position(this.width, this.layout));
+    }
+
+    @Override
+    protected void refreshWidgetPositions() {
+        this.initTabNavigation();
     }
 
     @Override
