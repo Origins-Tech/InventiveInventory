@@ -1,5 +1,3 @@
 # Changelog
 
-## Bug Fixes
-- Fixed a bug where sorting was not working in containers
-- Fixed Reset Button in Visuals Tab to reset the slider as well
+- Port to 1.21.2, 1.21.3
