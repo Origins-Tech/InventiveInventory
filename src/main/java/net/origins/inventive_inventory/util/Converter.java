@@ -65,7 +65,7 @@ public class Converter {
 
         if (stackJson.getAsJsonObject("components").has("enchantments")) {
             ItemEnchantmentsComponent.Builder enchantmentBuilder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-            Registry<Enchantment> enchantmentRegistry = InventiveInventory.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+            Registry<Enchantment> enchantmentRegistry = InventiveInventory.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
             for (JsonElement enchantmentElement : stackJson.getAsJsonObject("components").get("enchantments").getAsJsonArray()) {
                 JsonObject enchantmentObject = enchantmentElement.getAsJsonObject();
                 Enchantment enchantment = enchantmentRegistry.get(Identifier.of(enchantmentObject.get("id").getAsString()));
@@ -75,7 +75,7 @@ public class Converter {
         }
 
         if (stackJson.getAsJsonObject("components").has("potion")) {
-            Registry<Potion> potionRegistry = InventiveInventory.getRegistryManager().get(RegistryKeys.POTION);
+            Registry<Potion> potionRegistry = InventiveInventory.getRegistryManager().getOrThrow(RegistryKeys.POTION);
             Potion potion = potionRegistry.get(Identifier.of(stackJson.getAsJsonObject("components").get("potion").getAsString()));
             item = PotionContentsComponent.createStack(Items.POTION, potionRegistry.getEntry(potion));
         }

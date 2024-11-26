@@ -25,9 +25,9 @@ public class ColorFieldWidget extends TextFieldWidget {
         } else if (this.getCursor() == 0) this.setCursor(1, false);
         try {
             int parsedColor = Integer.parseInt(newText.substring(1), 16);
-            this.option.setValue(ColorHelper.Argb.withAlpha(ColorHelper.Argb.getAlpha(option.getValue()), parsedColor));
+            this.option.setValue(ColorHelper.withAlpha(ColorHelper.getAlpha(this.option.getValue()), parsedColor));
         } catch (NumberFormatException | IndexOutOfBoundsException ignored) {
-            this.option.setValue(ColorHelper.Argb.withAlpha(ColorHelper.Argb.getAlpha(option.getValue()), this.option.getDefaultValue()));
+            this.option.setValue(ColorHelper.withAlpha(ColorHelper.getAlpha(this.option.getValue()), this.option.getDefaultValue()));
         }
     }
 
