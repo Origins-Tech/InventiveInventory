@@ -126,7 +126,7 @@ public class ProfileHandler {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
         List<SavedSlot> savedSlots = new ArrayList<>();
         for (int slot : PlayerSlots.get(SlotTypes.HOTBAR, SlotTypes.OFFHAND)) {
-            ItemStack stack = screenHandler.getSlot(slot).getStack();
+            ItemStack stack = screenHandler.getSlot(slot).getStack().copy();
             if (!stack.isEmpty()) savedSlots.add(new SavedSlot(slot, stack));
         }
         return savedSlots;
