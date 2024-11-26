@@ -49,9 +49,7 @@ public abstract class TabbedScreen extends Screen {
     @Override
     protected void initTabNavigation() {
         this.layout.refreshPositions();
-        if (activeTab != null) {
-            activeTab.position(this.width, this.layout);
-        }
+        this.tabs.forEach(screenTab -> screenTab.position(this.width, this.layout));
     }
 
     @Override
