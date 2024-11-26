@@ -42,8 +42,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
         this.vertical.setPosition(this.getX(), this.getY());
         this.vertical.forEachElement(widget -> {
             if (widget instanceof ClickableWidget) ((ClickableWidget) widget).render(context, mouseX, mouseY, delta);
-            else if (widget instanceof DirectionalLayoutWidget)
-                widget.forEachChild(innerWidget -> innerWidget.render(context, mouseX, mouseY, delta));
+            else if (widget instanceof DirectionalLayoutWidget) widget.forEachChild(innerWidget -> innerWidget.render(context, mouseX, mouseY, delta));
         });
     }
 
@@ -135,5 +134,4 @@ public class ColorPickerWidget extends CustomClickableWidget {
             }
         });
     }
-
 }
