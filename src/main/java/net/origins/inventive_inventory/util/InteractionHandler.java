@@ -45,7 +45,7 @@ public class InteractionHandler {
     public static ItemStack getAnyHandStack() {
         if (!ItemStack.areItemsEqual(getMainHandStack(), ItemStack.EMPTY)) return getMainHandStack();
         else if (!ItemStack.areItemsEqual(getOffHandStack(), ItemStack.EMPTY)) return getOffHandStack();
-        else return null;
+        else return ItemStack.EMPTY;
     }
 
     public static void leftClickStack(int slot) {
