@@ -1,4 +1,5 @@
 # Changelog
 
-### Crucial Fix
-- Changed version to Java 17
+## Bug Fixes
+- Fixed profiles naming screen not appearing
+- Fixed profiles icons not shown reliable
