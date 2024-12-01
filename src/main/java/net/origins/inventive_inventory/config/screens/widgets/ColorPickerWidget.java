@@ -18,7 +18,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
 
     public ColorPickerWidget(ColorFieldOption option) {
         super(150, 45);
-        ColorFieldWidget colorField = new ColorFieldWidget(Text.of(Integer.toHexString(option.getValue())), option);
+        ColorFieldWidget colorField = new ColorFieldWidget(Text.of(Integer.toHexString(ColorHelper.zeroAlpha(option.getValue()))), option);
         ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.getAlpha(option.getValue()) / 255, option);
         DirectionalLayoutWidget horizontal = DirectionalLayoutWidget.horizontal().spacing(50);
         horizontal.add(colorField);
