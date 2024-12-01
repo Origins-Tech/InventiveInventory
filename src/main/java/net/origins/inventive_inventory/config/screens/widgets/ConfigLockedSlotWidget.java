@@ -4,7 +4,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 import net.origins.inventive_inventory.config.options.ConfigOption;
 import net.origins.inventive_inventory.util.Drawer;
-import net.origins.inventive_inventory.util.Textures;
 import net.origins.inventive_inventory.util.widgets.CustomClickableWidget;
 
 public class ConfigLockedSlotWidget extends CustomClickableWidget {
