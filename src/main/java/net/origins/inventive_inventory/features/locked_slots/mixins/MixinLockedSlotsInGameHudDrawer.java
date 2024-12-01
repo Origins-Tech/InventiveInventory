@@ -27,7 +27,7 @@ public abstract class MixinLockedSlotsInGameHudDrawer {
             Drawer.drawSlotBackground(context, x, y, ConfigManager.LOCKED_SLOTS_HOTBAR_COLOR.getValue(), 0, ConfigManager.LOCKED_SLOT_STYLE.is(Style.OUTLINED));
             original.call(instance, context, x, y, tickCounter, player, stack, seed);
             if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, x + 11, y - 1, 8);
-        }
+        } else original.call(instance, context, x, y, tickCounter, player, stack, seed);
     }
 }
 
