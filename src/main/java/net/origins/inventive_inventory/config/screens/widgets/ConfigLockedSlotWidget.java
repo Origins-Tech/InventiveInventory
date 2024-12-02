@@ -11,7 +11,7 @@ public class ConfigLockedSlotWidget extends CustomClickableWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         Drawer.drawLockedSlot(context, this.getX() + this.getWidth() / 2 - 10, this.getY());
     }
 }

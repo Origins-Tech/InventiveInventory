@@ -2,12 +2,12 @@ package net.origins.inventive_inventory.config.screens.widgets;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.util.widgets.CustomClickableWidget;
+import net.origins.inventive_inventory.util.widgets.DirectionalLayoutWidget;
 
 public class ConfigProfileTitleWidget extends CustomClickableWidget {
     private final DirectionalLayoutWidget horizontal = DirectionalLayoutWidget.horizontal().spacing(10);
@@ -25,7 +25,7 @@ public class ConfigProfileTitleWidget extends CustomClickableWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         this.horizontal.setPosition(this.getX(), this.getY());
         this.horizontal.forEachChild(clickableWidget -> clickableWidget.render(context, mouseX, mouseY, delta));
     }

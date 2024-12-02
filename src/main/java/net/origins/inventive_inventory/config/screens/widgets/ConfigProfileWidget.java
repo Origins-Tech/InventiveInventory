@@ -3,7 +3,6 @@ package net.origins.inventive_inventory.config.screens.widgets;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.client.option.KeyBinding;
@@ -17,7 +16,9 @@ import net.origins.inventive_inventory.features.profiles.ProfileHandler;
 import net.origins.inventive_inventory.features.profiles.SavedSlot;
 import net.origins.inventive_inventory.keys.KeyRegistry;
 import net.origins.inventive_inventory.util.Drawer;
+import net.origins.inventive_inventory.util.WidgetHelper;
 import net.origins.inventive_inventory.util.widgets.CustomClickableWidget;
+import net.origins.inventive_inventory.util.widgets.DirectionalLayoutWidget;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
         this.parent = parent;
         MinecraftClient client = InventiveInventory.getClient();
 
-        this.name = new TextFieldWidget(client.textRenderer, 80, height, Text.empty());
+        this.name = new TextFieldWidget(client.textRenderer, 0, 0, 80, height, Text.empty());
         this.name.setText(this.profile.getName());
         this.name.setPlaceholder(Text.translatable("config.profiles.text_field.inventive_inventory.placeholder"));
 
@@ -55,7 +56,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         this.horizontal.setPosition(this.getX(), this.getY());
         this.horizontal.forEachChild(clickableWidget -> clickableWidget.render(context, mouseX, mouseY, delta));
     }
@@ -95,7 +96,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
     @Override
     public void onClick(double mouseX, double mouseY) {
         this.horizontal.forEachChild(widget -> {
-            if (mouseX >= widget.getX() && mouseX <= widget.getRight() && mouseY >= widget.getY() && mouseY <= widget.getBottom()) {
+            if (mouseX >= widget.getX() && mouseX <= WidgetHelper.getRight(widget) && mouseY >= widget.getY() && mouseY <= WidgetHelper.getBottom(widget)) {
                 widget.setFocused(true);
                 widget.onClick(mouseX, mouseY);
             }
@@ -123,7 +124,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
             this.savedSlots = savedSlots;
         }
         @Override
-        protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+        protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
             Drawer.drawProfileHotbar(context, this.getX(), this.getY());
 
             int slotX = this.getX() + 27;

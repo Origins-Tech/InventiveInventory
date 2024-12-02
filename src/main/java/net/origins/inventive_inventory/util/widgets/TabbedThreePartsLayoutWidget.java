@@ -2,7 +2,7 @@ package net.origins.inventive_inventory.util.widgets;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.Positioner;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.client.gui.widget.Widget;
 
@@ -12,7 +12,7 @@ public class TabbedThreePartsLayoutWidget extends ThreePartsLayoutWidget {
 
     public TabbedThreePartsLayoutWidget(TabbedScreen screen, int headerHeight, int footerHeight) {
         super(screen, headerHeight, footerHeight);
-        this.addHeader(this.tabBar, positioner -> positioner.relativeY(0.9f));
+        this.addHeader(this.tabBar, Positioner.create().relativeY(0.9f));
         this.screen = screen;
     }
 
