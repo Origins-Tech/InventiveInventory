@@ -33,8 +33,6 @@ public abstract class CustomContainerWidget extends ClickableWidget implements P
         return this.focusedElement;
     }
 
-    public abstract boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount);
-
     @Override
     public void setFocused(@Nullable Element focused) {
         if (this.focusedElement != null) {

@@ -22,14 +22,11 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.origins.inventive_inventory.util.WidgetHelper;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.CustomEntry<E>> extends CustomContainerWidget {
-    protected static final int field_45909 = 6;
-    private static final Identifier SCROLLER_TEXTURE = new Identifier("widget/scroller");
     protected final MinecraftClient client;
     protected final int itemHeight;
     private final List<E> children = new CustomEntryListWidget.Entries();
@@ -199,19 +196,20 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
             context.fillGradient(RenderLayer.getGuiOverlay(), this.getX(), WidgetHelper.getBottom(this) - 4, WidgetHelper.getRight(this), WidgetHelper.getBottom(this), 0, Colors.BLACK, 0);
         }
 
-        int i = this.getMaxScroll();
-        if (i > 0) {
-            int j = this.getScrollbarPositionX();
-            int k = (int)((float)(this.height * this.height) / (float)this.getMaxPosition());
-            k = MathHelper.clamp(k, 32, this.height - 8);
-            int l = (int)this.getScrollAmount() * (this.height - k) / i + this.getY();
-            if (l < this.getY()) {
-                l = this.getY();
+        int m = this.getMaxScroll();
+        if (m > 0) {
+            int n = (int)((float)((WidgetHelper.getBottom(this) - this.getY()) * (WidgetHelper.getBottom(this) - this.getY())) / (float)this.getMaxPosition());
+            n = MathHelper.clamp(n, 32, WidgetHelper.getBottom(this) - this.getY() - 8);
+            int o = (int)this.getScrollAmount() * (WidgetHelper.getBottom(this) - this.getY() - n) / m + this.getY();
+            if (o < this.getY()) {
+                o = this.getY();
             }
 
-            context.fill(j, this.getY(), j + 6, WidgetHelper.getBottom(this), -16777216);
-            context.drawTexture(SCROLLER_TEXTURE, j, l, 0, 0, 6, k);
-//            context.drawGuiTexture(SCROLLER_TEXTURE, j, l, 6, k);
+            int i = this.getScrollbarPositionX();
+            int j = i + 6;
+            context.fill(i, this.getY(), j, WidgetHelper.getBottom(this), -16777216);
+            context.fill(i, o, j, o + n, -8355712);
+            context.fill(i, o, j - 1, o + n - 1, -4144960);
         }
 
         this.renderDecorations(context, mouseX, mouseY);
@@ -223,7 +221,7 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
     }
 
     protected void centerScrollOn(E entry) {
-        this.setScrollAmount((double)(this.children().indexOf(entry) * this.itemHeight + this.itemHeight / 2 - this.height / 2));
+        this.setScrollAmount(this.children().indexOf(entry) * this.itemHeight + (double) this.itemHeight / 2 - (double) this.height / 2);
     }
 
     protected void ensureVisible(E entry) {
@@ -316,10 +314,10 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
             if (mouseY < (double)this.getY()) {
                 this.setScrollAmount(0.0);
             } else if (mouseY > (double)WidgetHelper.getBottom(this)) {
-                this.setScrollAmount((double)this.getMaxScroll());
+                this.setScrollAmount(this.getMaxScroll());
             } else {
-                double d = (double)Math.max(1, this.getMaxScroll());
-                int i = this.height;
+                double d = Math.max(1, this.getMaxScroll());
+                int i = WidgetHelper.getBottom(this) - this.getY();
                 int j = MathHelper.clamp((int)((float)(i * i) / (float)this.getMaxPosition()), 32, i - 8);
                 double e = Math.max(1.0, d / (double)(i - j));
                 this.setScrollAmount(this.getScrollAmount() + deltaY * e);
@@ -332,8 +330,8 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        this.setScrollAmount(this.getScrollAmount() - verticalAmount * (double)this.itemHeight / 2.0);
+    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+        this.setScrollAmount(this.getScrollAmount() - amount * (double)this.itemHeight / 2.0);
         return true;
     }
 

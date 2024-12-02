@@ -32,7 +32,7 @@ public abstract class TabbedScreen extends Screen {
     }
 
     protected void initHeader() {
-        this.layout.addHeader(new TextWidget(this.title, this.textRenderer), Positioner.create().relativeY(0.25f));
+        this.layout.addHeader(new TextWidget(this.title, this.textRenderer), Positioner.create().relativeY(0.25f).alignHorizontalCenter());
     }
 
     protected void addTabs() {
