@@ -11,7 +11,6 @@ import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.events.ConnectionEvents;
 import net.origins.inventive_inventory.events.TickEvents;
 import net.origins.inventive_inventory.keys.KeyRegistry;
-import net.origins.inventive_inventory.util.ScreenCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,9 +54,7 @@ public class InventiveInventory implements ClientModInitializer {
     }
 
     public static ScreenHandler getScreenHandler() {
-        if (ScreenCheck.isPlayerInventory()) {
-            return getPlayer().playerScreenHandler;
-        }
+        if (getPlayer() == null) return null;
         return getPlayer().currentScreenHandler;
     }
 

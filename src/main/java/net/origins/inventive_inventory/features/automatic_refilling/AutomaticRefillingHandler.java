@@ -5,12 +5,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtHelper;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementPriority;
+import net.origins.inventive_inventory.features.locked_slots.LockedSlotsHandler;
 import net.origins.inventive_inventory.util.InteractionHandler;
 import net.origins.inventive_inventory.util.slots.PlayerSlots;
 import net.origins.inventive_inventory.util.slots.SlotRange;
@@ -47,7 +47,7 @@ public class AutomaticRefillingHandler {
     public static boolean shouldRun() {
         GameOptions options = InventiveInventory.getClient().options;
         if (!(options.useKey.isPressed() || options.dropKey.isPressed() || options.attackKey.isPressed() && mainHandStack.isDamageable())) return false;
-        if (mainHandStack.isEmpty() || ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || !(ItemStack.areItemsEqual(mainHandStack, InteractionHandler.getMainHandStack()) && NbtHelper.matches(mainHandStack.getNbt(), InteractionHandler.getMainHandStack().getNbt(), true)) && mainHandStack.isDamageable() || mainHandStack.getCount() > 1) return false;
+        if (mainHandStack.isEmpty() || ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || mainHandStack.getCount() > 1) return false;
         return !mainHandStack.isDamageable() || ToolReplacementBehaviour.isValid(mainHandStack);
     }
 
@@ -69,8 +69,10 @@ public class AutomaticRefillingHandler {
             if (PlayerScreenHandler.isInHotbar(sameItemSlots.get(0))) {
                 InteractionHandler.setSelectedSlot(sameItemSlots.get(0) - PlayerInventory.MAIN_SIZE);
             } else {
-                InteractionHandler.swapStacks(sameItemSlots.get(0), InteractionHandler.getSelectedSlot());
-                emptiesSlot = sameItemSlots.get(0);
+                if (ConfigManager.AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS.is(false) || !LockedSlotsHandler.getLockedSlots().contains(InteractionHandler.getSelectedSlot())) {
+                    InteractionHandler.swapStacks(sameItemSlots.get(0), InteractionHandler.getSelectedSlot());
+                    emptiesSlot = sameItemSlots.get(0);
+                }
             }
         } else runOffHand = false;
 

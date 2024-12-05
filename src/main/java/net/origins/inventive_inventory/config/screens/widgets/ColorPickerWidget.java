@@ -19,7 +19,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
 
     public ColorPickerWidget(ColorFieldOption option) {
         super(150, 45);
-        ColorFieldWidget colorField = new ColorFieldWidget(Text.of(Integer.toHexString(option.getValue())), option);
+        ColorFieldWidget colorField = new ColorFieldWidget(Text.of(Integer.toHexString(option.getValue() & 0xFFFFFF)), option);
         ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.Argb.getAlpha(option.getValue()) / 255, option);
         DirectionalLayoutWidget horizontal = DirectionalLayoutWidget.horizontal().spacing(50);
         horizontal.add(colorField);
@@ -44,8 +44,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
         this.vertical.setPosition(this.getX(), this.getY());
         this.vertical.forEachElement(widget -> {
             if (widget instanceof ClickableWidget) ((ClickableWidget) widget).render(context, mouseX, mouseY, delta);
-            else if (widget instanceof DirectionalLayoutWidget)
-                widget.forEachChild(innerWidget -> innerWidget.render(context, mouseX, mouseY, delta));
+            else if (widget instanceof DirectionalLayoutWidget) widget.forEachChild(innerWidget -> innerWidget.render(context, mouseX, mouseY, delta));
         });
     }
 
@@ -137,5 +136,4 @@ public class ColorPickerWidget extends CustomClickableWidget {
             }
         });
     }
-
 }
