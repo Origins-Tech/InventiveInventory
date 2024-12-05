@@ -23,6 +23,7 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.MathHelper;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.util.WidgetHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +33,7 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
     private final List<E> children = new CustomEntryListWidget.Entries();
     protected boolean centerListVertically = true;
     private double scrollAmount;
-    private boolean renderHeader;
+    private boolean renderHeader = true;
     protected int headerHeight;
     private boolean scrolling;
     @Nullable
@@ -156,16 +157,48 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
     }
 
     protected void renderHeader(DrawContext context, int x, int y) {
+        context.setShaderColor(0.3F, 0.3F, 0.3F, 1.0F);
+        context.drawTexture(
+                Screen.OPTIONS_BACKGROUND_TEXTURE,
+                0,
+                this.width,
+                0,
+                this.getY(),
+                -1,
+                this.width,
+                this.getY(),
+                (float) WidgetHelper.getRight(this),
+                (float) WidgetHelper.getBottom(this),
+                32,
+                32
+        );
+        context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     protected void renderDecorations(DrawContext context, int mouseX, int mouseY) {
+        context.setShaderColor(0.3F, 0.3F, 0.3F, 1.0F);
+        context.drawTexture(
+                Screen.OPTIONS_BACKGROUND_TEXTURE,
+                0,
+                this.width,
+                WidgetHelper.getBottom(this),
+                InventiveInventory.getScreen().height,
+                -1,
+                this.width,
+                InventiveInventory.getScreen().height - WidgetHelper.getBottom(this),
+                (float) WidgetHelper.getRight(this),
+                (float) WidgetHelper.getBottom(this),
+                32,
+                32
+        );
+        context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @Override
     public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         this.hoveredEntry = this.isMouseOver((double)mouseX, (double)mouseY) ? this.getEntryAtPosition((double)mouseX, (double)mouseY) : null;
+        context.setShaderColor(0.125F, 0.125F, 0.125F, 1.0F);
         if (this.renderBackground) {
-            context.setShaderColor(0.125F, 0.125F, 0.125F, 1.0F);
             int i = 32;
             context.drawTexture(
                     Screen.OPTIONS_BACKGROUND_TEXTURE,
@@ -178,16 +211,12 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
                     32,
                     32
             );
-            context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
+        context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+        this.renderHeader(context, 0, 0);
 
         this.enableScissor(context);
-        if (this.renderHeader) {
-            int i = this.getRowLeft();
-            int j = this.getY() + 4 - (int)this.getScrollAmount();
-            this.renderHeader(context, i, j);
-        }
-
         this.renderList(context, mouseX, mouseY, delta);
         context.disableScissor();
         if (this.renderBackground) {

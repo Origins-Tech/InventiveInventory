@@ -12,7 +12,7 @@ public class TabbedThreePartsLayoutWidget extends ThreePartsLayoutWidget {
 
     public TabbedThreePartsLayoutWidget(TabbedScreen screen, int headerHeight, int footerHeight) {
         super(screen, headerHeight, footerHeight);
-        this.addHeader(this.tabBar, Positioner.create().relativeY(0.9f));
+        this.addHeader(this.tabBar, Positioner.create().relativeY(0.9f).alignHorizontalCenter());
         this.screen = screen;
     }
 

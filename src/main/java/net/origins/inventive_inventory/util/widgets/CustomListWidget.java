@@ -9,7 +9,6 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.navigation.GuiNavigationPath;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
 import net.origins.inventive_inventory.config.screens.ConfigScreen;
 import net.origins.inventive_inventory.util.widgets.screen_tab.CustomElementListWidget;
 import org.jetbrains.annotations.Nullable;
