@@ -10,6 +10,7 @@ import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
 import net.origins.inventive_inventory.config.enums.automatic_refilling.ToolReplacementPriority;
+import net.origins.inventive_inventory.features.locked_slots.LockedSlotsHandler;
 import net.origins.inventive_inventory.util.InteractionHandler;
 import net.origins.inventive_inventory.util.slots.PlayerSlots;
 import net.origins.inventive_inventory.util.slots.SlotRange;
@@ -68,8 +69,10 @@ public class AutomaticRefillingHandler {
             if (PlayerScreenHandler.isInHotbar(sameItemSlots.getFirst())) {
                 InteractionHandler.setSelectedSlot(sameItemSlots.getFirst() - PlayerInventory.MAIN_SIZE);
             } else {
-                InteractionHandler.swapStacks(sameItemSlots.getFirst(), InteractionHandler.getSelectedSlot());
-                emptiesSlot = sameItemSlots.getFirst();
+                if (ConfigManager.AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS.is(false) || !LockedSlotsHandler.getLockedSlots().contains(InteractionHandler.getSelectedSlot())) {
+                    InteractionHandler.swapStacks(sameItemSlots.getFirst(), InteractionHandler.getSelectedSlot());
+                    emptiesSlot = sameItemSlots.getFirst();
+                }
             }
         } else runOffHand = false;
 
