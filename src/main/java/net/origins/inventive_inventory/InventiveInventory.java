@@ -5,8 +5,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.screen.ScreenHandler;
 import net.origins.inventive_inventory.commands.CommandRegistry;
 import net.origins.inventive_inventory.config.ConfigManager;
@@ -48,20 +46,12 @@ public class InventiveInventory implements ClientModInitializer {
         return getClient().player;
     }
 
-    public static ClientWorld getWorld() {
-        return getClient().world;
-    }
-
     public static Screen getScreen() {
         return getClient().currentScreen;
     }
 
     public static ClientPlayerInteractionManager getInteractionManager() {
         return getClient().interactionManager;
-    }
-
-    public static DynamicRegistryManager getRegistryManager() {
-        return getWorld().getRegistryManager();
     }
 
     public static ScreenHandler getScreenHandler() {

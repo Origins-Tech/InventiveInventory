@@ -1,6 +1,5 @@
 package net.origins.inventive_inventory.util.widgets.screen_tab;
 
-import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -14,10 +13,11 @@ import net.minecraft.client.gui.navigation.NavigationDirection;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
-import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public abstract class CustomElementListWidget<E extends CustomElementListWidget.CustomEntry<E>> extends CustomEntryListWidget<E> {
@@ -158,7 +158,7 @@ public abstract class CustomElementListWidget<E extends CustomElementListWidget.
             if (this.children().isEmpty()) {
                 return null;
             } else {
-                GuiNavigationPath guiNavigationPath = ((Element)this.children().get(Math.min(index, this.children().size() - 1))).getNavigationPath(navigation);
+                GuiNavigationPath guiNavigationPath = this.children().get(Math.min(index, this.children().size() - 1)).getNavigationPath(navigation);
                 return GuiNavigationPath.of(this, guiNavigationPath);
             }
         }
@@ -179,7 +179,7 @@ public abstract class CustomElementListWidget<E extends CustomElementListWidget.
                 int j = MathHelper.clamp(i + this.children().indexOf(this.getFocused()), 0, this.children().size() - 1);
 
                 for (int k = j; k >= 0 && k < this.children().size(); k += i) {
-                    Element element = (Element)this.children().get(k);
+                    Element element = this.children().get(k);
                     GuiNavigationPath guiNavigationPath = element.getNavigationPath(navigation);
                     if (guiNavigationPath != null) {
                         return GuiNavigationPath.of(this, guiNavigationPath);

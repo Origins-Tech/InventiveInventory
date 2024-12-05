@@ -33,9 +33,7 @@ public class TooltipBuilder {
         List<Text> textList = new ArrayList<>();
         addTitle(Text.of(profile.getDisplayStack().getName().getString()), Formatting.AQUA, textList);
         if (profile.getDisplayStack().hasEnchantments()) {
-            EnchantmentHelper.fromNbt(profile.getDisplayStack().getEnchantments()).forEach((enchantment, integer) -> {
-                textList.add(enchantment.getName(integer));
-            });
+            EnchantmentHelper.fromNbt(profile.getDisplayStack().getEnchantments()).forEach((enchantment, integer) -> textList.add(enchantment.getName(integer)));
             textList.add(Text.empty());
         }
         addKey(profile, textList);

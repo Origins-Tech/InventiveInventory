@@ -1,10 +1,12 @@
 package net.origins.inventive_inventory.util.widgets;
 
-import java.util.function.Consumer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.gui.widget.GridWidget;
+import net.minecraft.client.gui.widget.LayoutWidget;
+import net.minecraft.client.gui.widget.Positioner;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.Util;
+
+import java.util.function.Consumer;
 
 public class DirectionalLayoutWidget implements LayoutWidget {
     private final GridWidget grid;
@@ -27,10 +29,6 @@ public class DirectionalLayoutWidget implements LayoutWidget {
 
     public Positioner copyPositioner() {
         return this.grid.copyPositioner();
-    }
-
-    public Positioner getMainPositioner() {
-        return this.grid.getMainPositioner();
     }
 
     public <T extends Widget> T add(T widget, Positioner positioner) {
@@ -93,7 +91,7 @@ public class DirectionalLayoutWidget implements LayoutWidget {
         return new DirectionalLayoutWidget(DirectionalLayoutWidget.DisplayAxis.HORIZONTAL);
     }
 
-    public static enum DisplayAxis {
+    public enum DisplayAxis {
         HORIZONTAL,
         VERTICAL;
 
@@ -108,10 +106,10 @@ public class DirectionalLayoutWidget implements LayoutWidget {
         }
 
         public <T extends Widget> T add(GridWidget grid, T widget, int index, Positioner positioner) {
-            return (T)(switch (this) {
+            return switch (this) {
                 case HORIZONTAL -> grid.add(widget, 0, index, positioner);
                 case VERTICAL -> grid.add(widget, index, 0, positioner);
-            });
+            };
         }
     }
 }

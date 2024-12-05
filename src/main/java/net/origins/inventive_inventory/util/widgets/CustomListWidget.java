@@ -21,8 +21,6 @@ public abstract class CustomListWidget extends CustomElementListWidget<CustomLis
 
     public CustomListWidget(MinecraftClient client, int width, ConfigScreen screen) {
         super(client, width, screen.layout.getContentHeight(), screen.layout.getHeaderHeight(), 25);
-        this.centerListVertically = false;
-
     }
 
     @Override
