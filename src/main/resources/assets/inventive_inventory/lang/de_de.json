@@ -75,6 +75,7 @@
     "config.visuals.label.inventive_inventory.locked_slots.show_lock": "Schloss anzeigen",
     "config.visuals.label.inventive_inventory.locked_slots.style": "Stil",
     "config.visuals.label.inventive_inventory.locked_slots.color": "Farbe",
+    "config.visuals.label.inventive_inventory.locked_slots.hotbar_color": "Hotbar Farbe",
 
     "config.visuals.button.text.inventive_inventory.locked_slots.style.filled": "Ausgefüllt",
     "config.visuals.button.text.inventive_inventory.locked_slots.style.outlined": "Umrandet",

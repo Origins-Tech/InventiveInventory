@@ -10,8 +10,8 @@
     ],
     "contact": {
         "homepage": "https://modrinth.com/mod/inventive-inventory",
-        "sources": "https://github.com/Strobel273/InventiveInventory",
-        "issues": "https://github.com/Strobel273/InventiveInventory/issues",
+        "sources": "https://github.com/Origins-Tech/InventiveInventory",
+        "issues": "https://github.com/Origins-Tech/InventiveInventory/issues",
         "irc": "https://discord.gg/uycTMfCsfc"
     },
     "license": "MIT",
@@ -33,7 +33,7 @@
         "locked_slots.mixins.json"
     ],
     "depends": {
-        "minecraft": ">=1.21 <=1.21.2",
+        "minecraft": ">=1.21 <=1.21.1",
         "fabric": ">=0.100.1+1.21",
         "fabricloader": ">=0.15.0"
     },

@@ -17,7 +17,7 @@ public enum ToolReplacementBehaviour implements Translatable {
 
     public static boolean isValid(ItemStack stack) {
         return ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(KEEP_TOOL) && stack.getMaxDamage() - stack.getDamage() == 2 ||
-                ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(BREAK_TOOL) && stack.getMaxDamage() - stack.getDamage() == 0;
+                stack.getMaxDamage() - stack.getDamage() == 1;
     }
 
     @Override

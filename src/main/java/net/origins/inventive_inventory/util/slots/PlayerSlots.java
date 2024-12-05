@@ -12,6 +12,7 @@ import java.util.List;
 public class PlayerSlots {
     public static SlotRange get() {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
+        if (screenHandler == null) return new SlotRange(0, 0);
         List<Slot> playerSlots = screenHandler.slots.stream()
                 .filter(slot -> slot.inventory instanceof PlayerInventory)
                 .filter(slot -> !PlayerInventory.isValidHotbarIndex(slot.getIndex()))
