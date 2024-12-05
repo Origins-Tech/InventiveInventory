@@ -7,6 +7,7 @@ import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.screens.ConfigScreen;
 import net.origins.inventive_inventory.config.screens.widgets.ColorPickerWidget;
 import net.origins.inventive_inventory.config.screens.widgets.ConfigLockedSlotWidget;
+import net.origins.inventive_inventory.util.Textures;
 import net.origins.inventive_inventory.util.widgets.ScreenTab;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,7 +23,11 @@ public class ConfigVisualsTab extends ScreenTab {
         this.addWidget(ConfigManager.LOCKED_SLOT_STYLE);
         this.addWidget(ConfigManager.LOCKED_SLOTS_COLOR);
         this.addEmptyRow();
-        this.addCenteredWidget(new ConfigLockedSlotWidget(this.getRowWidth(), 20));
+        this.addCenteredWidget(new ConfigLockedSlotWidget(Textures.SLOT, ConfigManager.LOCKED_SLOTS_COLOR, this.getRowWidth(), 20));
+        this.addWidget(ConfigManager.LOCKED_SLOTS_HOTBAR_COLOR);
+        this.addEmptyRow();
+        this.addCenteredWidget(new ConfigLockedSlotWidget(Textures.HOTBAR_SLOT, ConfigManager.LOCKED_SLOTS_HOTBAR_COLOR, this.getRowWidth(), 20));
+
     }
 
     @Override
