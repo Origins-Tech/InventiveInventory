@@ -32,6 +32,6 @@ public class ConfigSliderWidget extends SliderWidget {
     }
 
     public void reset() {
-        this.setValue(1);
+        this.setValue((double) ColorHelper.Argb.getAlpha(this.option.getDefaultValue()) / 255);
     }
 }

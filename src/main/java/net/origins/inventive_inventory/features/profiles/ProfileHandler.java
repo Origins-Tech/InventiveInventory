@@ -72,7 +72,7 @@ public class ProfileHandler {
 
     public static void update(Profile profile) {
         if (InventiveInventory.getPlayer().isCreative() || ConfigManager.PROFILES_STATUS.is(Status.DISABLED)) return;
-        Profile newProfile = new Profile(profile.getId(), profile.getName(), profile.getKey(), profile.getSavedSlots());
+        Profile newProfile = new Profile(profile.getId(), profile.getName(), profile.getKey(), profile.getSavedSlots(), profile.getDisplayStack());
         profiles.set(profile.getId(), newProfile);
         save();
         Notifier.send(Text.translatable(NOTIFICATION_TRANSLATION_KEY + "updated").getString(), Formatting.GOLD);
@@ -125,6 +125,7 @@ public class ProfileHandler {
     private static List<SavedSlot> createSavedSlots() {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
         List<SavedSlot> savedSlots = new ArrayList<>();
+        if (screenHandler == null) return savedSlots;
         for (int slot : PlayerSlots.get(SlotTypes.HOTBAR, SlotTypes.OFFHAND)) {
             ItemStack stack = screenHandler.getSlot(slot).getStack().copy();
             if (!stack.isEmpty()) savedSlots.add(new SavedSlot(slot, stack));
