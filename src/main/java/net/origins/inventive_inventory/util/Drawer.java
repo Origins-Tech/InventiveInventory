@@ -4,6 +4,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.locked_slots.Style;
+import net.origins.inventive_inventory.config.options.ConfigOption;
 
 public class Drawer {
 
@@ -23,18 +24,11 @@ public class Drawer {
 
     public static void drawProfileHotbar(DrawContext context, int x, int y) {
         context.drawTexture(Textures.HOTBAR, x, y, 0, 0, 0, 205, 20, 205, 20);
-        context.fill(x + 2, y + 2, x + 2 + 16, y + 2 + 16, -2130706433);
-        x = x + 27;
-        y = y + 2;
-        for (int i = 0; i < 9; i++) {
-            context.fill(x, y, x + 16, y + 16, -2130706433);
-            x += 20;
-        }
     }
 
-    public static void drawLockedSlot(DrawContext context, int x, int y) {
-        context.drawTexture(Textures.SLOT, x, y, 0, 0, 0, 20, 20, 20, 20);
-        Drawer.drawSlotBackground(context, x + 2, y + 2, ConfigManager.LOCKED_SLOTS_COLOR.getValue(), 0, ConfigManager.LOCKED_SLOT_STYLE.is(Style.OUTLINED));
+    public static void drawLockedSlot(DrawContext context, Identifier texture, ConfigOption<Integer> option, int x, int y) {
+        context.drawTexture(texture, x, y, 0, 0, 0, 20, 20, 20, 20);
+        Drawer.drawSlotBackground(context, x + 2, y + 2, option.getValue(), 0, ConfigManager.LOCKED_SLOT_STYLE.is(Style.OUTLINED));
         if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, x + 14, y, 200, 8);
     }
 }

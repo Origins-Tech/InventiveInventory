@@ -115,7 +115,7 @@ public class ProfilesScreen extends HandledScreen<ScreenHandler> {
             Profile profile = sections.get(section).getProfile();
             if (profile == null) {
                 if (DELETE_KEY_PRESSED) {
-                    client.send(() -> client.setScreen(new ProfilesNamingScreen()));
+                    if (client != null) client.send(() -> client.setScreen(new ProfilesNamingScreen()));
                 } else {
                     ProfileHandler.create("", ProfileHandler.getAvailableProfileKey());
                 }

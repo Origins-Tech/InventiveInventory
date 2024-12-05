@@ -44,6 +44,7 @@ public class ConfigManager {
     public static final ConfigOption<Boolean> SHOW_LOCK = new SimpleButtonOption("visuals", "locked_slots.show_lock", true);
     public static final ConfigOption<Style> LOCKED_SLOT_STYLE = new EnumButtonOption<>("visuals", "locked_slots.style", Style.FILLED);
     public static final ConfigOption<Integer> LOCKED_SLOTS_COLOR = new ColorFieldOption("visuals", "locked_slots.color", 0xFF4D4D4D);
+    public static final ConfigOption<Integer> LOCKED_SLOTS_HOTBAR_COLOR = new ColorFieldOption("visuals", "locked_slots.hotbar_color", 0xAA4D4D4D);
 
     public static final String OPTION_TRANSLATION_KEY = "config.options.button.text.inventive_inventory";
     public static final String VISUALS_TRANSLATION_KEY = "config.visuals.button.text.inventive_inventory";

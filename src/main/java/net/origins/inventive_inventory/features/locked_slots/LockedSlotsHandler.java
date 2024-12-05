@@ -41,7 +41,7 @@ public class LockedSlotsHandler {
 
     public static void toggle(int slot) {
         ContextManager.setContext(Contexts.LOCKED_SLOTS);
-        if (PlayerSlots.get().contains(slot)) {
+        if (PlayerSlots.get().append(SlotTypes.HOTBAR).contains(slot)) {
             lockedSlots = getLockedSlots();
             if (lockedSlots.contains(slot)) {
                 lockedSlots.remove(((Integer) slot));
@@ -55,7 +55,7 @@ public class LockedSlotsHandler {
     }
 
     public static void dragToggle(int slot) {
-        if (PlayerSlots.get().contains(slot)) {
+        if (PlayerSlots.get().append(SlotTypes.HOTBAR).contains(slot)) {
             lockedSlots = getLockedSlots();
             if (shouldAdd) {
                 if (!lockedSlots.contains(slot)) lockedSlots.add(slot);
@@ -142,8 +142,8 @@ public class LockedSlotsHandler {
     private static void rearrange(List<ItemStack> currentInventory, BiConsumer<Integer, Integer> func) {
         if (savedInventory.isEmpty()) return;
         LockedSlots lockedSlots = LockedSlotsHandler.getLockedSlots();
-        int i = 9;
-        for (int invSlot : PlayerSlots.get()) {
+        int i = 0;
+        for (int invSlot : PlayerSlots.get(SlotTypes.HOTBAR).append(SlotTypes.INVENTORY)) {
             ItemStack currentStack = currentInventory.get(i);
             ItemStack savedStack = savedInventory.get(i);
             i++;
