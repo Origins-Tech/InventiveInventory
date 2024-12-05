@@ -23,6 +23,14 @@ public class Profile {
         this.displayStack = InteractionHandler.getAnyHandStack().copy();
     }
 
+    public Profile(int id, String name, String key, List<SavedSlot> savedSlots, ItemStack displayStack) {
+        this.id = id;
+        this.name = name;
+        this.key = key;
+        this.savedSlots = savedSlots;
+        this.displayStack = displayStack.copy();
+    }
+
     public Profile(int id, String name, String key, JsonObject displayStack, JsonArray savedSlots) {
         this.id = id;
         this.name = name;
