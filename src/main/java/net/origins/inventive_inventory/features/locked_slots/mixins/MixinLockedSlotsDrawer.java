@@ -43,7 +43,7 @@ public abstract class MixinLockedSlotsDrawer {
                     Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.LOCKED_HOVER_COLOR, z + 200, false);
                     this.drawSlot(context, slot);
                     return;
-                } else if (PlayerSlots.get().exclude(SlotTypes.LOCKED_SLOT).contains(slot.id)) {
+                } else if (PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).contains(slot.id)) {
                     Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.HOVER_COLOR, z + 1, false);
                     this.drawSlot(context, slot);
                     return;
