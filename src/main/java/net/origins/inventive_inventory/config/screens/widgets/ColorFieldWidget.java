@@ -12,7 +12,7 @@ public class ColorFieldWidget extends TextFieldWidget {
     public ColorFieldWidget(Text text, ColorFieldOption option) {
         super(InventiveInventory.getClient().textRenderer, 50, 20, Text.empty());
         this.option = option;
-        this.setText("#" + text.getString().substring(2));
+        this.setText("#" + text.getString());
         this.setMaxLength(7);
     }
 

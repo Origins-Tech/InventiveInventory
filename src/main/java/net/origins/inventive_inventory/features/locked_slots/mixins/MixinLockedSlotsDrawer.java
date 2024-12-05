@@ -3,8 +3,6 @@ package net.origins.inventive_inventory.features.locked_slots.mixins;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.slot.Slot;
@@ -23,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Environment(EnvType.CLIENT)
 @Mixin(HandledScreen.class)
 public abstract class MixinLockedSlotsDrawer {
 
@@ -46,7 +43,7 @@ public abstract class MixinLockedSlotsDrawer {
                     Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.LOCKED_HOVER_COLOR, z + 200, false);
                     this.drawSlot(context, slot);
                     return;
-                } else if (PlayerSlots.get().exclude(SlotTypes.LOCKED_SLOT).contains(slot.id)) {
+                } else if (PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).contains(slot.id)) {
                     Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.HOVER_COLOR, z + 1, false);
                     this.drawSlot(context, slot);
                     return;
