@@ -6,8 +6,10 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.options.fields.ColorFieldOption;
 import net.origins.inventive_inventory.util.widgets.CustomClickableWidget;
 
@@ -27,6 +29,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
                         button -> {
                             colorField.reset();
                             sliderWidget.reset();
+                            super.playDownSound(InventiveInventory.getClient().getSoundManager());
                         })
                 .tooltip(Tooltip.of(Text.translatable("config.visuals.button.tooltip.inventive_inventory.locked_slots.color.reset")))
                 .size(50, 20)
@@ -108,6 +111,9 @@ public class ColorPickerWidget extends CustomClickableWidget {
         });
         return false;
     }
+
+    @Override
+    public void playDownSound(SoundManager soundManager) {}
 
     public boolean overSliderWidget(double mouseX, double mouseY) {
         AtomicBoolean bl = new AtomicBoolean(false);
