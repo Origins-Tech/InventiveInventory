@@ -6,8 +6,10 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
+import net.origins.inventive_inventory.InventiveInventory;
 import net.origins.inventive_inventory.config.options.fields.ColorFieldOption;
 import net.origins.inventive_inventory.util.widgets.CustomClickableWidget;
 
@@ -19,7 +21,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
     public ColorPickerWidget(ColorFieldOption option) {
         super(150, 45);
         ColorFieldWidget colorField = new ColorFieldWidget(Text.of(Integer.toHexString(option.getValue() & 0xFFFFFF)), option);
-        ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.getAlpha(option.getValue()) / 255, option);
+        ConfigSliderWidget sliderWidget = new ConfigSliderWidget(150, 20, (double) ColorHelper.Argb.getAlpha(option.getValue()) / 255, option);
         DirectionalLayoutWidget horizontal = DirectionalLayoutWidget.horizontal().spacing(50);
         horizontal.add(colorField);
         horizontal.add(
@@ -27,6 +29,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
                         button -> {
                             colorField.reset();
                             sliderWidget.reset();
+                            super.playDownSound(InventiveInventory.getClient().getSoundManager());
                         })
                 .tooltip(Tooltip.of(Text.translatable("config.visuals.button.tooltip.inventive_inventory.locked_slots.color.reset")))
                 .size(50, 20)
@@ -45,6 +48,9 @@ public class ColorPickerWidget extends CustomClickableWidget {
             else if (widget instanceof DirectionalLayoutWidget) widget.forEachChild(innerWidget -> innerWidget.render(context, mouseX, mouseY, delta));
         });
     }
+
+    @Override
+    public void playDownSound(SoundManager soundManager) {}
 
     @Override
     public void onClick(double mouseX, double mouseY) {
