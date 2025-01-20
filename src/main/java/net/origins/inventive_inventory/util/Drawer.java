@@ -4,7 +4,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 import net.origins.inventive_inventory.config.ConfigManager;
 import net.origins.inventive_inventory.config.enums.locked_slots.Style;
-import net.origins.inventive_inventory.config.options.ConfigOption;
 
 public class Drawer {
 
