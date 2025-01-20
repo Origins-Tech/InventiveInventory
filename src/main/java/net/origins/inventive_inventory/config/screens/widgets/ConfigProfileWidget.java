@@ -7,6 +7,7 @@ import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.text.Text;
@@ -98,6 +99,9 @@ public class ConfigProfileWidget extends CustomClickableWidget {
             if (mouseX >= widget.getX() && mouseX <= widget.getRight() && mouseY >= widget.getY() && mouseY <= widget.getBottom()) {
                 widget.setFocused(true);
                 widget.onClick(mouseX, mouseY);
+                if (widget instanceof ButtonWidget button) {
+                    button.playDownSound(InventiveInventory.getClient().getSoundManager());
+                }
             }
         });
     }
@@ -113,6 +117,9 @@ public class ConfigProfileWidget extends CustomClickableWidget {
         this.horizontal.forEachChild(widget -> widget.charTyped(chr, modifiers));
         return super.charTyped(chr, modifiers);
     }
+
+    @Override
+    public void playDownSound(SoundManager soundManager) {}
 
     private static class Hotbar extends CustomClickableWidget {
 
