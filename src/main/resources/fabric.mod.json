@@ -10,18 +10,18 @@
     ],
     "contact": {
         "homepage": "https://modrinth.com/mod/inventive-inventory",
-        "sources": "https://github.com/Origins-Tech/InventiveInventory",
-        "issues": "https://github.com/Origins-Tech/InventiveInventory/issues"
+        "sources": "https://github.com/InventiveMods/inventive-inventory",
+        "issues": "https://github.com/InventiveMods/inventive-inventory/issues"
     },
     "license": "MIT",
     "icon": "assets/inventive_inventory/icon.png",
     "environment": "client",
     "entrypoints": {
         "client": [
-            "net.origins.inventive_inventory.InventiveInventory"
+            "net.inventive_mods.inventive_inventory.InventiveInventory"
         ],
         "modmenu": [
-            "net.origins.inventive_inventory.integrations.ModMenuIntegration"
+            "net.inventive_mods.inventive_inventory.integrations.ModMenuIntegration"
         ]
     },
     "accessWidener": "inventive_inventory.accesswidener",
