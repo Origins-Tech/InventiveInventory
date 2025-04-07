@@ -11,8 +11,7 @@
     "contact": {
         "homepage": "https://modrinth.com/mod/inventive-inventory",
         "sources": "https://github.com/Origins-Tech/InventiveInventory",
-        "issues": "https://github.com/Origins-Tech/InventiveInventory/issues",
-        "irc": "https://discord.gg/uycTMfCsfc"
+        "issues": "https://github.com/Origins-Tech/InventiveInventory/issues"
     },
     "license": "MIT",
     "icon": "assets/inventive_inventory/icon.png",
