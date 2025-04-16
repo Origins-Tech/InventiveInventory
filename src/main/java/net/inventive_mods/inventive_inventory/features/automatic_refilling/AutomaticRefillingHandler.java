@@ -1,12 +1,10 @@
 package net.inventive_mods.inventive_inventory.features.automatic_refilling;
 
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.PlayerScreenHandler;
-import net.inventive_mods.inventive_inventory.InventiveInventory;
 import net.inventive_mods.inventive_inventory.config.ConfigManager;
 import net.inventive_mods.inventive_inventory.config.enums.automatic_refilling.ToolReplacementBehaviour;
 import net.inventive_mods.inventive_inventory.config.enums.automatic_refilling.ToolReplacementPriority;
@@ -25,6 +23,7 @@ public class AutomaticRefillingHandler {
     private static final List<Item> EMPTIES = List.of(Items.BUCKET, Items.GLASS_BOTTLE, Items.BOWL);
     private static ItemStack mainHandStack = ItemStack.EMPTY;
     private static ItemStack offHandStack = ItemStack.EMPTY;
+    public static boolean keysPressed = false;
     private static int selectedSlot;
     private static boolean runOffHand = true;
 
@@ -45,8 +44,7 @@ public class AutomaticRefillingHandler {
     }
 
     public static boolean shouldRun() {
-        GameOptions options = InventiveInventory.getClient().options;
-        if (!(options.useKey.isPressed() || options.dropKey.isPressed() || options.attackKey.isPressed() && mainHandStack.isDamageable())) return false;
+        if (!AutomaticRefillingHandler.keysPressed) return false;
         if (mainHandStack.isEmpty() || ItemStack.areEqual(mainHandStack, InteractionHandler.getMainHandStack()) || mainHandStack.getCount() > 1) return false;
         return !mainHandStack.isDamageable() || ToolReplacementBehaviour.isValid(mainHandStack);
     }
@@ -56,7 +54,7 @@ public class AutomaticRefillingHandler {
             runOffHand = true;
             return false;
         }
-        if (!InventiveInventory.getClient().options.useKey.isPressed()) return false;
+        if (!AutomaticRefillingHandler.keysPressed) return false;
         if (offHandStack.isEmpty() || ItemStack.areEqual(offHandStack, InteractionHandler.getOffHandStack()) || offHandStack.getCount() > 1) return false;
         return !offHandStack.isDamageable() || ToolReplacementBehaviour.isValid(offHandStack);
     }

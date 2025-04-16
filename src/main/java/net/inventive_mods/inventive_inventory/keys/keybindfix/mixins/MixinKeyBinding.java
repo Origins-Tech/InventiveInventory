@@ -2,6 +2,9 @@ package net.inventive_mods.inventive_inventory.keys.keybindfix.mixins;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.inventive_mods.inventive_inventory.InventiveInventory;
+import net.inventive_mods.inventive_inventory.features.automatic_refilling.AutomaticRefillingHandler;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.inventive_mods.inventive_inventory.keys.keybindfix.KeybindFixer;
@@ -33,6 +36,14 @@ public abstract class MixinKeyBinding {
     @Inject(method = "onKeyPressed", at = @At(value = "TAIL"))
     private static void onKeyPressedFixed(InputUtil.Key key, CallbackInfo ci, @Local KeyBinding original) {
         KeybindFixer.onKeyPressed(key, original, KEY_TO_BINDINGS.get(key));
+        GameOptions options = InventiveInventory.getClient().options;
+        if (options.attackKey.matchesMouse(key.getCode()) || options.attackKey.matchesKey(key.getCode(), key.getCode()) ||
+                options.useKey.matchesMouse(key.getCode()) || options.useKey.matchesKey(key.getCode(), key.getCode()) ||
+                options.dropKey.matchesMouse(key.getCode()) || options.dropKey.matchesKey(key.getCode(), key.getCode())) {
+            AutomaticRefillingHandler.keysPressed = true;
+        } else if (!options.attackKey.isPressed() && !options.useKey.isPressed() && !options.dropKey.isPressed()) {
+            AutomaticRefillingHandler.keysPressed = false;
+        }
     }
 
     @Inject(method = "setKeyPressed", at = @At(value = "TAIL"))

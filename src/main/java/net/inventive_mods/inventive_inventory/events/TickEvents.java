@@ -3,8 +3,6 @@ package net.inventive_mods.inventive_inventory.events;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.world.ClientWorld;
-import net.inventive_mods.inventive_inventory.InventiveInventory;
 import net.inventive_mods.inventive_inventory.config.ConfigManager;
 import net.inventive_mods.inventive_inventory.config.enums.Status;
 import net.inventive_mods.inventive_inventory.config.enums.automatic_refilling.AutomaticRefillingMode;
@@ -24,14 +22,18 @@ import java.util.List;
 public class TickEvents {
 
     public static void register() {
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::playerHandling);
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::checkKeys);
-        ClientTickEvents.START_CLIENT_TICK.register(TickEvents::adjustInventory);
+        ClientTickEvents.START_CLIENT_TICK.register(client -> {
+            TickEvents.playerHandling(client);
+            TickEvents.checkKeys(client);
+            TickEvents.adjustInventory(client);
+            TickEvents.automaticRefilling(client);
+        });
 
-        ClientTickEvents.START_WORLD_TICK.register(TickEvents::automaticRefilling);
-
-        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::captureInventory);
-        ClientTickEvents.END_CLIENT_TICK.register(TickEvents::loadProfile);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            TickEvents.automaticRefilling(client);
+            TickEvents.captureInventory(client);
+            TickEvents.loadProfile(client);
+        });
     }
 
     private static void playerHandling(MinecraftClient client) {
@@ -63,8 +65,8 @@ public class TickEvents {
         if (ContextManager.isInit()) LockedSlotsHandler.adjustInventory();
     }
 
-    private static void automaticRefilling(ClientWorld ignoredWorld) {
-        if (InventiveInventory.getPlayer().isInCreativeMode()) return;
+    private static void automaticRefilling(MinecraftClient client) {
+        if (client.player == null || client.player.isInCreativeMode()) return;
         if (AutomaticRefillingMode.isValid() && ConfigManager.AUTOMATIC_REFILLING_STATUS.is(Status.ENABLED) && ContextManager.isInit() && AutomaticRefillingHandler.shouldRun()) {
             ContextManager.setContext(Contexts.AUTOMATIC_REFILLING);
             AutomaticRefillingHandler.runMainHand();
