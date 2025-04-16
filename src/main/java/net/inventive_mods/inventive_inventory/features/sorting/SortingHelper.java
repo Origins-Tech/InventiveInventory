@@ -22,15 +22,20 @@ class SortingHelper {
                 for (int followingSlot : followingSlots) {
                     ItemStack followingStack = InteractionHandler.getStackFromSlot(followingSlot);
                     if (ItemStack.areItemsEqual(stack, followingStack) && followingStack.getCount() < followingStack.getMaxCount()) {
-                        InteractionHandler.swapStacks(slot, followingSlot);
+                        InteractionHandler.swapStacks(followingSlot, slot);
                     } else if (ItemStack.areItemsEqual(stack, InteractionHandler.getCursorStack())) {
                         InteractionHandler.leftClickStack(slot);
-                        break;
                     }
                 }
             }
         }
-        if (InteractionHandler.isCursorFull() && emptySlot != null) InteractionHandler.leftClickStack(emptySlot);
+        if (InteractionHandler.isCursorFull()) {
+            if (emptySlot != null) {
+                InteractionHandler.leftClickStack(emptySlot);
+            } else if (ItemStack.areItemsEqual(InteractionHandler.getStackFromSlot(slotRange.getLast()), InteractionHandler.getCursorStack())) {
+                InteractionHandler.leftClickStack(slotRange.getLast());
+            }
+        }
     }
 
     public static void sortItemStacks(SlotRange inventorySlots) {
