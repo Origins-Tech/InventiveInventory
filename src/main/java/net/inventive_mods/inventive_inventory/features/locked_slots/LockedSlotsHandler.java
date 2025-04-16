@@ -148,13 +148,12 @@ public class LockedSlotsHandler {
             ItemStack savedStack = savedInventory.get(i);
             i++;
             if (!lockedSlots.contains(invSlot) || ItemStack.areEqual(currentStack, savedStack)) continue;
-            List<Integer> suitableSlots = PlayerSlots.get().append(SlotTypes.HOTBAR).exclude(SlotTypes.LOCKED_SLOT).stream()
+            List<Integer> suitableSlots = PlayerSlots.get(SlotTypes.HOTBAR).append(SlotTypes.INVENTORY).exclude(SlotTypes.LOCKED_SLOT).stream()
                     .filter(slot -> {
                         ItemStack stack = InteractionHandler.getStackFromSlot(slot);
                         return stack.isEmpty() || ItemStack.areItemsEqual(stack, currentStack) && stack.getCount() < stack.getMaxCount();
                     })
-                    .sorted(Comparator.comparing((Integer slot) -> InteractionHandler.getStackFromSlot(slot).getCount(), Comparator.reverseOrder())
-                            .thenComparing(slot -> slot))
+                    .sorted(Comparator.comparing((Integer slot) -> InteractionHandler.getStackFromSlot(slot).getCount(), Comparator.reverseOrder()))
                     .toList();
             if (!suitableSlots.isEmpty()) {
                 InteractionHandler.leftClickStack(invSlot);
