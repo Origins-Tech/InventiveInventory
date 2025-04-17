@@ -31,7 +31,7 @@ public class InteractionHandler {
     }
 
     public static void setSelectedSlot(int slot) {
-        InventiveInventory.getPlayer().getInventory().setSelectedSlot(slot);
+        InventiveInventory.getPlayer().getInventory().selectedSlot = slot;
     }
 
     public static ItemStack getMainHandStack() {

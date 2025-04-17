@@ -52,11 +52,6 @@ public abstract class TabbedScreen extends Screen {
     }
 
     @Override
-    protected void refreshWidgetPositions() {
-        this.initTabNavigation();
-    }
-
-    @Override
     public void close() {
         this.tabs.forEach(ScreenTab::onClose);
         if (this.client != null) this.client.setScreen(this.parent);
