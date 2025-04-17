@@ -3,3 +3,4 @@ extendable method net/minecraft/client/gui/widget/TextFieldWidget onChanged (Lja
 accessible field net/minecraft/client/gui/widget/ThreePartsLayoutWidget body Lnet/minecraft/client/gui/widget/SimplePositioningWidget;
 accessible field net/minecraft/client/gui/widget/SimplePositioningWidget elements Ljava/util/List;
 accessible method net/minecraft/client/gui/widget/SliderWidget setValue (D)V
+accessible method net/minecraft/client/gui/DrawContext drawTexture (Lnet/minecraft/util/Identifier;IIIIIIIFFII)V
