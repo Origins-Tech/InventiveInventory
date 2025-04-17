@@ -1,10 +1,10 @@
 name: Publish
-run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform || 'All' }} - ${{ inputs.version || github.event.head_commit.message }} on 1.21.2, 1.21.3, 1.21.4
+run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform || 'All' }} - ${{ inputs.version || github.event.head_commit.message }} on 1.21.5
 
 on:
   push:
     branches:
-      - "1.21.2"
+      - "1.21.5"
   workflow_dispatch:
     inputs:
       platform:
@@ -60,13 +60,13 @@ jobs:
       - name: Publish to Modrinth
         if: ${{ github.event.inputs.platform == 'Modrinth' || github.event_name == 'push' }}
 
-        uses: Kir-Antipov/mc-publish@v3.3.0
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
           name: "Inventive Inventory ${{ env.version }}"
           version: "${{ env.version }}"
           game-versions: |
-            [1.21.2, 1.21.3, 1.21.4]
+            [1.21.5]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"
@@ -80,7 +80,7 @@ jobs:
           name: "Inventive Inventory ${{ env.version }}"
           version: "${{ env.version }}"
           game-versions: |
-            [1.21.2, 1.21.3, 1.21.4]
+            [1.21.5]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"
