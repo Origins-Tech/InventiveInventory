@@ -41,7 +41,7 @@ public abstract class CustomListWidget extends ElementListWidget<CustomListWidge
     public int getRowWidth() {
         if (this.children().isEmpty()) return this.width;
         AtomicInteger longest = new AtomicInteger();
-        this.children().forEach(entry -> longest.set(Math.max(longest.get(), entry.widgets.getFirst().getWidth())));
+        this.children().forEach(entry -> longest.set(Math.max(longest.get(), entry.widgets.get(0).getWidth())));
         return longest.get();
     }
 

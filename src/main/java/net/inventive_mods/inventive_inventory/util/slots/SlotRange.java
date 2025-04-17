@@ -37,8 +37,8 @@ public class SlotRange extends ArrayList<Integer> {
             if (playerSlots.stream().anyMatch(slot -> slot.getClass().equals(Slot.class))) {
                 playerSlots = playerSlots.stream().filter(slot -> slot.getClass().equals(Slot.class)).toList();
             }
-            int start = playerSlots.getFirst().id;
-            int stop = playerSlots.getLast().id;
+            int start = playerSlots.get(0).id;
+            int stop = playerSlots.get(playerSlots.size() - 1).id;
             IntStream.rangeClosed(start, stop).forEach(this::add);
         } else if (type == SlotTypes.INVENTORY) {
             this.addAll(PlayerSlots.get());

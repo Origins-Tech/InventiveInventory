@@ -32,8 +32,8 @@ class SortingHelper {
         if (InteractionHandler.isCursorFull()) {
             if (emptySlot != null) {
                 InteractionHandler.leftClickStack(emptySlot);
-            } else if (ItemStack.areItemsEqual(InteractionHandler.getStackFromSlot(slotRange.getLast()), InteractionHandler.getCursorStack())) {
-                InteractionHandler.leftClickStack(slotRange.getLast());
+            } else if (ItemStack.areItemsEqual(InteractionHandler.getStackFromSlot(slotRange.get(slotRange.size() - 1)), InteractionHandler.getCursorStack())) {
+                InteractionHandler.leftClickStack(slotRange.get(slotRange.size() - 1));
             }
         }
     }
@@ -72,19 +72,19 @@ class SortingHelper {
     private static void handleEmptyCursorStack(SlotRange slotRange, ItemStack targetStack) {
         List<Integer> sameStackSlots = findSameStacks(slotRange, targetStack);
         Collections.reverse(sameStackSlots);
-        InteractionHandler.leftClickStack(sameStackSlots.getFirst());
+        InteractionHandler.leftClickStack(sameStackSlots.get(0));
         if (InteractionHandler.getCursorStack().getCount() > targetStack.getCount()) {
             while (InteractionHandler.getCursorStack().getCount() > targetStack.getCount()) {
-                InteractionHandler.rightClickStack(sameStackSlots.getFirst());
+                InteractionHandler.rightClickStack(sameStackSlots.get(0));
             }
         } else if (InteractionHandler.getCursorStack().getCount() < targetStack.getCount()) {
-            InteractionHandler.leftClickStack(sameStackSlots.getFirst());
+            InteractionHandler.leftClickStack(sameStackSlots.get(0));
             InteractionHandler.leftClickStack(sameStackSlots.get(1));
-            while (InteractionHandler.getStackFromSlot(sameStackSlots.getFirst()).getCount() < targetStack.getCount()) {
-                InteractionHandler.rightClickStack(sameStackSlots.getFirst());
+            while (InteractionHandler.getStackFromSlot(sameStackSlots.get(0)).getCount() < targetStack.getCount()) {
+                InteractionHandler.rightClickStack(sameStackSlots.get(0));
             }
             InteractionHandler.leftClickStack(sameStackSlots.get(1));
-            InteractionHandler.leftClickStack(sameStackSlots.getFirst());
+            InteractionHandler.leftClickStack(sameStackSlots.get(0));
         }
     }
 
@@ -94,14 +94,14 @@ class SortingHelper {
         slotRange.removeAll(sameStackSlots);
         if (slotRange.isEmpty()) return;
 
-        InteractionHandler.leftClickStack(slotRange.getFirst());
-        InteractionHandler.leftClickStack(sameStackSlots.getFirst());
+        InteractionHandler.leftClickStack(slotRange.get(0));
+        InteractionHandler.leftClickStack(sameStackSlots.get(0));
 
-        while (targetStack.getCount() > InteractionHandler.getStackFromSlot(slotRange.getFirst()).getCount()) {
-            InteractionHandler.rightClickStack(slotRange.getFirst());
+        while (targetStack.getCount() > InteractionHandler.getStackFromSlot(slotRange.get(0)).getCount()) {
+            InteractionHandler.rightClickStack(slotRange.get(0));
         }
-        InteractionHandler.leftClickStack(sameStackSlots.getFirst());
-        InteractionHandler.leftClickStack(slotRange.getFirst());
+        InteractionHandler.leftClickStack(sameStackSlots.get(0));
+        InteractionHandler.leftClickStack(slotRange.get(0));
     }
 
     private static void rearrangeSlots(SlotRange slotRange) {

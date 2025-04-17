@@ -64,12 +64,12 @@ public class AutomaticRefillingHandler {
 
         int emptiesSlot = InteractionHandler.getSelectedSlot();
         if (!sameItemSlots.isEmpty()) {
-            if (PlayerScreenHandler.isInHotbar(sameItemSlots.getFirst())) {
-                InteractionHandler.setSelectedSlot(sameItemSlots.getFirst() - PlayerInventory.MAIN_SIZE);
+            if (PlayerScreenHandler.isInHotbar(sameItemSlots.get(0))) {
+                InteractionHandler.setSelectedSlot(sameItemSlots.get(0) - PlayerInventory.MAIN_SIZE);
             } else {
                 if (ConfigManager.AUTOMATIC_REFILLING_IGNORE_LOCKED_SLOTS.is(false) || !LockedSlotsHandler.getLockedSlots().contains(InteractionHandler.getSelectedSlot())) {
-                    InteractionHandler.swapStacks(sameItemSlots.getFirst(), InteractionHandler.getSelectedSlot());
-                    emptiesSlot = sameItemSlots.getFirst();
+                    InteractionHandler.swapStacks(sameItemSlots.get(0), InteractionHandler.getSelectedSlot());
+                    emptiesSlot = sameItemSlots.get(0);
                 }
             }
         } else runOffHand = false;
@@ -83,8 +83,8 @@ public class AutomaticRefillingHandler {
 
         int emptiesSlot = PlayerScreenHandler.OFFHAND_ID;
         if (!sameItemSlots.isEmpty()) {
-            InteractionHandler.swapStacks(sameItemSlots.getFirst(), PlayerScreenHandler.OFFHAND_ID);
-            emptiesSlot = sameItemSlots.getFirst();
+            InteractionHandler.swapStacks(sameItemSlots.get(0), PlayerScreenHandler.OFFHAND_ID);
+            emptiesSlot = sameItemSlots.get(0);
         }
 
         offHandStack = ItemStack.EMPTY;
@@ -133,7 +133,7 @@ public class AutomaticRefillingHandler {
                 .toList();
         if (!sameItemSlots.isEmpty()) {
             InteractionHandler.leftClickStack(itemSlot);
-            InteractionHandler.leftClickStack(sameItemSlots.getFirst());
+            InteractionHandler.leftClickStack(sameItemSlots.get(0));
         }
     }
 

@@ -12,12 +12,12 @@ public class LockedSlots extends ArrayList<Integer> {
     }
 
     public LockedSlots adjust() {
-        int start = PlayerSlots.get().getFirst();
+        int start = PlayerSlots.get().get(0);
         return new LockedSlots(this.stream().map(slot -> slot + start).collect(Collectors.toList()));
     }
 
     public LockedSlots unadjust() {
-        int start = PlayerSlots.get().getFirst();
+        int start = PlayerSlots.get().get(0);
         return new LockedSlots(this.stream().map(slot -> slot - start).toList());
     }
 }
