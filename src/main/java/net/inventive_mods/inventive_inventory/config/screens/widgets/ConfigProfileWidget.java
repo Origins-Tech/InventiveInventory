@@ -1,5 +1,6 @@
 package net.inventive_mods.inventive_inventory.config.screens.widgets;
 
+import net.inventive_mods.inventive_inventory.util.widgets.WidgetHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -56,7 +57,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         this.horizontal.setPosition(this.getX(), this.getY());
         this.horizontal.forEachChild(clickableWidget -> clickableWidget.render(context, mouseX, mouseY, delta));
     }
@@ -96,7 +97,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
     @Override
     public void onClick(double mouseX, double mouseY) {
         this.horizontal.forEachChild(widget -> {
-            if (mouseX >= widget.getX() && mouseX <= widget.getRight() && mouseY >= widget.getY() && mouseY <= widget.getBottom()) {
+            if (mouseX >= widget.getX() && mouseX <= WidgetHelper.getRight(widget) && mouseY >= widget.getY() && mouseY <= WidgetHelper.getBottom(widget)) {
                 widget.setFocused(true);
                 widget.onClick(mouseX, mouseY);
                 if (widget instanceof ButtonWidget button) {
@@ -130,7 +131,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
             this.savedSlots = savedSlots;
         }
         @Override
-        protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+        protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
             Drawer.drawProfileHotbar(context, this.getX(), this.getY());
 
             int slotX = this.getX() + 27;

@@ -1,5 +1,6 @@
 package net.inventive_mods.inventive_inventory.config.screens.widgets;
 
+import net.inventive_mods.inventive_inventory.util.widgets.WidgetHelper;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -41,7 +42,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         this.vertical.setPosition(this.getX(), this.getY());
         this.vertical.forEachElement(widget -> {
             if (widget instanceof ClickableWidget) ((ClickableWidget) widget).render(context, mouseX, mouseY, delta);
@@ -53,18 +54,18 @@ public class ColorPickerWidget extends CustomClickableWidget {
     public void onClick(double mouseX, double mouseY) {
         this.vertical.forEachElement(element -> {
             if (element instanceof ConfigSliderWidget sliderWidget) {
-                if (mouseX >= sliderWidget.getX() && mouseX <= sliderWidget.getRight() && mouseY >= sliderWidget.getY() && mouseY <= sliderWidget.getBottom()) {
+                if (mouseX >= sliderWidget.getX() && mouseX <= WidgetHelper.getRight(sliderWidget) && mouseY >= sliderWidget.getY() && mouseY <= WidgetHelper.getBottom(sliderWidget)) {
                     sliderWidget.onClick(mouseX, mouseY);
                 }
             } else if (element instanceof DirectionalLayoutWidget layoutWidget) {
                 layoutWidget.forEachElement(innerElement -> {
                     if (innerElement instanceof TextFieldWidget textFieldWidget) {
-                        if (mouseX >= textFieldWidget.getX() && mouseX <= textFieldWidget.getRight() && mouseY >= textFieldWidget.getY() && mouseY <= textFieldWidget.getBottom()) {
+                        if (mouseX >= textFieldWidget.getX() && mouseX <= WidgetHelper.getRight(textFieldWidget) && mouseY >= textFieldWidget.getY() && mouseY <= WidgetHelper.getBottom(textFieldWidget)) {
                             textFieldWidget.setFocused(true);
                             textFieldWidget.onClick(mouseX, mouseY);
                         } else textFieldWidget.setFocused(false);
                     } else if (innerElement instanceof ClickableWidget clickableWidget) {
-                        if (mouseX >= clickableWidget.getX() && mouseX <= clickableWidget.getRight() && mouseY >= clickableWidget.getY() && mouseY <= clickableWidget.getBottom()) {
+                        if (mouseX >= clickableWidget.getX() && mouseX <= WidgetHelper.getRight(clickableWidget) && mouseY >= clickableWidget.getY() && mouseY <= WidgetHelper.getBottom(clickableWidget)) {
                             clickableWidget.onClick(mouseX, mouseY);
                         }
                     }
@@ -77,7 +78,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
     protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
         this.vertical.forEachElement(element -> {
             if (element instanceof ConfigSliderWidget sliderWidget) {
-                if (mouseX >= sliderWidget.getX() && mouseX <= sliderWidget.getRight() && mouseY >= sliderWidget.getY() && mouseY <= sliderWidget.getBottom()) {
+                if (mouseX >= sliderWidget.getX() && mouseX <= WidgetHelper.getRight(sliderWidget) && mouseY >= sliderWidget.getY() && mouseY <= WidgetHelper.getBottom(sliderWidget)) {
                     sliderWidget.onDrag(mouseX, mouseY, deltaX, deltaY);
                 }
             }
@@ -119,7 +120,7 @@ public class ColorPickerWidget extends CustomClickableWidget {
         AtomicBoolean bl = new AtomicBoolean(false);
         this.vertical.forEachElement(element -> {
             if (element instanceof ConfigSliderWidget sliderWidget) {
-                bl.set(mouseX >= sliderWidget.getX() && mouseX <= sliderWidget.getRight() && mouseY >= sliderWidget.getY() && mouseY <= sliderWidget.getBottom());
+                bl.set(mouseX >= sliderWidget.getX() && mouseX <= WidgetHelper.getRight(sliderWidget) && mouseY >= sliderWidget.getY() && mouseY <= WidgetHelper.getBottom(sliderWidget));
             }
         });
         return bl.get();

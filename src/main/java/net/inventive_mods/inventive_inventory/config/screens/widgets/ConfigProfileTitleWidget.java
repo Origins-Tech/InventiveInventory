@@ -25,7 +25,7 @@ public class ConfigProfileTitleWidget extends CustomClickableWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         this.horizontal.setPosition(this.getX(), this.getY());
         this.horizontal.forEachChild(clickableWidget -> clickableWidget.render(context, mouseX, mouseY, delta));
     }

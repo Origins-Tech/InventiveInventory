@@ -7,19 +7,20 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.navigation.GuiNavigationPath;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
 import net.inventive_mods.inventive_inventory.config.screens.ConfigScreen;
+import net.inventive_mods.inventive_inventory.util.widgets.screen_tab.CustomElementListWidget;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class CustomListWidget extends ElementListWidget<CustomListWidget.WidgetEntry> {
+public abstract class CustomListWidget extends CustomElementListWidget<CustomListWidget.WidgetEntry> {
 
     public CustomListWidget(MinecraftClient client, int width, ConfigScreen screen) {
         super(client, width, screen.layout.getContentHeight(), screen.layout.getHeaderHeight(), 25);
-        this.centerListVertically = false;
     }
 
     @Override
@@ -50,8 +51,53 @@ public abstract class CustomListWidget extends ElementListWidget<CustomListWidge
         return (this.width - this.getRowWidth()) / 2;
     }
 
+    @Override
+    public Optional<Element> hoveredElement(double mouseX, double mouseY) {
+        return super.hoveredElement(mouseX, mouseY);
+    }
+
+    @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        super.mouseMoved(mouseX, mouseY);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        return super.keyReleased(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        return super.charTyped(chr, modifiers);
+    }
+
+    @Override
+    public @Nullable GuiNavigationPath getFocusedPath() {
+        return super.getFocusedPath();
+    }
+
+    @Override
+    public void focusOn(@Nullable Element element) {
+        super.focusOn(element);
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        super.setPosition(x, y);
+    }
+
     @Environment(EnvType.CLIENT)
-    protected static class WidgetEntry extends Entry<WidgetEntry> {
+    protected static class WidgetEntry extends CustomElementListWidget.CustomEntry<WidgetEntry> {
         private final List<ClickableWidget> widgets;
 
         WidgetEntry(List<ClickableWidget> widgets) {
