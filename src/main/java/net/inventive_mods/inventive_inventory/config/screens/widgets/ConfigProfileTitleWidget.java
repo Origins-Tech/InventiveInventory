@@ -1,8 +1,8 @@
 package net.inventive_mods.inventive_inventory.config.screens.widgets;
 
+import net.inventive_mods.inventive_inventory.util.widgets.DirectionalLayoutWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;

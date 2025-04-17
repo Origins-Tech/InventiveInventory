@@ -293,8 +293,8 @@ public abstract class CustomEntryListWidget<E extends CustomEntryListWidget.Cust
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        this.setScrollAmount(this.getScrollAmount() - verticalAmount * (double)this.itemHeight / 2.0);
+    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+        this.setScrollAmount(this.getScrollAmount() - amount * (double)this.itemHeight / 2.0);
         return true;
     }
 

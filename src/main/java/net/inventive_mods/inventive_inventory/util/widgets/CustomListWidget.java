@@ -62,8 +62,8 @@ public abstract class CustomListWidget extends CustomElementListWidget<CustomLis
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
+    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+        return super.mouseScrolled(mouseX, mouseY, amount);
     }
 
     @Override

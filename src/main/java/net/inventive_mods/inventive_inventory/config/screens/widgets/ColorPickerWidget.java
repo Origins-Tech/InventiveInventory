@@ -1,11 +1,11 @@
 package net.inventive_mods.inventive_inventory.config.screens.widgets;
 
+import net.inventive_mods.inventive_inventory.util.widgets.DirectionalLayoutWidget;
 import net.inventive_mods.inventive_inventory.util.widgets.WidgetHelper;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.text.Text;

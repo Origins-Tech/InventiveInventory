@@ -2,6 +2,7 @@ package net.inventive_mods.inventive_inventory.util.widgets;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.Positioner;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -31,7 +32,7 @@ public abstract class TabbedScreen extends Screen {
     }
 
     protected void initHeader() {
-        this.layout.addHeader(new TextWidget(this.title, this.textRenderer), positioner -> positioner.relativeY(0.25f));
+        this.layout.addHeader(new TextWidget(this.title, this.textRenderer), Positioner.create().relativeY(0.25f).alignHorizontalCenter());
     }
 
     protected void addTabs() {

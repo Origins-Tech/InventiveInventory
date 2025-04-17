@@ -1,8 +1,8 @@
 package net.inventive_mods.inventive_inventory.features.profiles.gui;
 
+import net.inventive_mods.inventive_inventory.util.widgets.DirectionalLayoutWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.screen.ScreenTexts;
@@ -30,7 +30,7 @@ public class ProfilesNamingScreen extends Screen {
 
         DirectionalLayoutWidget layout = DirectionalLayoutWidget.vertical();
         TextWidget textWidget = new TextWidget(150, 10, Text.translatable("profiles.screen.naming.text_field.inventive_inventory.placeholder"), this.client.textRenderer);
-        this.textFieldWidget = new TextFieldWidget(this.client.textRenderer, 150, 20, Text.empty());
+        this.textFieldWidget = new TextFieldWidget(this.client.textRenderer, 0, 0, 150, 20, Text.empty());
         this.textFieldWidget.setPlaceholder(Text.translatable("profiles.screen.naming.text_field.inventive_inventory.placeholder"));
         ButtonWidget doneButton = ButtonWidget.builder(ScreenTexts.DONE, (button) -> createProfile()).build();
 

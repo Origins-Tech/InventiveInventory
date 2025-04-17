@@ -1,10 +1,10 @@
 package net.inventive_mods.inventive_inventory.config.screens.widgets;
 
+import net.inventive_mods.inventive_inventory.util.widgets.DirectionalLayoutWidget;
 import net.inventive_mods.inventive_inventory.util.widgets.WidgetHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.client.option.KeyBinding;
@@ -36,7 +36,7 @@ public class ConfigProfileWidget extends CustomClickableWidget {
         this.parent = parent;
         MinecraftClient client = InventiveInventory.getClient();
 
-        this.name = new TextFieldWidget(client.textRenderer, 80, height, Text.empty());
+        this.name = new TextFieldWidget(client.textRenderer, 0, 0, 80, height, Text.empty());
         this.name.setText(this.profile.getName());
         this.name.setPlaceholder(Text.translatable("config.profiles.text_field.inventive_inventory.placeholder"));
 
