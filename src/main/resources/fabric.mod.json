@@ -32,12 +32,12 @@
         "locked_slots.mixins.json"
     ],
     "depends": {
-        "minecraft": ">=1.21 <=1.21.1",
-        "fabric": ">=0.100.1+1.21",
+        "minecraft": ">=1.20.5 <=1.20.6",
+        "fabric": ">=0.97.5+1.20.5",
         "fabricloader": ">=0.15.0"
     },
     "suggests": {
-        "modmenu": ">=11.0.0"
+        "modmenu": ">=10.0.0"
     },
     "custom": {
         "modmenu": {
