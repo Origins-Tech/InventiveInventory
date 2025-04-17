@@ -88,7 +88,7 @@ public class LockedSlotsHandler {
     }
 
     public static void adjustInventory() {
-        List<ItemStack> currentInventory = new ArrayList<>(InventiveInventory.getPlayer().getInventory().getMainStacks());
+        List<ItemStack> currentInventory = new ArrayList<>(InventiveInventory.getPlayer().getInventory().main);
         if (savedInventory.isEmpty()) return;
         boolean itemTaken = isItemTaken(currentInventory);
         boolean itemMoved = isItemMoved(itemTaken);
@@ -104,7 +104,7 @@ public class LockedSlotsHandler {
 
     public static void setSavedInventory() {
         savedInventory.clear();
-        for (ItemStack stack : InventiveInventory.getPlayer().getInventory().getMainStacks()) savedInventory.add(stack.copy());
+        for (ItemStack stack : InventiveInventory.getPlayer().getInventory().main) savedInventory.add(stack.copy());
         savedInventory.add(InteractionHandler.getCursorStack().copy());
     }
 

@@ -1,10 +1,10 @@
 name: Publish
-run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform || 'All' }} - ${{ inputs.version || github.event.head_commit.message }} on 1.21.2, 1.21.3, 1.21.4
+run-name: Deployed by ${{ github.actor }} on ${{ inputs.platform || 'All' }} - ${{ inputs.version || github.event.head_commit.message }} on 1.21.5
 
 on:
   push:
     branches:
-      - "1.21.5"
+      - "1.21.2"
   workflow_dispatch:
     inputs:
       platform:
@@ -58,7 +58,7 @@ jobs:
         run: ./gradlew clean build
 
       - name: Publish to Modrinth
-        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event_name == 'push' }}
+        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event.inputs.platform == 'All' || github.event_name == 'push' }}
 
         uses: Kir-Antipov/mc-publish@v3.3
         with:
@@ -66,13 +66,13 @@ jobs:
           name: "Inventive Inventory ${{ env.version }}"
           version: "${{ env.version }}"
           game-versions: |
-            [1.21.5]
+            [1.21.2, 1.21.3, 1.21.4]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"
 
       - name: Publish to Curseforge
-        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event_name == 'push' }}
+        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event.inputs.platform == 'All' || github.event_name == 'push' }}
 
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
@@ -80,7 +80,7 @@ jobs:
           name: "Inventive Inventory ${{ env.version }}"
           version: "${{ env.version }}"
           game-versions: |
-            [1.21.5]
+            [1.21.2, 1.21.3, 1.21.4]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"

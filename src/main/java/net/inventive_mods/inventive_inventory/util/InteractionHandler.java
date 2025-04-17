@@ -27,7 +27,7 @@ public class InteractionHandler {
     public static int getSelectedSlot() {
         ScreenHandler screenHandler = InventiveInventory.getScreenHandler();
         ClientPlayerEntity player = InventiveInventory.getPlayer();
-        return screenHandler.getSlotIndex(player.getInventory(), player.getInventory().getSelectedSlot()).orElse(-1);
+        return screenHandler.getSlotIndex(player.getInventory(), player.getInventory().selectedSlot).orElse(-1);
     }
 
     public static void setSelectedSlot(int slot) {
