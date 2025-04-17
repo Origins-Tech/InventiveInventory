@@ -39,4 +39,14 @@ public abstract class ScreenTab extends CustomListWidget {
     }
 
     protected void onClose() {}
+
+    protected void position(int width, TabbedThreePartsLayoutWidget layout) {
+        this.setDimensions(width, layout.getContentHeight());
+        this.setPosition(0, layout.getHeaderHeight());
+        this.refreshScroll();
+    }
+
+    protected void refreshScroll() {
+        this.setScrollAmount(this.getScrollAmount());
+    }
 }

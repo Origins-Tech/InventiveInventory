@@ -1,10 +1,7 @@
 package net.inventive_mods.inventive_inventory.util.tooltips;
 
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -36,12 +33,7 @@ public class TooltipBuilder {
         List<Text> textList = new ArrayList<>();
         addTitle(Text.of(profile.getDisplayStack().getName().getString()), Formatting.AQUA, textList);
         if (profile.getDisplayStack().hasEnchantments()) {
-            for (RegistryEntry<Enchantment> entry : profile.getDisplayStack().getEnchantments().getEnchantments()) {
-                if (entry.getKey().isPresent()) {
-                    Enchantment enchantment = Registries.ENCHANTMENT.get(entry.getKey().get());
-                    if (enchantment != null) textList.add(enchantment.getName(EnchantmentHelper.getLevel(enchantment, profile.getDisplayStack())));
-                }
-            }
+            EnchantmentHelper.fromNbt(profile.getDisplayStack().getEnchantments()).forEach((enchantment, integer) -> textList.add(enchantment.getName(integer)));
             textList.add(Text.empty());
         }
         addKey(profile, textList);

@@ -22,7 +22,7 @@ public abstract class MixinLockedSlotsInGameHudDrawer {
 
     @WrapOperation(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(Lnet/minecraft/client/gui/DrawContext;IIFLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;I)V"))
     private void onRenderHotbar(InGameHud instance, DrawContext context, int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int seed, Operation<Void> original, @Local(ordinal = 4) int hotbarSlot) {
-        if (!InventiveInventory.getPlayer().isInCreativeMode() && LockedSlotsHandler.getLockedSlots().contains(hotbarSlot + PlayerInventory.MAIN_SIZE)) {
+        if (!InventiveInventory.getPlayer().isCreative() && LockedSlotsHandler.getLockedSlots().contains(hotbarSlot + PlayerInventory.MAIN_SIZE)) {
             Drawer.drawSlotBackground(context, x, y, ConfigManager.LOCKED_SLOTS_HOTBAR_COLOR.getValue(), 0, ConfigManager.LOCKED_SLOT_STYLE.is(Style.OUTLINED));
             original.call(instance, context, x, y, tickDelta, player, stack, seed);
             if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, x + 11, y - 1, 200, 8);

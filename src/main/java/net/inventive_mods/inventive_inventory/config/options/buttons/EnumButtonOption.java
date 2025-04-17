@@ -44,7 +44,7 @@ public class EnumButtonOption<E extends Enum<E>> extends ConfigOption<E> {
                 .tooltip(value -> Tooltip.of(Text.translatable("config." + this.tab + ".button.tooltip." + InventiveInventory.MOD_ID + "." + ((Translatable) value).getTranslationKey())))
                 .omitKeyText()
                 .values(Arrays.stream(this.enumClass.getEnumConstants()).toArray()).initially(this.getValue())
-                .build(Text.empty(), (button, value) -> this.cycle());
+                .build(0, 0, 150, 20, Text.empty(), (button, value) -> this.cycle());
     }
 
 }

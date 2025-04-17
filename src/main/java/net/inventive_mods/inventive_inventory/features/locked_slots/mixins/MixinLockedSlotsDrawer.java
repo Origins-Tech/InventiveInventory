@@ -29,7 +29,7 @@ public abstract class MixinLockedSlotsDrawer {
 
     @Inject(method = "drawSlot(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/screen/slot/Slot;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawItemInSlot(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"))
     private void onDrawItem(DrawContext context, Slot slot, CallbackInfo ci) {
-        if (!InventiveInventory.getPlayer().isInCreativeMode() && LockedSlotsHandler.getLockedSlots().contains(slot.id) ) {
+        if (!InventiveInventory.getPlayer().isCreative() && LockedSlotsHandler.getLockedSlots().contains(slot.id) ) {
             Drawer.drawSlotBackground(context, slot.x, slot.y, ConfigManager.LOCKED_SLOTS_COLOR.getValue(), 0, ConfigManager.LOCKED_SLOT_STYLE.is(Style.OUTLINED));
             if (ConfigManager.SHOW_LOCK.is(true)) Drawer.drawTexture(context, Textures.LOCK, slot.x + 11, slot.y - 2, 200, 8);
         }
@@ -37,7 +37,7 @@ public abstract class MixinLockedSlotsDrawer {
 
     @WrapOperation(method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawSlotHighlight(Lnet/minecraft/client/gui/DrawContext;III)V"))
     private void drawSlotHighlight(DrawContext context, int x, int y, int z, Operation<Void> original, @Local Slot slot) {
-        if (!InventiveInventory.getPlayer().isInCreativeMode()) {
+        if (!InventiveInventory.getPlayer().isCreative()) {
             if (AdvancedOperationHandler.isPressed()) {
                 if (LockedSlotsHandler.getLockedSlots().contains(slot.id)) {
                     Drawer.drawSlotBackground(context, x, y, LockedSlotsHandler.LOCKED_HOVER_COLOR, z + 200, false);

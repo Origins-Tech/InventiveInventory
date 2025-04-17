@@ -30,6 +30,6 @@ public class SimpleButtonOption extends ConfigOption<Boolean> {
         return CyclingButtonWidget.builder(ConfigOption::getValueAsText)
                 .omitKeyText()
                 .values(List.of(true, false)).initially(this.getValue())
-                .build(Text.empty(), (button, value) -> this.cycle());
+                .build(0, 0, 150, 20, Text.empty(), (button, value) -> this.cycle());
     }
 }
