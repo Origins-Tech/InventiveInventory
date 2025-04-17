@@ -58,7 +58,7 @@ jobs:
         run: ./gradlew clean build
 
       - name: Publish to Modrinth
-        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event_name == 'push' }}
+        if: ${{ github.event.inputs.platform == 'Modrinth' || github.event.inputs.platform == 'all' || github.event_name == 'push' }}
 
         uses: Kir-Antipov/mc-publish@v3.3
         with:
@@ -72,7 +72,7 @@ jobs:
           java: "${{ env.JAVA_VERSION }}"
 
       - name: Publish to Curseforge
-        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event_name == 'push' }}
+        if: ${{ github.event.inputs.platform == 'Curseforge' || github.event.inputs.platform == 'all' || github.event_name == 'push' }}
 
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
