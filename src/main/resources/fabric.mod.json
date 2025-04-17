@@ -10,19 +10,18 @@
     ],
     "contact": {
         "homepage": "https://modrinth.com/mod/inventive-inventory",
-        "sources": "https://github.com/Origins-Tech/InventiveInventory",
-        "issues": "https://github.com/Origins-Tech/InventiveInventory/issues",
-        "irc": "https://discord.gg/uycTMfCsfc"
+        "sources": "https://github.com/InventiveMods/inventive-inventory",
+        "issues": "https://github.com/InventiveMods/inventive-inventory/issues"
     },
     "license": "MIT",
     "icon": "assets/inventive_inventory/icon.png",
     "environment": "client",
     "entrypoints": {
         "client": [
-            "net.origins.inventive_inventory.InventiveInventory"
+            "net.inventive_mods.inventive_inventory.InventiveInventory"
         ],
         "modmenu": [
-            "net.origins.inventive_inventory.integrations.ModMenuIntegration"
+            "net.inventive_mods.inventive_inventory.integrations.ModMenuIntegration"
         ]
     },
     "accessWidener": "inventive_inventory.accesswidener",
@@ -33,12 +32,12 @@
         "locked_slots.mixins.json"
     ],
     "depends": {
-        "minecraft": ">=1.21.2",
-        "fabric": ">=0.106.1+1.21.2",
+        "minecraft": ">=1.21 <=1.21.1",
+        "fabric": ">=0.100.1+1.21",
         "fabricloader": ">=0.15.0"
     },
     "suggests": {
-        "modmenu": ">=12.0.0"
+        "modmenu": ">=11.0.0"
     },
     "custom": {
         "modmenu": {
