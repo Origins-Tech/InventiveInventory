@@ -65,8 +65,6 @@ jobs:
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
           name: "Inventive Inventory ${{ env.version }}"
           version: "${{ env.version }}"
-          game-versions: |
-            [1.20.5, 1.20.6]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"
@@ -74,13 +72,11 @@ jobs:
       - name: Publish to Curseforge
         if: ${{ github.event.inputs.platform == 'Curseforge' || github.event.inputs.platform == 'All' || github.event_name == 'push' }}
 
-        uses: Kir-Antipov/mc-publish@v3.3.0
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
           name: "Inventive Inventory ${{ env.version }}"
           version: "${{ env.version }}"
-          game-versions: |
-            [1.20.5, 1.20.6]
           version-type: release
           changelog-file: CHANGELOG.md
           java: "${{ env.JAVA_VERSION }}"
