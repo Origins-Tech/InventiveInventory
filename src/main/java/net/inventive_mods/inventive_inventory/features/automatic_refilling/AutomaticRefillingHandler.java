@@ -98,7 +98,13 @@ public class AutomaticRefillingHandler {
                 .filter(slot -> {
                     ItemStack stack = InteractionHandler.getStackFromSlot(slot);
                     if (handStack.isDamageable()) {
-                        return stack.getItem().getClass().equals(handStack.getItem().getClass()) &&
+                        if (isPlainItem(handStack) && isPlainItem(stack)) {
+                            if (getToolType(handStack).equals(getToolType(stack))) {
+                                return ((ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.KEEP_TOOL) && stack.getMaxDamage() - stack.getDamage() > 1) || ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.BREAK_TOOL));
+                            }
+                            return false;
+                        }
+                        return ItemStack.areItemsEqual(stack, handStack) &&
                                 ((ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.KEEP_TOOL) && stack.getMaxDamage() - stack.getDamage() > 1) || ConfigManager.TOOL_REPLACEMENT_BEHAVIOUR.is(ToolReplacementBehaviour.BREAK_TOOL));
                     } return ItemStack.areItemsEqual(handStack, stack);
                 });
@@ -135,6 +141,17 @@ public class AutomaticRefillingHandler {
             InteractionHandler.leftClickStack(itemSlot);
             InteractionHandler.leftClickStack(sameItemSlots.getFirst());
         }
+    }
+
+    private static String getToolType(ItemStack stack) {
+        String[] id = stack.getRegistryEntry().getIdAsString().split(":");
+        String itemId = id[id.length - 1];
+        String[] parts = itemId.split("_");
+        return parts[parts.length - 1];
+    }
+
+    private static boolean isPlainItem(ItemStack stack) {
+        return stack.getItem().getClass().equals(Item.class);
     }
 
     public static void reset() {
