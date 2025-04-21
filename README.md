@@ -1,5 +1,5 @@
 # Inventive Inventory
-**[Discord](https://discord.gg/uycTMfCsfc) | [GitHub](https://github.com/Origins-Tech/InventiveInventory) | [Modrinth](https://modrinth.com/mod/inventive-inventory) | [Curseforge](https://www.curseforge.com/minecraft/mc-mods/inventive-inventory)**
+**[Discord](https://discord.gg/uycTMfCsfc) | [GitHub](https://github.com/InventiveMods/inventive-inventory) | [Modrinth](https://modrinth.com/mod/inventive-inventory) | [Curseforge](https://www.curseforge.com/minecraft/mc-mods/inventive-inventory)**
 
 Experience seamless inventory management in Minecraft with Inventive Inventory, your one-stop solution for sorting, auto-refilling, profiles and slot-locking.
 
@@ -65,4 +65,4 @@ Useful for building with many materials or just to always have some food ready.
 Works with buckets, bowls and bottles as well as tools.  
 You can press the Advanced Operation Key (Default: ALT)⚙️ to prevent the stack from refilling.⚙️  
 
-**If you have more feature suggestions or found a bug, join our [Discord](https://discord.gg/uycTMfCsfc) or open an issue on the [GitHub Repository](https://github.com/Origins-Tech/InventiveInventory/issues)!**
+**If you have more feature suggestions or found a bug, join our [Discord](https://discord.gg/uycTMfCsfc) or open an issue on the [GitHub Repository](https://github.com/InventiveMods/inventive-inventory/issues)!**
